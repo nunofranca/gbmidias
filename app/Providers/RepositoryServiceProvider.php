@@ -29,7 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
 
         //gpt
-        $this->app->bind(GptRepositoryInterface::class, GptRepository::class)
+        $this->app->bind(GptRepositoryInterface::class, GptRepository::class);
 
 
     }
