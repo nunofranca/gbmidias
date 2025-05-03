@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('asks', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('cliente_id');
+            $table->string('ask');
+            $table->string('askId');
+            $table->softDeletesTz();
+
+            $table->timestampsTz();
         });
     }
 
