@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->longText('response');
+            $table->integer('ask_id')->unsigned();
+            $table->softDeletesTz();
+            $table->timestampsTz();
         });
     }
 
