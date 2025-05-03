@@ -10,10 +10,16 @@ class Client extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'phone'];
+    protected $fillable = ['name', 'phone',  'threadId'];
 
     public function sales():HasMany
     {
         return $this->hasMany(Sale::class);
+    }
+
+
+    public function asks():HasMany
+    {
+        return $this->hasMany(Ask::class);
     }
 }

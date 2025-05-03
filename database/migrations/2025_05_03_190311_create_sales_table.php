@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('valueUnity');
             $table->integer('totalValue');
             $table->softDeletesTz();
-            $table->timestamps();
+            $table->timestampsTz();
         });
     }
 
