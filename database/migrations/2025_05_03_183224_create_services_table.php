@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('services', function (Blueprint $table) {
+            $table->id();
+            $table->string('service');
+            $table->string('name');
+            $table->string('type');
+            $table->string('rate');
+            $table->string('min');
+            $table->string('max');
+            $table->boolean('dripfeed');
+            $table->boolean('refill');
+            $table->boolean('cancel');
+            $table->string('category');
+            $table->boolean('status')->default(true);
+
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('services');
+    }
+};
