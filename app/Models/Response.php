@@ -17,4 +17,5 @@ class Response extends Model
     {
         return $this->belongsTo(Ask::class);
     }
+
 }
