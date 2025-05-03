@@ -16,7 +16,7 @@ class ClientRepositoryEloquent extends BaseRepository implements ClientRepositor
 
     public function createAsk($client, $ask, $askId)
     {
-        $client->asks()->create([
+        return $client->asks()->create([
             'ask' => $ask,
             'askId' => $askId 
         ]);
