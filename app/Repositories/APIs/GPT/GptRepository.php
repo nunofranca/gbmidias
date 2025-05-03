@@ -33,7 +33,7 @@ class GptRepository implements GptRepositoryInterface
     public function runAssistant(User $user)
     {
         return Http::gpt()->post('/threads/'.$user->treadId.'/runs', [
-            'assistant_id' => 'asst_8I2zTWmaL6fs8LGXUrduwacH',
+            'assistant_id' => 'asst_9zWXuGeAnlsVBghkAoY8JMik',
             
         ])->json();
 
