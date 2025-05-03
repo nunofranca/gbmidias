@@ -2,21 +2,21 @@
 
 namespace App\Repositories\APIs\GPT;
 
-use App\Models\User;
+use App\Models\Client;
 
 interface GptRepositoryInterface
 {
     public function createThread();
 
-    public function setMessageInTread(User $user, string $message);
+    public function setMessageInTread(Client $client, string $message);
 
-    public function getMessagesOfTread(User $user);
+    public function getMessagesOfTread(Client $client);
 
-    public function runAssistant(User $user);
+    public function runAssistant(Client $client);
 
-    public function runTool(User $user, array $runStatus, array $functionCallId, $result);
+    public function runTool(Client $client, array $runStatus, array $functionCallId, $result);
 
-    public function getStatusRun(User $user, $runAssistant);
+    public function getStatusRun(Client $client, $runAssistant);
 
     public function transcribeAudio($filename);
 }
