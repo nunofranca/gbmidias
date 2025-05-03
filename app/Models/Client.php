@@ -10,7 +10,7 @@ class Client extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'phone',  'threadId'];
+    protected $fillable = ['name', 'phone', 'threadId'];
 
     public function sales():HasMany
     {

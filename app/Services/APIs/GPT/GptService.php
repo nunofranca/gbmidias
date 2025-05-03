@@ -42,11 +42,11 @@ class GptService implements GptServiceInterface
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
 
-           /*  if($runStatus['status'] === 'requires_action'){
-                $this->handleFunctionCall($client, $runStatus, $runAssistant);
+            if($runStatus['status'] === 'requires_action'){
+                //$this->handleFunctionCall($client, $runStatus, $runAssistant);
             
                 break;
-            } */
+            } 
 
     
 

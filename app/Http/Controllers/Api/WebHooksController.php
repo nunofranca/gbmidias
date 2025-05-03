@@ -67,7 +67,7 @@ class WebHooksController extends Controller
             if (! isset($thread['id'])) {
                 throw new \Exception('Falha ao criar thread: '.json_encode($thread));
             }
-            $client->update(['treadId' => $thread['id']]);
+            $client->update(['threadId' => $thread['id']]);
             $client->refresh();
         }
 
