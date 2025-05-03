@@ -59,7 +59,7 @@ class WebHooksController extends Controller
             ]
         );
 
-        if (! $client->threadId) {
+        if (!$client->threadId) {
             $thread = Http::gpt()
                 ->post('/threads')
                 ->json();

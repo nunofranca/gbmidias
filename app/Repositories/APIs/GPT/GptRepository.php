@@ -14,7 +14,7 @@ class GptRepository implements GptRepositoryInterface
 
     public function setMessageInTread(Client $client, string $message)
     {
-        Http::gpt()->post('/threads/'.$client->treadId.'/messages', [
+        Http::gpt()->post('/threads/'.$client->threadId.'/messages', [
             'role' => 'user',
             'content' => $message,
         ])->json();
@@ -24,7 +24,7 @@ class GptRepository implements GptRepositoryInterface
     public function getMessagesOfTread(Client $client)
     {
         $message = Http::gpt()
-            ->get('/threads/'.$client->treadId.'/messages')
+            ->get('/threads/'.$client->threadId.'/messages')
             ->json();
 
         return $message['data'][0]['content'][0]['text']['value'] ?? 'Desculpa, estamos com uma instabilidade no momento. Volte em instante';
@@ -32,7 +32,7 @@ class GptRepository implements GptRepositoryInterface
 
     public function runAssistant(Client $client)
     {
-        return Http::gpt()->post('/threads/'.$client->treadId.'/runs', [
+        return Http::gpt()->post('/threads/'.$client->threadId.'/runs', [
             'assistant_id' => 'asst_9zWXuGeAnlsVBghkAoY8JMik',
             
         ])->json();
@@ -42,14 +42,14 @@ class GptRepository implements GptRepositoryInterface
     public function getStatusRun(Client $client, $runAssistant)
     {
         return Http::gpt()
-            ->get('/threads/'.$client->treadId.'/runs/'.$runAssistant['id'])
+            ->get('/threads/'.$client->threadId.'/runs/'.$runAssistant['id'])
             ->json();
 
     }
 
    /*  public function runTool(Client $client, array $runStatus, array $functionCallId, $result)
     {
-        Http::gpt()->post('/threads/'.$client->treadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
+        Http::gpt()->post('/threads/'.$client->threadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
             'tool_outputs' => [
                 [
                     'tool_call_id' => $functionCallId['id'],
