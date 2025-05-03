@@ -14,9 +14,9 @@ interface GptRepositoryInterface
 
     public function runAssistant(Client $client);
 
-    public function runTool(Client $client, array $runStatus, array $functionCallId, $result);
+   // public function runTool(Client $client, array $runStatus, array $functionCallId, $result);
 
     public function getStatusRun(Client $client, $runAssistant);
 
-    public function transcribeAudio($filename);
+   // public function transcribeAudio($filename);
 }

@@ -13,5 +13,5 @@ interface GptServiceInterface
 
     public function runAssistant(Client $client);
 
-    public function transcribeAudio(array $payload);
+  //  public function transcribeAudio(array $payload);
 }

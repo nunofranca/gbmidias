@@ -3,7 +3,7 @@ namespace App\Repositories\APIs\GPT;
 
 use Illuminate\Support\Facades\Http;
 
-use App\Models\User;
+use App\Models\Client;
 
 class GptRepository implements GptRepositoryInterface
 {
@@ -12,44 +12,44 @@ class GptRepository implements GptRepositoryInterface
         return Http::gpt()->post('/threads')->json();
     }
 
-    public function setMessageInTread(User $user, string $message)
+    public function setMessageInTread(Client $client, string $message)
     {
-        Http::gpt()->post('/threads/'.$user->treadId.'/messages', [
+        Http::gpt()->post('/threads/'.$client->treadId.'/messages', [
             'role' => 'user',
             'content' => $message,
         ])->json();
 
     }
 
-    public function getMessagesOfTread(User $user)
+    public function getMessagesOfTread(Client $client)
     {
         $message = Http::gpt()
-            ->get('/threads/'.$user->treadId.'/messages')
+            ->get('/threads/'.$client->treadId.'/messages')
             ->json();
 
         return $message['data'][0]['content'][0]['text']['value'] ?? 'Desculpa, estamos com uma instabilidade no momento. Volte em instante';
     }
 
-    public function runAssistant(User $user)
+    public function runAssistant(Client $client)
     {
-        return Http::gpt()->post('/threads/'.$user->treadId.'/runs', [
+        return Http::gpt()->post('/threads/'.$client->treadId.'/runs', [
             'assistant_id' => 'asst_9zWXuGeAnlsVBghkAoY8JMik',
             
         ])->json();
 
     }
 
-    public function getStatusRun(User $user, $runAssistant)
+    public function getStatusRun(Client $client, $runAssistant)
     {
         return Http::gpt()
-            ->get('/threads/'.$user->treadId.'/runs/'.$runAssistant['id'])
+            ->get('/threads/'.$client->treadId.'/runs/'.$runAssistant['id'])
             ->json();
 
     }
 
-    public function runTool(User $user, array $runStatus, array $functionCallId, $result)
+   /*  public function runTool(Client $client, array $runStatus, array $functionCallId, $result)
     {
-        Http::gpt()->post('/threads/'.$user->treadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
+        Http::gpt()->post('/threads/'.$client->treadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
             'tool_outputs' => [
                 [
                     'tool_call_id' => $functionCallId['id'],
@@ -58,13 +58,13 @@ class GptRepository implements GptRepositoryInterface
             ],
         ])->json();
     }
+ */
 
-
-    public function transcribeAudio($filename)
+    /* public function transcribeAudio($filename)
     {
         return Http::gpt()->attach('file', fopen($filename, 'r'), 'audio.ogg')
             ->post('/audio/transcriptions', [
                 'model' => 'whisper-1',
             ]);
-    }
+    } */
 }

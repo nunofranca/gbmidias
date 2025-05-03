@@ -2,38 +2,51 @@
 
 namespace App\Services\APIs\GPT;
 
+use App\Models\Client;
+use App\Repositories\APIs\GPT\GptRepositoryInterface;
+use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
+
 class GptService implements GptServiceInterface
 {
+
+        public function __construct(
+            protected GptRepositoryInterface $gptRepository,
+            protected WhatsAppServiceInterface $whatsAppService
+            )
+        {
+            
+        }
+
     
     public function createThread()
     {
         return $this->gptRepository->createThread();
     }
 
-    public function setMessageInTread(User $user, string $message)
+    public function setMessageInTread(Client $client, string $message)
     {
-        return $this->gptRepository->setMessageInTread($user, $message);
+        return $this->gptRepository->setMessageInTread($client, $message);
     }
 
-    public function getMessagesOfTread(User $user)
+    public function getMessagesOfTread(Client $client)
     {
-        return $this->gptRepository->getMessagesOfTread($user);
+        return $this->gptRepository->getMessagesOfTread($client);
     }
 
-    public function runAssistant(User $user)
+    public function runAssistant(Client $client)
     {
-        $runAssistant = $this->gptRepository->runAssistant($user);
+        $runAssistant = $this->gptRepository->runAssistant($client);
 
         do {
             sleep(2);
-            $runStatus = $this->gptRepository->getStatusRun($user, $runAssistant);
+            $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
 
-            if($runStatus['status'] === 'requires_action'){
-                $this->handleFunctionCall($user, $runStatus, $runAssistant);
+           /*  if($runStatus['status'] === 'requires_action'){
+                $this->handleFunctionCall($client, $runStatus, $runAssistant);
             
                 break;
-            }
+            } */
 
     
 
@@ -41,7 +54,7 @@ class GptService implements GptServiceInterface
 
     }
 
-    private function handleFunctionCall(User $user, array $runStatus, array $runAssistant)
+   /*  private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
     {
 
         $functionCall = $runStatus['required_action']['submit_tool_outputs']['tool_calls'][0];
@@ -52,21 +65,21 @@ class GptService implements GptServiceInterface
 
         match($functionName){
         
-             'get_courses'=> $this->getCourses($user, $runStatus, $functionCall),
-             'create_course_order' => $this->createCourseOrder($user, $runStatus, $functionCall, $arguments),
+             'get_courses'=> $this->getCourses($client, $runStatus, $functionCall),
+             'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
         };
             
 
         do {
             sleep(2);
-            $runStatus = $this->gptRepository->getStatusRun($user, $runAssistant);
+            $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
         } while ($runStatus['status'] === 'in_progress');
 
-    }
+    } */
 
 
-    private function getCourses($user, $runStatus, $functionCall)
+   /*  private function getCourses($user, $runStatus, $functionCall)
     {
         $courses = $this->courseService->index();
         
@@ -109,12 +122,12 @@ class GptService implements GptServiceInterface
             $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
             sleep(5);
        
-    } 
+    }  */
 
 
-    private function runTool(User $user, array $runStatus, array $functionCallId, $result)
+   /*  private function runTool(Client $client, array $runStatus, array $functionCallId, $result)
     {
-        return $this->gptRepository->runTool($user, $runStatus, $functionCallId, $result);
+        return $this->gptRepository->runTool($client, $runStatus, $functionCallId, $result);
     }
 
 
@@ -129,5 +142,5 @@ class GptService implements GptServiceInterface
         return $this->gptRepository->transcribeAudio($filename);        
        
     
-    }
+    } */
 }
