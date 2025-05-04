@@ -62,8 +62,8 @@ class GptService implements GptServiceInterface
     
 
          if ($runStatus['status'] === 'completed') {
-            $finalMessage = $this->gptRepository->getMessagesOfTread($client);
-            Log::info('Resposta final da IA: ' . $finalMessage);
+            return $this->gptRepository->getMessagesOfTread($client);
+        
         }
     }
     
@@ -100,11 +100,10 @@ class GptService implements GptServiceInterface
         
        
 
-       $runToolService =  $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
+       $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
        
-       $this->gptRepository->setMessageInTread($client, $runToolService);
-  
-        
+    
+
     }
 
 
