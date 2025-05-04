@@ -53,7 +53,7 @@ class GptRepository implements GptRepositoryInterface
             'tool_outputs' => [
                 [
                     'tool_call_id' => $functionCall['id'],
-                    'output' => json_encode(['result' => $result]),
+                    'output' => json_encode(['status' => $result]),
                 ],
             ],
         ])->json();
