@@ -94,12 +94,12 @@ class GptService implements GptServiceInterface
     {
        
 
-        $allServices = Cache::remember('allServices', 60*60*24, function () use ($arguments) {
-            return $this->serviceService->getByCategory(Str::lower($arguments['category']));
+      
+            $allServices  = $this->serviceService->getByCategory(Str::lower($arguments['category']));
         
-        });
+       
 
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
+       return $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
   
         
     }
@@ -130,7 +130,7 @@ class GptService implements GptServiceInterface
 
             //$transaction = $sale->transaction()->create($transaction['charge']);
 
-            $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+           return $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
 
            // $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
         
