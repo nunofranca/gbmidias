@@ -95,11 +95,11 @@ class GptService implements GptServiceInterface
        
 
         $allServices = Cache::remember('allServices', 60*60*24, function () use ($arguments) {
-            $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
-            $services->toArray();
+            return $this->serviceService->getByCategory(Str::lower($arguments['category']));
+        
         });
 
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices);
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
   
         
     }
