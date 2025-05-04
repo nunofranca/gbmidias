@@ -49,7 +49,7 @@ class GptRepository implements GptRepositoryInterface
 
      public function runTool(Client $client, array $runStatus, array $functionCall, $result)
     {
-        Http::gpt()->post('/threads/'.$client->threadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
+       return Http::gpt()->post('/threads/'.$client->threadId.'/runs/'.$runStatus['id'].'/submit_tool_outputs', [
             'tool_outputs' => [
                 [
                     'tool_call_id' => $functionCall['id'],
