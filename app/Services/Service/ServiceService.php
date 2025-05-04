@@ -14,4 +14,9 @@ class ServiceService implements ServiceServiceInterface
     {
         return $this->serviceRepository->index();
     }
+
+    public function getByCategory($category)
+    {
+        return $this->getByCategory($category);
+    }
 }

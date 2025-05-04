@@ -13,5 +13,11 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
         parent::__construct($service);
     }
 
+
+    public function getByCategory($category)
+    {
+        return $this->model->where('category', $category);
+    }
+
    
 }
