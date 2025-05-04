@@ -85,7 +85,7 @@ class GptService implements GptServiceInterface
         }
 
         do {
-            sleep(2);
+            sleep(15);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
         } while ($runStatus['status'] === 'in_progress');
