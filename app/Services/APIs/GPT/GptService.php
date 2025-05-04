@@ -44,19 +44,23 @@ class GptService implements GptServiceInterface
 
         $runAssistant = $this->gptRepository->runAssistant($client);
 
+        $attempts = 0;
+        $maxAttempts = 10;
+
         do {
             sleep(2);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
+            $attempts++;
 
-
-            if($runStatus['status'] === 'requires_action'){
+            if ($runStatus['status'] === 'requires_action') {
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
-    
-            } 
+            }
 
-    
+        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $attempts < $maxAttempts);
 
-        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']));
+        if ($attempts >= $maxAttempts) {
+            throw new \Exception('Tempo limite excedido ao aguardar execução do assistente.');
+        }
 
     }
 
@@ -69,11 +73,10 @@ class GptService implements GptServiceInterface
         $arguments = json_decode($functionCall['function']['arguments'], true);
 
 
-        match($functionName){
-        
-             'get_services'=> $this->getServices($client, $runStatus, $functionCall, $arguments),
-             'create_order_service' => $this->createOrderService($client, $runStatus, $functionCall, $arguments),
-        };
+        match($functionName) {
+            'get_services' => fn() => $this->getServices($client, $runStatus, $functionCall, $arguments),
+            'create_order_service' => fn() => $this->createOrderService($client, $runStatus, $functionCall, $arguments),
+        }();
             
 
         do {
