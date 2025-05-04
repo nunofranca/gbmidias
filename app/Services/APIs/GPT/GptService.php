@@ -67,7 +67,10 @@ class GptService implements GptServiceInterface
 
         match($functionName){
         
-             'get_services'=> $this->getServices($client, $runStatus, $functionCall),
+             'get_services'=> [
+                $services = $this->serviceService->index(),
+                $this->gptRepository->runTool($client, $runStatus, $functionCall,['seguidores mundiais', 'seguidores nacionais'])
+            ],
              //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
         };
             
@@ -81,14 +84,6 @@ class GptService implements GptServiceInterface
     }
 
 
-    private function getServices($client, $runStatus, $functionCall)
-    {
-        $services = $this->serviceService->index();
-
-
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, $services);       
-        
-    }
 
     /*private function createCourseOrder($user, $runStatus, $functionCall, $arguments)
     {
