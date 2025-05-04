@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
+use Illuminate\Support\Str;
 
 class GptService implements GptServiceInterface
 {
@@ -67,7 +68,7 @@ class GptService implements GptServiceInterface
 
         match($functionName){
         
-             'get_services'=> $services =$this->getServices($client, $runStatus, $functionCall),
+             'get_services'=> $services =$this->getServices($client, $runStatus, $functionCall, $arguments),
              //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
         };
             
@@ -81,7 +82,7 @@ class GptService implements GptServiceInterface
     }
 
 
-    private function getServices($client, $runStatus, $functionCall)
+    private function getServices($client, $runStatus, $functionCall, $arguments)
     {
         $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
 
