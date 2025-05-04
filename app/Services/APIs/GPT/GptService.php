@@ -86,7 +86,7 @@ class GptService implements GptServiceInterface
         $services = $this->serviceService->index();
 
 
-        return $this->gptRepository->runTool($client, $runStatus, $functionCall, $services);       
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, $services);       
         
     }
 
