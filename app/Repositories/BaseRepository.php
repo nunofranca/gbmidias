@@ -12,6 +12,12 @@ abstract class BaseRepository
     }
 
 
+    public function index()
+    {
+      return $this->model->index();
+    }
+
+
     public function firstOrCreate($payloadComparation, $payloadInsert)
     {
       return $this->model->firstOrCreate($payloadComparation, $payloadInsert);

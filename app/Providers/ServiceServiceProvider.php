@@ -12,6 +12,8 @@ use App\Services\Client\ClientService;
 use App\Services\Client\ClientServiceInterface;
 use App\Services\Response\ResponseService;
 use App\Services\Response\ResponseServiceInterface;
+use App\Services\Service\ServiceService;
+use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider
@@ -25,7 +27,7 @@ class ServiceServiceProvider extends ServiceProvider
         $this->app->bind(ClientServiceInterface::class, ClientService::class);
         $this->app->bind(AskServiceInterface::class, AskService::class);
         $this->app->bind(ResponseServiceInterface::class, ResponseService::class);
-
+        $this->app->bind(ServiceServiceInterface::class, ServiceService::class);
         //gpt
         $this->app->bind(GptServiceInterface::class, GptService::class);
     }

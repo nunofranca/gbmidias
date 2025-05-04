@@ -5,13 +5,15 @@ namespace App\Services\APIs\GPT;
 use App\Models\Client;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
+use App\Services\Service\ServiceServiceInterface;
 
 class GptService implements GptServiceInterface
 {
 
         public function __construct(
             protected GptRepositoryInterface $gptRepository,
-            protected WhatsAppServiceInterface $whatsAppService
+            protected WhatsAppServiceInterface $whatsAppService,
+            protected ServiceServiceInterface $serviceService
             )
         {
             
@@ -43,7 +45,7 @@ class GptService implements GptServiceInterface
 
 
             if($runStatus['status'] === 'requires_action'){
-                //$this->handleFunctionCall($client, $runStatus, $runAssistant);
+                $this->handleFunctionCall($client, $runStatus, $runAssistant);
             
                 break;
             } 
@@ -54,7 +56,7 @@ class GptService implements GptServiceInterface
 
     }
 
-   /*  private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
+   private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
     {
 
         $functionCall = $runStatus['required_action']['submit_tool_outputs']['tool_calls'][0];
@@ -65,8 +67,8 @@ class GptService implements GptServiceInterface
 
         match($functionName){
         
-             'get_courses'=> $this->getCourses($client, $runStatus, $functionCall),
-             'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
+             'get_services'=> $this->getServices($client, $runStatus, $functionCall),
+             //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
         };
             
 
@@ -76,18 +78,19 @@ class GptService implements GptServiceInterface
 
         } while ($runStatus['status'] === 'in_progress');
 
-    } */
+    }
 
 
-   /*  private function getCourses($user, $runStatus, $functionCall)
+    private function getServices($client, $runStatus, $functionCall)
     {
-        $courses = $this->courseService->index();
-        
-        $this->runTool($user, $runStatus, $functionCall, $courses);
+        $services = $this->serviceService->index();
+
+
+        return $this->gptRepository->runTool($client, $runStatus, $functionCall, $services);       
         
     }
 
-    private function createCourseOrder($user, $runStatus, $functionCall, $arguments)
+    /*private function createCourseOrder($user, $runStatus, $functionCall, $arguments)
     {
   
             $user->update(['name' => $arguments['student_name']]);

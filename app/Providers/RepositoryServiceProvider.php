@@ -12,6 +12,8 @@ use App\Repositories\Client\ClientRepositoryEloquent;
 use App\Repositories\Client\ClientRepositoryInterface;
 use App\Repositories\Response\ResponseRepositoryInterface;
 use App\Repositories\Response\ResponseRespositoryEloquent;
+use App\Repositories\Service\ServiceRepositoryEloquent;
+use App\Repositories\Service\ServiceRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -26,7 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ClientRepositoryInterface::class, ClientRepositoryEloquent::class);
         $this->app->bind(AskRepositoryInterface::class, AskRepositoryEloquent::class);
         $this->app->bind(ResponseRepositoryInterface::class, ResponseRespositoryEloquent::class);
-
+        $this->app->bind(ServiceRepositoryInterface::class, ServiceRepositoryEloquent::class);
 
         //gpt
         $this->app->bind(GptRepositoryInterface::class, GptRepository::class);
