@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('service');
             $table->string('name');
             $table->string('type');
-            $table->int('rate');
+            $table->integer('rate');
             $table->string('min');
             $table->string('max');
             $table->boolean('dripfeed');
