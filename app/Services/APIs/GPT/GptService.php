@@ -41,30 +41,28 @@ class GptService implements GptServiceInterface
 
     public function runAssistant(Client $client)
     {
-
-
         $runAssistant = $this->gptRepository->runAssistant($client);
-
+    
         $attempts = 0;
         $maxAttempts = 10;
-
+    
         do {
-            sleep(6);
+            sleep(2);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
             $attempts++;
-
+    
             if ($runStatus['status'] === 'requires_action') {
                 Log::info('requires_action');
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
             }
-
+    
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $attempts < $maxAttempts);
-
+    
         if ($attempts >= $maxAttempts) {
             throw new \Exception('Tempo limite excedido ao aguardar execução do assistente.');
         }
-
     }
+    
 
    private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
     {
@@ -84,11 +82,6 @@ class GptService implements GptServiceInterface
                 break;
         }
 
-        do {
-            sleep(2);
-            $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
-
-        } while ($runStatus['status'] === 'in_progress');
 
 
     }
