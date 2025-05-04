@@ -56,7 +56,7 @@ class GptService implements GptServiceInterface
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
             }
     
-        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $attempts < $maxAttempts);
+        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) &&$tries < $maxTries);
     
     
         if ($runStatus['status'] === 'completed') {
