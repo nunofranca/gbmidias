@@ -41,57 +41,63 @@ class GptService implements GptServiceInterface
 
     public function runAssistant(Client $client)
     {
-
-
         $runAssistant = $this->gptRepository->runAssistant($client);
-
+    
         $attempts = 0;
         $maxAttempts = 10;
-
+    
         do {
             sleep(2);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
             $attempts++;
-
+    
             if ($runStatus['status'] === 'requires_action') {
                 Log::info('requires_action');
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
             }
-
+    
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $attempts < $maxAttempts);
-
+    
         if ($attempts >= $maxAttempts) {
             throw new \Exception('Tempo limite excedido ao aguardar execução do assistente.');
         }
-
     }
-
-   private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
+    
+    private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
     {
-
-        $functionCall = $runStatus['required_action']['submit_tool_outputs']['tool_calls'][0];
-
-        $functionName = $functionCall['function']['name'];
-        $arguments = json_decode($functionCall['function']['arguments'], true);
-
-
-        switch ($functionName) {
-            case 'get_services':
-                $this->getServices($client, $runStatus, $functionCall, $arguments);
-                break;
-            case 'create_order_service':
-                $this->createOrderService($client, $runStatus, $functionCall, $arguments);
-                break;
+        // Verifique se o status exige um dado específico, como o @ (link)
+        if (isset($runStatus['required_action']['submit_tool_outputs']['tool_calls'])) {
+            $functionCall = $runStatus['required_action']['submit_tool_outputs']['tool_calls'][0];
+            $functionName = $functionCall['function']['name'];
+            $arguments = json_decode($functionCall['function']['arguments'], true);
+    
+            // Verifica se a solicitação é para coletar o @ (link)
+            if (isset($arguments['link'])) {
+                // A coleta do @ (link) não exige executar nenhuma ação, apenas capturamos
+                Log::info("Coletando o @ (link): " . $arguments['link']);
+                $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Link recebido, aguardando confirmação.');
+                return; // Não executa nada, apenas registra o link
+            }
+    
+            // Se não for o @, executa a função normalmente
+            switch ($functionName) {
+                case 'get_services':
+                    $this->getServices($client, $runStatus, $functionCall, $arguments);
+                    break;
+                case 'create_order_service':
+                    $this->createOrderService($client, $runStatus, $functionCall, $arguments);
+                    break;
+                // Adicione mais cases aqui conforme necessário
+            }
+    
+            // Verifica o status após execução
+            do {
+                sleep(2);
+                $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
+            } while ($runStatus['status'] === 'in_progress');
         }
-
-        do {
-            sleep(2);
-            $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
-
-        } while ($runStatus['status'] === 'in_progress');
-
     }
-
+    
 
     private function getServices($client, $runStatus, $functionCall, $arguments)
     {
