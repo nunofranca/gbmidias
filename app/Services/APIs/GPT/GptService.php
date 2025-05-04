@@ -7,6 +7,7 @@ use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -91,9 +92,14 @@ class GptService implements GptServiceInterface
 
     private function getServices($client, $runStatus, $functionCall, $arguments)
     {
-        $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
+       
 
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, $services->toArray());
+        $allServices = Cache::remember('allServices', 60, function () use ($arguments) {
+            $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
+            $services->toArray();
+        });
+
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices);
   
         
     }
