@@ -39,32 +39,29 @@ class GptService implements GptServiceInterface
     {
         return $this->gptRepository->getMessagesOfTread($client);
     }
-
     public function runAssistant(Client $client)
     {
         $runAssistant = $this->gptRepository->runAssistant($client);
     
-        $maxTries = 20;
+        $maxTries = 5;
         $tries = 0;
     
-        while ($tries < $maxTries) {
-            sleep(5);
+        do {
+            sleep(1);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
             $tries++;
-        
+    
             if ($runStatus['status'] === 'requires_action') {
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
+    
+                // Após executar a função, você precisa reiniciar o run!
                 $runAssistant = $this->gptRepository->runAssistant($client);
                 continue;
             }
-        
-            if (!in_array($runStatus['status'], ['queued', 'in_progress'])) {
-                break;
-            }
-        }
-
-         
+    
+        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $tries < $maxTries);
     }
+    
     
 
    private function handleFunctionCall(Client $client, array $runStatus, array $runAssistant)
