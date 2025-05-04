@@ -13,8 +13,5 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
         parent::__construct($service);
     }
 
-    public function index()
-    {
-      return $this->model->chuck(50);
-    }
+   
 }

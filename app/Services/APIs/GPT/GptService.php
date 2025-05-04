@@ -68,7 +68,7 @@ class GptService implements GptServiceInterface
         match($functionName){
         
              'get_services'=> [
-                $services = $this->serviceService->index(),
+                $services = $this->serviceService->index()->chunck(10),
                 $this->gptRepository->runTool($client, $runStatus, $functionCall, $services->toArray())
             ],
              //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
