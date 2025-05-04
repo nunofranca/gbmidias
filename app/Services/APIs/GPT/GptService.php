@@ -108,9 +108,9 @@ class GptService implements GptServiceInterface
 
             collect($arguments['services'])->map(function($service) use($sale){                
 
-                $sale->services()->attach($service->service_id, [
-                    'quantity' => $service->quantity,
-                    'valueUnity' => $service->valueUnity,
+                $sale->services()->attach($service['service_id'], [
+                    'quantity' => $service['quantity'],
+                    'valueUnity' => $service['valueUnity'],
                 ]);
             });
 
