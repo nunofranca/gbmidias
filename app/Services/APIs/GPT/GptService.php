@@ -53,8 +53,8 @@ class GptService implements GptServiceInterface
             $tries++;
     
             if ($runStatus['status'] === 'requires_action') {
-                Log::info('requires_action');
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
+                break;
             }
           /*   if ($runStatus['status'] === 'completed') {
                 return $this->gptRepository->getMessagesOfTread($client);
@@ -87,7 +87,11 @@ class GptService implements GptServiceInterface
                 break;
         }
 
+        do {
+            sleep(2);
+            $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
+        } while ($runStatus['status'] === 'in_progress');
 
     }
 
