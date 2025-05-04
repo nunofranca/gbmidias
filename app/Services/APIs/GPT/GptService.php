@@ -49,7 +49,7 @@ class GptService implements GptServiceInterface
         $maxAttempts = 10;
 
         do {
-            sleep(15);
+            sleep(6);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
             $attempts++;
 
