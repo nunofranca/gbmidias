@@ -27,4 +27,9 @@ abstract class BaseRepository
     {
       return $this->model->create($payload);
     }
+
+    public function getById($id)
+    {
+      return $this->model->find($id);
+    }
 }

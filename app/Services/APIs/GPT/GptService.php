@@ -81,6 +81,9 @@ class GptService implements GptServiceInterface
             case 'create_order_service':
                 $this->createOrderService($client, $runStatus, $functionCall, $arguments);
                 break;
+            case 'resume_sale':
+                $this->resumeSale($client, $runStatus, $functionCall, $arguments);
+                break;
         }
 
         do {
@@ -89,6 +92,26 @@ class GptService implements GptServiceInterface
 
         } while ($runStatus['status'] === 'in_progress');
        
+
+    }
+
+    private function resumeSale($client, $runStatus, $functionCall, $arguments)
+    {
+       
+        
+
+        $service  = $this->serviceService->getById($arguments['service_id']);
+
+        $resume = [
+            'totalValue' => (Str::remove(['.', ','], $arguments['totalValue']) + ($service->rate / 1000) * $arguments['quantity'])/100,
+        ];
+
+        
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Resume do pedido');
+
+       $this->gptRepository->runTool($client, $runStatus, $functionCall, $resume);
+       
+    
 
     }
 
