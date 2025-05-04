@@ -43,13 +43,13 @@ class GptService implements GptServiceInterface
     {
         $runAssistant = $this->gptRepository->runAssistant($client);
     
-        $attempts = 0;
-        $maxAttempts = 10;
+        $maxTries = 5;
+        $tries = 0;
     
         do {
-            sleep(2);
+            sleep(1);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
-            $attempts++;
+            $tries++;
     
             if ($runStatus['status'] === 'requires_action') {
                 Log::info('requires_action');
@@ -58,8 +58,10 @@ class GptService implements GptServiceInterface
     
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $attempts < $maxAttempts);
     
-        if ($attempts >= $maxAttempts) {
-            throw new \Exception('Tempo limite excedido ao aguardar execução do assistente.');
+    
+        if ($runStatus['status'] === 'completed') {
+            $finalMessage = $this->gptRepository->getMessagesOfTread($client);
+            Log::info('Resposta final da IA: ' . $finalMessage);
         }
     }
     
@@ -117,7 +119,7 @@ class GptService implements GptServiceInterface
                 ]);
             });
 
-            sleep(5);
+            sleep(1);
            
 
             //$transaction = $sale->transaction()->create($transaction['charge']);
@@ -125,7 +127,7 @@ class GptService implements GptServiceInterface
             $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
 
            // $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
-            sleep(5);
+        
        
     }  
 
