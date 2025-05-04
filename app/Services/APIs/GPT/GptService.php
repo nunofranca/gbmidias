@@ -7,7 +7,8 @@ use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class GptService implements GptServiceInterface
@@ -51,17 +52,15 @@ class GptService implements GptServiceInterface
             $tries++;
     
             if ($runStatus['status'] === 'requires_action') {
-                \Log::info('Status requires_action. Executando função...');
+                
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
     
                 // Após executar a função, você precisa reiniciar o run!
                 $runAssistant = $this->gptRepository->runAssistant($client);
-                \Log::info('Assistente reiniciado.');
-                continue;
+                break;
             }
     
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $tries < $maxTries);
-        \Log::info('Execução finalizada após ' . $tries . ' tentativas.');
     }
     
     
@@ -89,6 +88,7 @@ class GptService implements GptServiceInterface
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
         } while ($runStatus['status'] === 'in_progress');
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, true);
 
     }
 
