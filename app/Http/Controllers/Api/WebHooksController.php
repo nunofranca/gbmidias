@@ -82,31 +82,18 @@ class WebHooksController extends Controller
     private function handleText($ask, $askId, $client)
     {
         $ask = $this->clientService->createAsk($client, $ask, $askId);
+       
 
-        $this->gptService->setMessageInThread($client, $ask->ask);
-    
-        $run = $this->gptService->runAssistant($client);
-    
-        // Espera o run completar
-        $maxTries = 10;
-        $tries = 0;
-        do {
-            sleep(1);
-            $status = $this->gptService->getStatusRun($client, $run);
-            $tries++;
-        } while ($status['status'] !== 'completed' && $tries < $maxTries);
-    
-        if ($status['status'] === 'completed') {
-            $response = $this->gptService->getMessagesOfThread($client);
-        } else {
-            $response = 'Desculpa, houve uma demora para gerar sua resposta. Tente novamente em instantes.';
-        }
-    
-        $this->askService->saveResponse($ask, $response);
-        $this->whatsAppService->sendText([
-            'phone' => $client->phone,
-            'text' => $response
-        ]);
+        $this->gptService->setMessageInTread($client, $ask->ask);
+
+        $this->gptService->runAssistant($client);
+
+        $gptResponse = $this->gptService->getMessagesOfTread($client);
+
+   
+      $this->askService->saveResponse($ask, $gptResponse);
+
+        $this->whatsAppService->sendText(['phone' => $client->phone, 'text' =>  $gptResponse]);
     }
 
    /*  private function handleAudio($ask, $askId, $user)
