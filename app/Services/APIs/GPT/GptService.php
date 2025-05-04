@@ -56,15 +56,16 @@ class GptService implements GptServiceInterface
                 Log::info('requires_action');
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
             }
+          /*   if ($runStatus['status'] === 'completed') {
+                return $this->gptRepository->getMessagesOfTread($client);
+            
+            } */
     
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) &&$tries < $maxTries);
     
     
 
-         if ($runStatus['status'] === 'completed') {
-            return $this->gptRepository->getMessagesOfTread($client);
-        
-        }
+         
     }
     
 
