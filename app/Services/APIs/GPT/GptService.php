@@ -48,7 +48,7 @@ class GptService implements GptServiceInterface
         $tries = 0;
     
         while ($tries < $maxTries) {
-            sleep(1);
+            sleep(5);
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
             $tries++;
         
