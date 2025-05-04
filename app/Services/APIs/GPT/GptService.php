@@ -84,7 +84,7 @@ class GptService implements GptServiceInterface
 
     private function getServices($client, $runStatus, $functionCall, $arguments)
     {
-        $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
+      //  $services = $this->serviceService->getByCategory(Str::lower($arguments['category']));
 
         $this->gptRepository->runTool($client, $runStatus, $functionCall, ['seguidores mundiais', 'seguidores nacionais']);
   
