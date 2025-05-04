@@ -117,9 +117,9 @@ class GptService implements GptServiceInterface
 
            
 
-            $transaction = $sale->transaction()->create($transaction['charge']);
+            //$transaction = $sale->transaction()->create($transaction['charge']);
 
-            $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+            //$this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
 
            // $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
             sleep(5);
