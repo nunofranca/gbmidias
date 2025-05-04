@@ -106,7 +106,7 @@ class GptService implements GptServiceInterface
             ]);
 
 
-            collect($arguments['sevices'])->map(function($service) use($sale){                
+            collect($arguments['services'])->map(function($service) use($sale){                
 
                 $sale->services()->attach($service->service_id, [
                     'quantity' => $service->quantity,
