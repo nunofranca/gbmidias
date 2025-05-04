@@ -73,11 +73,14 @@ class GptService implements GptServiceInterface
         $arguments = json_decode($functionCall['function']['arguments'], true);
 
 
-        match($functionName) {
-            'get_services' => fn() => $this->getServices($client, $runStatus, $functionCall, $arguments),
-            'create_order_service' => fn() => $this->createOrderService($client, $runStatus, $functionCall, $arguments),
-        };
-            
+        switch ($functionName) {
+            case 'get_services':
+                $this->getServices($client, $runStatus, $functionCall, $arguments);
+                break;
+            case 'create_order_service':
+                $this->createOrderService($client, $runStatus, $functionCall, $arguments);
+                break;
+        }
 
         do {
             sleep(2);
