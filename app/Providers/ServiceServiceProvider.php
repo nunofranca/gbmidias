@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use App\Services\APIs\GPT\GptService;
 use App\Services\APIs\GPT\GptServiceInterface;
 use App\Services\APIs\WhatsApp\WhatsAppService;
@@ -12,6 +13,8 @@ use App\Services\Client\ClientService;
 use App\Services\Client\ClientServiceInterface;
 use App\Services\Response\ResponseService;
 use App\Services\Response\ResponseServiceInterface;
+use App\Services\Sale\SaleService;
+use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceService;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +31,9 @@ class ServiceServiceProvider extends ServiceProvider
         $this->app->bind(AskServiceInterface::class, AskService::class);
         $this->app->bind(ResponseServiceInterface::class, ResponseService::class);
         $this->app->bind(ServiceServiceInterface::class, ServiceService::class);
+        $this->app->bind(SaleServiceInterface::class, SaleService::class);
+    
+
         //gpt
         $this->app->bind(GptServiceInterface::class, GptService::class);
     }

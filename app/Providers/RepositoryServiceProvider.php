@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Sale\SaleRepositoryEloquent;
+use App\Repositories\Sale\SaleRepositoryInterface;
 use App\Repositories\APIs\GPT\GptRepository;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Repositories\APIs\WhatsApp\WhatsAppRepository;
@@ -29,6 +31,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AskRepositoryInterface::class, AskRepositoryEloquent::class);
         $this->app->bind(ResponseRepositoryInterface::class, ResponseRespositoryEloquent::class);
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepositoryEloquent::class);
+        $this->app->bind(SaleRepositoryInterface::class, SaleRepositoryEloquent::class);
 
         //gpt
         $this->app->bind(GptRepositoryInterface::class, GptRepository::class);

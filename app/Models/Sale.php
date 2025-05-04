@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,7 +12,7 @@ class Sale extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['client_id', 'quantity', 'valueUnity', 'totalValue'];
+    protected $fillable = ['client_id', 'totalValue', 'link'];
 
     public function client():BelongsTo
     {
@@ -21,5 +22,10 @@ class Sale extends Model
     public function transaction():HasOne
     {
         return $this->hasOne(Transaction::class);
+    }
+
+    public function services():BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
     }
 }

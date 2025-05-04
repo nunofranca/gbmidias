@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sale_service', function (Blueprint $table) {
             $table->id();
-            $table->integer('cient_id')->unsigned();
-            $table->integer('totalValue');
-            $table->string('link');
-            $table->softDeletesTz();
-            $table->timestampsTz();
+            $table->integer('sale_id')->unsigned();
+            $table->integer('service_id')->unsigned();
+            $table->integer('quantity');
+            $table->integer('valueUnity');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sale_service');
     }
 };

@@ -5,6 +5,7 @@ namespace App\Services\APIs\GPT;
 use App\Models\Client;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
+use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,8 @@ class GptService implements GptServiceInterface
         public function __construct(
             protected GptRepositoryInterface $gptRepository,
             protected WhatsAppServiceInterface $whatsAppService,
-            protected ServiceServiceInterface $serviceService
+            protected ServiceServiceInterface $serviceService,
+            protected SaleServiceInterface $saleService
             )
         {
             
@@ -68,8 +70,8 @@ class GptService implements GptServiceInterface
 
         match($functionName){
         
-             'get_services'=> $services =$this->getServices($client, $runStatus, $functionCall, $arguments),
-             //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
+             'get_services'=> $this->getServices($client, $runStatus, $functionCall, $arguments),
+             'create_order_service' => $this->createOrderService($client, $runStatus, $functionCall, $arguments),
         };
             
 
@@ -91,42 +93,38 @@ class GptService implements GptServiceInterface
         
     }
 
-    /*private function createCourseOrder($user, $runStatus, $functionCall, $arguments)
+
+    private function createOrderService($client, $runStatus, $functionCall, $arguments)
     {
   
-            $user->update(['name' => $arguments['student_name']]);
-
+        
             $sale = $this->saleService->create([
-                'user_id' => $user->id,
-                'status' => false,
-                'value' =>  $arguments['total_amount'],
-                'paymentMethod' => $arguments['payment_method'],
+                'client_id' => $client->id,
+                'totalValue' =>  $arguments['totalValue'],
+                'link' => $arguments['link'],
 
             ]);
 
 
-            collect($arguments['courses'])->map(function($course) use($sale){
-                $course = Course::where('name', $course['course_name'])->first();
-                $sale->courses()->attach($course->id);
+            collect($arguments['sevices'])->map(function($service) use($sale){                
+
+                $sale->services()->attach($service->service_id, [
+                    'quantity' => $service->quantity,
+                    'valueUnity' => $service->valueUnity,
+                ]);
             });
 
 
            
 
-            $transaction = $this->openPixService->charge([
-                'correlationID' => Str::random('16'),
-                'value' => Str::remove(['.', ' ', '-'], $sale->value),
-                'comment' => 'WorkShop - Aprenda a construir sistema para venda rápida',
-            ]);
-
             $transaction = $sale->transaction()->create($transaction['charge']);
 
-            $this->runTool($user, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+            $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
 
-            $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
+           // $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
             sleep(5);
        
-    }  */
+    }  
 
 
    /*  private function runTool(Client $client, array $runStatus, array $functionCallId, $result)
