@@ -14,7 +14,7 @@ abstract class BaseRepository
 
     public function index()
     {
-      return $this->model->index();
+      return $this->model->get();
     }
 
 
