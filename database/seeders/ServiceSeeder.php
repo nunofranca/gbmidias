@@ -48,6 +48,10 @@ class ServiceSeeder extends Seeder
             $service['category'] = 'facebook';
         };
 
+        if(Str::contains($service['category'], ['Categoria Privada'])){
+        
+            return;
+        };
 
             Service::create($service);
         });
