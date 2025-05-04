@@ -22,7 +22,7 @@ class ServiceSeeder extends Seeder
 
         collect($services)->map(function($service){
 
-        if(Str::contains($service->category, ['Instagram', 'IG']){
+        if(Str::contains($service->category, ['Instagram', 'IG'])){
             $service['category'] == 'Instagram';
         };
 
