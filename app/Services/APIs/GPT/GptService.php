@@ -114,7 +114,7 @@ class GptService implements GptServiceInterface
                 ]);
             });
 
-
+            sleep(5);
            
 
             //$transaction = $sale->transaction()->create($transaction['charge']);
