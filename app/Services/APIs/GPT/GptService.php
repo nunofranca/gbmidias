@@ -88,7 +88,7 @@ class GptService implements GptServiceInterface
             $runStatus = $this->gptRepository->getStatusRun($client, $runAssistant);
 
         } while ($runStatus['status'] === 'in_progress');
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, true);
+       
 
     }
 
@@ -100,7 +100,7 @@ class GptService implements GptServiceInterface
       
         $allServices  = $this->serviceService->getByCategory(Str::lower($arguments['category']));
         
-       
+        $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Serviços encontrados');
 
        $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices);
        
