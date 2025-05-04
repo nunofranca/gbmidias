@@ -101,7 +101,7 @@ class GptService implements GptServiceInterface
         
        
 
-       $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices->toArray());
+       $this->gptRepository->runTool($client, $runStatus, $functionCall, $allServices);
        
     
 
