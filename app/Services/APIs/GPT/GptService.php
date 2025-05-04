@@ -115,7 +115,7 @@ class GptService implements GptServiceInterface
         
             $sale = $this->saleService->create([
                 'client_id' => $client->id,
-                'totalValue' =>  $arguments['totalValue'],
+                'totalValue' =>  Str::remove(['.', ','], $arguments['totalValue']),
                 'link' => $arguments['link'],
 
             ]);
