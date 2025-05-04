@@ -69,7 +69,7 @@ class GptService implements GptServiceInterface
         
              'get_services'=> [
                 $services = $this->serviceService->index(),
-                $this->gptRepository->runTool($client, $runStatus, $functionCall, $services->chunck(5))
+                $this->gptRepository->runTool($client, $runStatus, $functionCall, $services)
             ],
              //'create_course_order' => $this->createCourseOrder($client, $runStatus, $functionCall, $arguments),
         };
