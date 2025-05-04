@@ -53,7 +53,7 @@ class ServiceSeeder extends Seeder
             return;
         };
 
-        $service['rate'] = Str::remove(['.', ','], $service['rate']);
+        $service['rate'] = (int) Str::remove(['.', ','], $service['rate']);
 
             Service::create($service);
         });
