@@ -76,7 +76,7 @@ class GptService implements GptServiceInterface
         match($functionName) {
             'get_services' => fn() => $this->getServices($client, $runStatus, $functionCall, $arguments),
             'create_order_service' => fn() => $this->createOrderService($client, $runStatus, $functionCall, $arguments),
-        }();
+        };
             
 
         do {
