@@ -60,10 +60,11 @@ class GptService implements GptServiceInterface
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) &&$tries < $maxTries);
     
     
-        if ($runStatus['status'] === 'completed') {
+        
+       /*  if ($runStatus['status'] === 'completed') {
             $finalMessage = $this->gptRepository->getMessagesOfTread($client);
             Log::info('Resposta final da IA: ' . $finalMessage);
-        }
+        } */
     }
     
 
