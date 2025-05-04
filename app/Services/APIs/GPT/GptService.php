@@ -7,6 +7,7 @@ use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class GptService implements GptServiceInterface
@@ -53,6 +54,7 @@ class GptService implements GptServiceInterface
             $attempts++;
 
             if ($runStatus['status'] === 'requires_action') {
+                Log::info('requires_action');
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
             }
 
