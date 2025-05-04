@@ -24,8 +24,30 @@ class ServiceSeeder extends Seeder
 
         if(Str::contains($service['category'], ['Instagram', 'IG'])){
         
-            $service['category'] = 'Instagram';
+            $service['category'] = 'instagram';
         };
+        if(Str::contains($service['category'], ['YT'])){
+        
+            $service['category'] = 'youtube';
+        };
+        if(Str::contains($service['category'], ['TTK'])){
+        
+            $service['category'] = 'tiktok';
+        };
+        if(Str::contains($service['category'], ['TW'])){
+        
+            $service['category'] = 'twitch';
+        };
+        if(Str::contains($service['category'], ['KW'])){
+        
+            $service['category'] = 'kawaii';
+        };
+
+        if(Str::contains($service['category'], ['FB'])){
+        
+            $service['category'] = 'facebook';
+        };
+
 
             Service::create($service);
         });
