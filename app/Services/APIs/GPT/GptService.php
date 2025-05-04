@@ -40,6 +40,8 @@ class GptService implements GptServiceInterface
 
     public function runAssistant(Client $client)
     {
+
+
         $runAssistant = $this->gptRepository->runAssistant($client);
 
         do {
@@ -49,13 +51,12 @@ class GptService implements GptServiceInterface
 
             if($runStatus['status'] === 'requires_action'){
                 $this->handleFunctionCall($client, $runStatus, $runAssistant);
-            
-                break;
+    
             } 
 
     
 
-        } while (in_array($runStatus['status'], ['queued', 'in_progress']));
+        } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']));
 
     }
 
