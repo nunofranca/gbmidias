@@ -90,8 +90,8 @@ class GptService implements GptServiceInterface
             case 'resume_sale':
                 $this->resumeSale($client, $runStatus, $functionCall, $arguments);
                 break;
-             case 'verify_credit':
-                $this->verifyCredit($client, $runStatus, $functionCall, $arguments);
+             case 'check_balance':
+                $this->checkBalance($client, $runStatus, $functionCall, $arguments);
                 break; 
         }
 
@@ -126,7 +126,7 @@ class GptService implements GptServiceInterface
     }
 
 
-   public function verifyCredit($client, $runStatus, $functionCall, $arguments)
+   public function checkBalance($client, $runStatus, $functionCall, $arguments)
     {
             $client = $this->clientService->getByPhone($client->phone);
 
