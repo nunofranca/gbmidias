@@ -26,7 +26,7 @@ class TransactionObserver
                     Http::upmidias()->post('/', [
                         'key' => config('upmidias.token'),
                        "action"=> "add"  ,                  
-                       "service"=> $sale->service[0]->service,
+                       "service"=> $sale->services[0]->service,
                        "link" => $sale->link,
                        "quantity"=> $sale->services->quantity
                     ])->json();
