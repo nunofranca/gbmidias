@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->integer('rate');
+            $table->integer('coast');
             $table->string('min');
             $table->string('max');
             $table->boolean('dripfeed');

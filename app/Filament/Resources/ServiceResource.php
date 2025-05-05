@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ServiceResource extends Resource
 {
@@ -66,9 +67,12 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->label('Tipo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('rate')
+                    Tables\Columns\TextColumn::make('coast')
                     ->label('Valor')
-                    ->money('BRL', 1000)
+                    ->money('BRL', 100)
+                    ->searchable(),            
+                Tables\Columns\TextInputColumn::make('rate')
+                     ->label('Valor')                
                     ->searchable(),
                 Tables\Columns\TextColumn::make('min')
                     ->label('Compra mínima')

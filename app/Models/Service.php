@@ -2,19 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Observers\ServiceObserver;
 
+
+#[ObservedBy([ServiceObserver::class])]
 class Service extends Model
 {
     use SoftDeletes;
 
     protected $fillable =[
+        
         'service', 
         'name', 
         'type', 
-        'rate', 
+        'rate',
+        'coast',
         'min', 
         'max', 
         'dripfeed', 

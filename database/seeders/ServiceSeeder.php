@@ -53,7 +53,18 @@ class ServiceSeeder extends Seeder
             return;
         };
 
-        $service['rate'] = (int) Str::remove(['.', ','], $service['rate']);
+       
+
+        // 1. Remove vírgula e ponto → "6900"
+        $coast = (int) Str::remove(['.', ','], $service['rate']);
+        
+        // 2. Aplica 75% de margem
+        $rate = (int) round($coast * 1.75);
+        
+        // 3. Salva os valores
+        $service['coast'] = $coast;
+        $service['rate'] = $rate;
+ 
 
             Service::create($service);
         });
