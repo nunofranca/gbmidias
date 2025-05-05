@@ -48,6 +48,8 @@ class GptService implements GptServiceInterface
     
         $maxTries = 5;
         $tries = 0;
+        
+
     
         do {
             sleep(1);
