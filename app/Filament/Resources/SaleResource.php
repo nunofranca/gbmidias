@@ -18,6 +18,8 @@ class SaleResource extends Resource
     protected static ?string $model = Sale::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $pluralLabel= 'Vendas';
+    protected static ?string $label= 'Venda';
 
     public static function form(Form $form): Form
     {
