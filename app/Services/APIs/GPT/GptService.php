@@ -107,11 +107,11 @@ class GptService implements GptServiceInterface
 
         $service  = $this->serviceService->getById($arguments['service_id']);
 
-       
-
+        
         $resume = [
-            'totalValue' =>  ($service->rate/1000) * $arguments['quantity'],
+            'totalValue' => (Str::remove(['.', ','], ($service->rate / 1000)) *  $arguments['quantity'])/100,
         ];
+
         
         $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Resume do pedido');
 
@@ -161,7 +161,7 @@ class GptService implements GptServiceInterface
             $transaction = $this->openPixService->charge([
                 'correlationID' => Str::random('16'),
                 'value' => Str::remove(['.', ' ', '-'], $sale->totalValue),
-                'comment' => $sale->service[0]->name,
+                'comment' => $sale->services[0]->name,
             ]);
 
             $transaction = $sale->transaction()->create($transaction['charge']);
