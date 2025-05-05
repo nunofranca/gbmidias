@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
 
       Http::macro('whatsapp', function () {
-        return Http::withToken('EAAmCXTP7IXgBO8jo1JosBauZBATeS5ofnyCwk46U05HwfWZCi8Hv5uYmZAXF6f890lQb1p3bGysiprm8owWyAlVdbQrlPbYahImkvLzTY4uF8JIuTuPZCnJ16o8nl4jwf1lq74r2htkHC4vM0D9y8jxFEtHnejdypu765a96acUSxJ6xtBEKkhAtg8NdoygZByasZCvHdQ5wEdKX8SS7Vh8m1kUrnfPAZDZD')
+        return Http::withToken('EAAmCXTP7IXgBO0FUttWYzyUg5GOlCo7NRH0hCqCsyfYWnlliESSQGwNMXxcyKtsrP3ilq4Ned3OZC5mxODRIsTJdnuvmWGUgxiIRb5S0HM8EWwOZC4LmAfduN7IJwxuhm3broKz5TkLOchxIeos7MWVSuwwsSmrEUf9TbMwWiqEBahP2wUtTRdpOZAxaETJqZCXJZAgLBSYbZCcmSbY0PTvS9xS8IZD')
             ->baseUrl('https://graph.facebook.com/v22.0/551757028021017');
 
       });
@@ -38,6 +38,6 @@ class AppServiceProvider extends ServiceProvider
             'OpenAI-Beta' => 'assistants=v2',
         ])->withToken(config('gpt.token'))
             ->baseUrl('https://api.openai.com/v1');
-    });
+     });
     }
 }

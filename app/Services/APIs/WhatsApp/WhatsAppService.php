@@ -14,4 +14,10 @@ class WhatsAppService implements WhatsAppServiceInterface
     {
         return $this->whatsRepository->sendText($payload);
     }
+
+
+    public function sendButtonAction($payload)
+    {
+        return $this->whatsRepository->sendButtonAction($payload);
+    }
 }

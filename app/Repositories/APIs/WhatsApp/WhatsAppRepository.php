@@ -18,4 +18,27 @@ class WhatsAppRepository implements WhatsRepositoryInterface
             ]
         ]);
     }
+    public function sendButtonAction($payload)
+    {
+        return Http::whatsapp()->post('/messages', [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $payload['phone'],
+            'type' => 'interactive',
+            'interactive' => [
+                'type' => 'cta_url',
+                'header' => ['type' => 'text', 'text' => 'Pedido Realizado com sucesso'],
+                'body' => ['text' => 'Clique no botão abaixo para pagar o pedido'],
+                'footer' => ['text' => 'OTIMIZAP'],
+                'action' => [
+                    'name' => 'cta_url',
+                    'parameters' => [
+                        'display_text' => 'FAZER PAGAMENTO',
+                        'url' => $payload['paymentLinkUrl'],
+                    ],
+
+                ],
+            ],
+        ]);
+    }
 }

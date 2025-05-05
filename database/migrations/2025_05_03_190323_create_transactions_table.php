@@ -12,8 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id();            
+            $table->integer('sale_id')->unsigned();
+            $table->integer('value');
+            $table->string('correlationID');
+            $table->string('comment')->nullable();
+            $table->string('paymentLinkUrl');
+            $table->string('qrCodeImage');
+            $table->string('status');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+            $table->timestampsTz();
         });
     }
 

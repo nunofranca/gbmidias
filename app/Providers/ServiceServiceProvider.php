@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use App\Services\APIs\GPT\GptService;
 use App\Services\APIs\GPT\GptServiceInterface;
+use App\Services\APIs\OPENPIX\OpenPixService;
 use App\Services\APIs\WhatsApp\WhatsAppService;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Ask\AskService;
@@ -18,6 +19,7 @@ use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceService;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\ServiceProvider;
+use OpenPixServiceInterface;
 
 class ServiceServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,9 @@ class ServiceServiceProvider extends ServiceProvider
         $this->app->bind(SaleServiceInterface::class, SaleService::class);
     
 
+
+        //openpix
+        $this->app->bind(OpenPixServiceInterface::class, OpenPixService::class);
         //gpt
         $this->app->bind(GptServiceInterface::class, GptService::class);
     }

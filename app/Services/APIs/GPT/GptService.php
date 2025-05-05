@@ -4,12 +4,14 @@ namespace App\Services\APIs\GPT;
 
 use App\Models\Client;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
+use App\Services\APIs\OPENPIX\OpenPixService;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use OpenPixServiceInterface;
 
 class GptService implements GptServiceInterface
 {
@@ -18,7 +20,8 @@ class GptService implements GptServiceInterface
             protected GptRepositoryInterface $gptRepository,
             protected WhatsAppServiceInterface $whatsAppService,
             protected ServiceServiceInterface $serviceService,
-            protected SaleServiceInterface $saleService
+            protected SaleServiceInterface $saleService,
+            protected OpenPixServiceInterface $openPixService,
             )
         {
             
@@ -152,15 +155,20 @@ class GptService implements GptServiceInterface
                 ]);
             });
 
-            sleep(1);
-           
+            $transaction = $this->openPixService->charge([
+                'correlationID' => Str::random('16'),
+                'value' => Str::remove(['.', ' ', '-'], $sale->totalValue),
+                'comment' => $sale->service[0]->name,
+            ]);
 
-            //$transaction = $sale->transaction()->create($transaction['charge']);
+            $transaction = $sale->transaction()->create($transaction['charge']);
 
-           return $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+            $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
 
-           // $this->whatsAppService->sendButtonAction(['phone' => $user->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
-        
+            $this->whatsAppService->sendButtonAction(['phone' => $client->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
+          
+       
+               
        
     }  
 
