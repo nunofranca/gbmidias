@@ -21,4 +21,9 @@ class ClientService implements ClientServiceInterface
     {
         return $this->clientRepository->createAsk($client, $ask, $askId);
     }
+
+    public function getByPhone($payload) 
+    {
+        return $this->clientRepository->getByPhone($payload); 
+    }
 }

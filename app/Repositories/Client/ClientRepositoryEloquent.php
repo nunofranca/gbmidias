@@ -21,4 +21,9 @@ class ClientRepositoryEloquent extends BaseRepository implements ClientRepositor
             'askId' => $askId 
         ]);
     }
+
+    public function getByPhone($payload)
+    {
+        return $this->model->getByPhone($payload); 
+    }
 }

@@ -14,7 +14,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'sale_id', 
+        'client_id',
         'correlationID', 
         'value', 
         'comment', 
@@ -24,10 +24,13 @@ class Transaction extends Model
     ];
 
 
-    public function sale():BelongsTo
+    public function client():BelongsTo
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Client::class);
     }
+
+
+
 
 
 }

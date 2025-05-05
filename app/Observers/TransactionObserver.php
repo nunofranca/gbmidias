@@ -21,15 +21,17 @@ class TransactionObserver
     {
         if($transaction->isDirty('status')){
             if($transaction->status == StatusPaymentEnum::PAID){
-                $sale = $transaction->sale;              
+                
+                
+                    $transaction->client()->increment('balance', $transaction->value);
 
-                    Http::upmidias()->post('/', [
+                    /* Http::upmidias()->post('/', [
                         'key' => config('upmidias.token'),
                        "action"=> "add"  ,                  
                        "service"=> $sale->services[0]->service,
                        "link" => $sale->link,
                        "quantity"=> $sale->services[0]->pivot->quantity
-                    ])->json();
+                    ])->json(); */
             }
         }
     }

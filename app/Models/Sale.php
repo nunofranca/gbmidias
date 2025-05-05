@@ -19,11 +19,6 @@ class Sale extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function transaction():HasOne
-    {
-        return $this->hasOne(Transaction::class);
-    }
-
     public function services():BelongsToMany
     {
         return $this->belongsToMany(Service::class)->withPivot('quantity', 'valueUnity');;

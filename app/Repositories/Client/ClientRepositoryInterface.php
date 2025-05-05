@@ -8,4 +8,6 @@ interface ClientRepositoryInterface
     public function firstOrCreate($payloadComparation, $payloadInsert);
 
     public function createAsk($client, $ask, $askId);
+
+    public function getByPhone($payload);
 }

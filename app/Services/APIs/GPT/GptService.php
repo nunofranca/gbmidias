@@ -9,6 +9,9 @@ use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\Str;
 use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
+use App\Services\APIs\PUSHINPAY\PushinPayService;
+use App\Services\APIs\PUSHINPAY\PushinPayServiceInterface;
+use App\Services\Client\ClientServiceInterface;
 
 class GptService implements GptServiceInterface
 {
@@ -19,6 +22,8 @@ class GptService implements GptServiceInterface
             protected ServiceServiceInterface $serviceService,
             protected SaleServiceInterface $saleService,
             protected OpenPixServiceInterface $openPixService,
+            protected PushinPayServiceInterface $pushinPayService,
+            protected ClientServiceInterface $clientService
             )
         {
             
@@ -85,6 +90,9 @@ class GptService implements GptServiceInterface
             case 'resume_sale':
                 $this->resumeSale($client, $runStatus, $functionCall, $arguments);
                 break;
+            case 'verify_credit':
+                $this->verifyCredit($client, $runStatus, $functionCall, $arguments);
+                break;
         }
 
         do {
@@ -94,6 +102,39 @@ class GptService implements GptServiceInterface
         } while ($runStatus['status'] === 'in_progress');
        
 
+    }
+
+
+    public function addCredit()
+    {
+        /* $transaction = $this->pushinPayService->charge([
+            'value' => Str::remove(['.', '-'], $sale->totalValue),
+            "webhook_url"=> "https://gbmidias.shop/api/webhook/pushinpay/autoatendimento"
+        ]); */
+        
+       /*  $transaction['charge'] = [
+            'correlationID' => $transaction['id'],
+            'paymentLinkUrl'=>$transaction['webhook_url'],
+            'qrCodeImag'=> $transaction['qr_code']
+        ];
+
+        $transaction = $sale->transaction()->create($transaction['charge']);
+
+        $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+ */
+               
+    }
+
+
+    public function verifyCredit($client, $runStatus, $functionCall, $arguments)
+    {
+            $client = $this->clientService->getByPhone($client->phone);
+
+            if($client->balance >= $arguments['sale_amount']){
+                return $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Cliente possui crédito pode prosseguir o fluxo de venda');
+            }
+
+            $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Cliente não possui crédito. Interrompa o fluxo de venda e pergunte se ele quer adicionar credito');
     }
 
     private function resumeSale($client, $runStatus, $functionCall, $arguments)
@@ -156,19 +197,10 @@ class GptService implements GptServiceInterface
                 ]);
             });
 
-            $transaction = $this->openPixService->charge([
-                'correlationID' => Str::random('16'),
-                'value' => Str::remove(['.', '-'], $sale->totalValue),
-                'comment' => 'Compra de serviços de seguidores',
-            ]);
+            $client->decrement('balance', $sale['totalValue']);
 
-            $transaction = $sale->transaction()->create($transaction['charge']);
+        
 
-            $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
-
-            $this->whatsAppService->sendButtonAction(['phone' => $client->phone, 'paymentLinkUrl' => $transaction->paymentLinkUrl]);
-          
-       
                
        
     }  

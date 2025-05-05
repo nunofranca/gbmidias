@@ -20,6 +20,8 @@ use App\Services\Service\ServiceService;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
+use App\Services\APIs\PUSHINPAY\PushinPayService;
+use App\Services\APIs\PUSHINPAY\PushinPayServiceInterface;
 
 class ServiceServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,10 @@ class ServiceServiceProvider extends ServiceProvider
 
         //openpix
         $this->app->bind(OpenPixServiceInterface::class, OpenPixService::class);
+
+        //pushinpay
+        $this->app->bind(PushinPayServiceInterface::class, PushinPayService::class);
+
         //gpt
         $this->app->bind(GptServiceInterface::class, GptService::class);
     }

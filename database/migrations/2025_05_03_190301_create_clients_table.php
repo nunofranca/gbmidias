@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('threadId')->nullable();
+            $table->integer('balance')->default(0);
             $table->softDeletesTz();
             $table->timestampsTz();
         });

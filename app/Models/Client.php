@@ -10,7 +10,7 @@ class Client extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'phone', 'threadId'];
+    protected $fillable = ['name', 'phone', 'threadId', 'balance'];
 
     public function sales():HasMany
     {
@@ -22,4 +22,18 @@ class Client extends Model
     {
         return $this->hasMany(Ask::class);
     }
+
+
+    public function transactions():HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'balance' => 'integer',
+        ];
+    }
+
 }

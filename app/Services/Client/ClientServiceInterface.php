@@ -7,4 +7,6 @@ interface ClientServiceInterface
     public function firstOrCreate($payloadComparation, $payloadInsert);
 
     public function createAsk($client, $ask, $askId);
+
+    public function getByPhone($phone);
 }

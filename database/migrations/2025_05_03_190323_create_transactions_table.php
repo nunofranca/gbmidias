@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();            
-            $table->integer('sale_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->integer('value');
             $table->string('correlationID');
             $table->string('comment')->nullable();

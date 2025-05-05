@@ -8,6 +8,8 @@ use App\Repositories\APIs\GPT\GptRepository;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Repositories\APIs\OPENPIX\OpenPixRepository;
 use App\Repositories\APIs\OPENPIX\OpenPixRepositoryInterface;
+use App\Repositories\APIs\PUSHINPAY\PushinPayRepository;
+use App\Repositories\APIs\PUSHINPAY\PushinPayRepositoryInterface;
 use App\Repositories\APIs\WhatsApp\WhatsAppRepository;
 use App\Repositories\APIs\WhatsApp\WhatsRepositoryInterface;
 use App\Repositories\Ask\AskRepositoryEloquent;
@@ -19,6 +21,7 @@ use App\Repositories\Response\ResponseRespositoryEloquent;
 use App\Repositories\Service\ServiceRepositoryEloquent;
 use App\Repositories\Service\ServiceRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -36,8 +39,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SaleRepositoryInterface::class, SaleRepositoryEloquent::class);
 
         //openpix
-
         $this->app->bind(OpenPixRepositoryInterface::class, OpenPixRepository::class);
+
+        //pushinpay
+        $this->app->bind(PushinPayRepositoryInterface::class, PushinPayRepository::class);
 
         //gpt
         $this->app->bind(GptRepositoryInterface::class, GptRepository::class);
