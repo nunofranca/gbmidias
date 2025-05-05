@@ -165,7 +165,7 @@ class GptService implements GptServiceInterface
        
 
 
-        $allServices  = Cache::remember('allServices', 600, function () {
+        $allServices  = Cache::remember('allServices', 600, function () use $arguments {
             return$this->serviceService->getByCategory(Str::lower($arguments['category']));
         });
         
