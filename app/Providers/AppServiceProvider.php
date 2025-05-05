@@ -39,5 +39,20 @@ class AppServiceProvider extends ServiceProvider
         ])->withToken(config('gpt.token'))
             ->baseUrl('https://api.openai.com/v1');
      });
+
+
+
+
+
+
+
+
+
+     Http::macro('openpix', function () {
+      return Http::withHeaders([
+          'Authorization' => 'Q2xpZW50X0lkXzMzMzljNWRkLTg4ZGMtNDJlZS05ZWU1LTY0NDc4MmFlN2NiNjpDbGllbnRfU2VjcmV0X3JHcGxMWWRBNWJGcVJQZmNzVE1XVG4zK2MzUS85WGRxdTRhRGZnb0FlOTg9',
+      ])
+          ->baseUrl('https://api.openpix.com.br/api/v1');
+  });
     }
 }
