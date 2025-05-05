@@ -90,9 +90,9 @@ class GptService implements GptServiceInterface
             case 'resume_sale':
                 $this->resumeSale($client, $runStatus, $functionCall, $arguments);
                 break;
-            /* case 'verify_credit':
+             case 'verify_credit':
                 $this->verifyCredit($client, $runStatus, $functionCall, $arguments);
-                break; */
+                break; 
         }
 
         do {
@@ -126,7 +126,7 @@ class GptService implements GptServiceInterface
     }
 
 
-   /*  public function verifyCredit($client, $runStatus, $functionCall, $arguments)
+   public function verifyCredit($client, $runStatus, $functionCall, $arguments)
     {
             $client = $this->clientService->getByPhone($client->phone);
 
@@ -135,7 +135,7 @@ class GptService implements GptServiceInterface
             }
 
             $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Cliente não possui crédito. Interrompa o fluxo de venda e pergunte se ele quer adicionar credito');
-    } */
+    }
 
     private function resumeSale($client, $runStatus, $functionCall, $arguments)
     {

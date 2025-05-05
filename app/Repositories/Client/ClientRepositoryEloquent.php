@@ -24,6 +24,6 @@ class ClientRepositoryEloquent extends BaseRepository implements ClientRepositor
 
     public function getByPhone($payload)
     {
-        return $this->model->getByPhone($payload); 
+        return $this->model->getByPhone($payload)->first(); 
     }
 }
