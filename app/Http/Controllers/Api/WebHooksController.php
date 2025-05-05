@@ -139,7 +139,7 @@ class WebHooksController extends Controller
 
         $this->whatsAppService->sendText(['phone' => $transaction->sale->client->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
         
-        $transaction
+
     
     }
 }
