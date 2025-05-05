@@ -130,11 +130,11 @@ class GptService implements GptServiceInterface
     {
             $client = $this->clientService->getByPhone($client->phone);
 
-            if($client->balance >= $arguments['sale_amount']){
-                return $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Cliente possui crédito pode prosseguir o fluxo de venda');
-            }
-
-            $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Cliente não possui crédito. Interrompa o fluxo de venda e pergunte se ele quer adicionar credito');
+        
+            $this->gptRepository->runTool($client, $runStatus, $functionCall, 
+            'Faça uma analise se o cliente tem saldo (balance) pra seguir com a compra. Se não tiver pegunte se ele quer add saldo. Se ele tive saldo siga com o fluxo normalmente');
+            $this->gptRepository->runTool($client, $runStatus, $functionCall, 
+            'Se '.$arguments['sale_amount']. ' for maior quer o '. $client->balance. 'Significa que o cliente está sem saldo para segui com a compra, pergunte se ele quer add saldo');
     }
 
     private function resumeSale($client, $runStatus, $functionCall, $arguments)
