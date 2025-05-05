@@ -12,6 +12,7 @@ use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
 use App\Services\APIs\PUSHINPAY\PushinPayService;
 use App\Services\APIs\PUSHINPAY\PushinPayServiceInterface;
 use App\Services\Client\ClientServiceInterface;
+use Illuminate\Support\Facades\Cache;
 
 class GptService implements GptServiceInterface
 {
@@ -163,8 +164,10 @@ class GptService implements GptServiceInterface
     {
        
 
-      
-        $allServices  = $this->serviceService->getByCategory(Str::lower($arguments['category']));
+
+        $allServices  = Cache::remember('allServices', 600, function () {
+            return$this->serviceService->getByCategory(Str::lower($arguments['category']));
+        });
         
         $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Serviços encontrados');
 
