@@ -28,7 +28,7 @@ class TransactionObserver
                        "action"=> "add"  ,                  
                        "service"=> $sale->services[0]->service,
                        "link" => $sale->link,
-                       "quantity"=> $sale->services->quantity
+                       "quantity"=> $sale->services[0]->quantity
                     ])->json();
             }
         }
