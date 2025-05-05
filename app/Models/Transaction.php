@@ -13,7 +13,7 @@ class Transaction extends Model
     protected $fillable = [
         'sale_id', 
         'correlationID', 
-        'totalValue', 
+        'value', 
         'comment', 
         'paymentLinkUrl', 
         'qrCodeImage'
