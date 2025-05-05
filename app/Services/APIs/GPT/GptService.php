@@ -4,12 +4,9 @@ namespace App\Services\APIs\GPT;
 
 use App\Models\Client;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
-use App\Services\APIs\OPENPIX\OpenPixService;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceServiceInterface;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
 
@@ -47,8 +44,7 @@ class GptService implements GptServiceInterface
         $runAssistant = $this->gptRepository->runAssistant($client);
     
         $maxTries = 5;
-        $tries = 0;
-        
+        $tries = 0;       
 
     
         do {

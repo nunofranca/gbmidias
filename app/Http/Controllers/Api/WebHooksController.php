@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\WhatsApp\WebHookRequest;
+use App\Models\Transaction;
 use App\Services\APIs\GPT\GptServiceInterface;
 use App\Services\APIs\WhatsApp\WhatsAppService;
 use App\Services\Ask\AskServiceInterface;
 use App\Services\Client\ClientServiceInterface;
 use App\Services\Response\ResponseServiceInterface;
 use Illuminate\Support\Facades\Http;
+use App\Enum\StatusPaymentEnum;
 
 class WebHooksController extends Controller
 {
@@ -103,4 +105,23 @@ class WebHooksController extends Controller
 
         $this->handleText( $response['text'], $askId, $user);
     } */
+
+
+    public function webHookOpenPix(Request $request)
+    {    
+        
+        return response()->json([]);
+    
+        $payload = $request->all();
+
+        if($payload['charge']['status'] !==  'COMPLETED') return;
+
+        $transaction = Transaction::where('correlationID', $payload['charge']['correlationID'])->first();
+
+        $transaction->update(['status' => StatusPaymentEnum::PAID]);
+
+        $this->whatsAppService->sendText(['phone' => $transaction->sale->user->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
+
+    
+    }
 }
