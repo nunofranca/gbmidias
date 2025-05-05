@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enum\StatusPaymentEnum;
 
 return new class extends Migration
 {
@@ -19,10 +20,10 @@ return new class extends Migration
             $table->string('comment')->nullable();
             $table->string('paymentLinkUrl');
             $table->string('qrCodeImage');
-            $table->string('status');
+            $table->string('status')->default(StatusPaymentEnum::PENDING);
             $table->softDeletesTz();
             $table->timestampsTz();
-            $table->timestampsTz();
+    
         });
     }
 
