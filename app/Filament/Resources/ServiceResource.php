@@ -19,6 +19,8 @@ class ServiceResource extends Resource
     protected static ?string $model = Service::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $pluralLabel= 'Serviços';
+    protected static ?string $label= 'Serviço';
 
     public static function form(Form $form): Form
     {
@@ -68,11 +70,11 @@ class ServiceResource extends Resource
                     ->label('Tipo')
                     ->searchable(),
                     Tables\Columns\TextColumn::make('coast')
-                    ->label('Valor')
+                    ->label('Custo')
                     ->money('BRL', 100)
                     ->searchable(),            
                 Tables\Columns\TextInputColumn::make('rate')
-                     ->label('Valor')                
+                     ->label('Venda')                
                     ->searchable(),
                 Tables\Columns\TextColumn::make('min')
                     ->label('Compra mínima')

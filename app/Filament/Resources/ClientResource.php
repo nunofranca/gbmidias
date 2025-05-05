@@ -18,6 +18,8 @@ class ClientResource extends Resource
     protected static ?string $model = Client::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $pluralLabel= 'Cliente';
+    protected static ?string $label= 'Clientes';
 
     public static function form(Form $form): Form
     {
