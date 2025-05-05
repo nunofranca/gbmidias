@@ -11,7 +11,7 @@ use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use OpenPixServiceInterface;
+use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
 
 class GptService implements GptServiceInterface
 {

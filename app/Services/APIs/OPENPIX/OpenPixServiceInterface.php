@@ -1,4 +1,5 @@
 <?php
+namespace App\Services\APIs\OPENPIX;
 
 interface OpenPixServiceInterface
 {

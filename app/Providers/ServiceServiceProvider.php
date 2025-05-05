@@ -19,7 +19,7 @@ use App\Services\Sale\SaleServiceInterface;
 use App\Services\Service\ServiceService;
 use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Support\ServiceProvider;
-use OpenPixServiceInterface;
+use App\Services\APIs\OPENPIX\OpenPixServiceInterface;
 
 class ServiceServiceProvider extends ServiceProvider
 {
