@@ -107,10 +107,11 @@ class GptService implements GptServiceInterface
 
         $service  = $this->serviceService->getById($arguments['service_id']);
 
-        $resume = [
-            'totalValue' => (Str::remove(['.', ','], $arguments['totalValue']) + ($service->rate / 1000) * $arguments['quantity'])/100,
-        ];
+       
 
+        $resume = [
+            'totalValue' =>  ($service->rate/1000) * $arguments['quantity'],
+        ];
         
         $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Resume do pedido');
 
