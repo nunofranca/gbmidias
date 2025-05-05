@@ -9,6 +9,6 @@ class OpenPixRepository implements OpenPixRepositoryInterface
 
     public function charge($payload)
     {
-        return Http::openpix()->post('/charge', $payload);
+        return Http::openpix()->post('/charge', $payload)->json();
     }
 }

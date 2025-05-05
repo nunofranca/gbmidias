@@ -163,7 +163,7 @@ class GptService implements GptServiceInterface
             $transaction = $this->openPixService->charge([
                 'correlationID' => Str::random('16'),
                 'value' => Str::remove(['.', ' ', '-'], $sale->totalValue),
-                'comment' => $sale->services[0]->name,
+                'comment' => preg_replace('/[^\P{C}\P{So}]+/u', '', $sale->services[0]->name),
             ]);
 
             $transaction = $sale->transaction()->create($transaction['charge']);
