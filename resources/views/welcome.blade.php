@@ -424,73 +424,7 @@
                 </div>
               </div>
               <div class="row g-4">
-                <div class="col-lg-4">
-                  <div class="credit-card card h-100">
-                    <div class="card-header text-center">
-                      <h3 class="mb-0">Pacote Inicial</h3>
-                    </div>
-                    <div class="card-body text-center p-5">
-                      <div class="credit-amount mb-4">R$50</div>
-                      <div class="mb-3 text-success fw-bold">
-                        <i class="bi bi-people-fill me-1"></i> 1.000 seguidores
-                      </div>
-                      <ul class="list-unstyled mb-4">
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Seguidores de qualidade</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Entrega em até 48h</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Suporte via WhatsApp</li>
-                      </ul>
-                      <a href="https://wa.me/5575997140438?text=Olá! Tenho interesse no Pacote Inicial de 1.000 seguidores." target="_blank" class="btn whatsapp-btn btn-lg w-100">
-                        <i class="bi bi-whatsapp me-2"></i>Comprar Agora
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="credit-card card h-100 popular">
-                    <div class="card-header text-center">
-                      <div class="mb-2 text-white"><span class="badge bg-white text-dark">Mais Popular</span></div>
-                      <h3 class="mb-0">Pacote Médio</h3>
-                    </div>
-                    <div class="card-body text-center p-5">
-                      <div class="credit-amount mb-4">R$150</div>
-                      <div class="mb-3 text-success fw-bold">
-                        <i class="bi bi-people-fill me-1"></i> 5.000 seguidores
-                      </div>
-                      <ul class="list-unstyled mb-4">
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Seguidores de qualidade</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Entrega em até 72h</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Suporte via WhatsApp</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Relatório de crescimento</li>
-                      </ul>
-                      <a href="https://wa.me/5575997140438?text=Olá! Tenho interesse no Pacote Médio de 5.000 seguidores." target="_blank" class="btn whatsapp-btn btn-lg w-100">
-                        <i class="bi bi-whatsapp me-2"></i>Comprar Agora
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="credit-card card h-100">
-                    <div class="card-header text-center">
-                      <h3 class="mb-0">Pacote Avançado</h3>
-                    </div>
-                    <div class="card-body text-center p-5">
-                      <div class="credit-amount mb-4">R$300</div>
-                      <div class="mb-3 text-success fw-bold">
-                        <i class="bi bi-people-fill me-1"></i> 15.000 seguidores
-                      </div>
-                      <ul class="list-unstyled mb-4">
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Seguidores de qualidade</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Entrega em até 7 dias</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Suporte VIP via WhatsApp</li>
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i>Relatório detalhado</li>
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Consultoria básica</li>
-                      </ul>
-                      <a href="https://wa.me/5575997140438?text=Olá! Tenho interesse no Pacote Avançado de 15.000 seguidores." target="_blank" class="btn whatsapp-btn btn-lg w-100">
-                        <i class="bi bi-whatsapp me-2"></i>Comprar Agora
-                      </a>
-                    </div>
-                  </div>
-                </div>
+            
               </div>
               <div class="text-center mt-5">
                 <p class="lead mb-4">Precisa de um pacote personalizado?</p>
