@@ -332,8 +332,8 @@
         <div class="carousel-caption d-flex flex-column justify-content-center h-100">
           <h1 class="display-3 fw-bold mb-4">Cresça seu Instagram com a OptimiZap</h1>
           <p class="lead mb-5">Atinja mais seguidores, aumente seu engajamento e transforme sua presença online</p>
-          <div>
-            <a href="#pricing" class="btn btn-primary btn-lg px-5 py-3 me-3">Ver Preços</a>
+          <div class="d-grid d-md-flex gap-3">
+            <a href="#pricing" class="btn btn-primary btn-lg px-5 py-3">Ver Preços</a>
             <a href="https://wa.me/5575997140438" target="_blank" class="btn whatsapp-btn btn-lg px-5 py-3">
               <i class="bi bi-whatsapp me-2"></i>Fale Conosco
             </a>
@@ -344,8 +344,8 @@
         <div class="carousel-caption d-flex flex-column justify-content-center h-100">
           <h1 class="display-3 fw-bold mb-4">Estratégias Comprovadas para Mídias Sociais</h1>
           <p class="lead mb-5">Metodologia exclusiva para aumentar sua visibilidade e engajamento</p>
-          <div>
-            <a href="#pricing" class="btn btn-primary btn-lg px-5 py-3 me-3">Ver Preços</a>
+          <div class="d-grid d-md-flex gap-3">
+            <a href="#pricing" class="btn btn-primary btn-lg px-5 py-3">Ver Preços</a>
             <a href="#testimonials" class="btn btn-outline-light btn-lg px-5 py-3">Depoimentos</a>
           </div>
         </div>
@@ -354,8 +354,8 @@
         <div class="carousel-caption d-flex flex-column justify-content-center h-100">
           <h1 class="display-3 fw-bold mb-4">Resultados Reais. Seguidores Reais.</h1>
           <p class="lead mb-5">Milhares de seguidores orgânicos e engajados para sua marca</p>
-          <div>
-            <a href="#stats" class="btn btn-primary btn-lg px-5 py-3 me-3">Ver Resultados</a>
+          <div class="d-grid d-md-flex gap-3">
+            <a href="#stats" class="btn btn-primary btn-lg px-5 py-3">Ver Resultados</a>
             <a href="https://wa.me/5575997140438" target="_blank" class="btn whatsapp-btn btn-lg px-5 py-3">
               <i class="bi bi-whatsapp me-2"></i>Comprar Agora
             </a>
@@ -372,7 +372,7 @@
       <span class="visually-hidden">Próximo</span>
     </button>
   </div>
-
+  
   <!-- Stats Section -->
   <section id="stats" class="py-5 section-darker">
     <div class="container">
