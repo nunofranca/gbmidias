@@ -321,7 +321,7 @@
   </nav>
 
   <!-- Hero Carousel Section -->
-  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div id="heroCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
@@ -333,7 +333,7 @@
           <h1 class="display-3 fw-bold mb-4">Cresça seu Instagram com a OptimiZap</h1>
           <p class="lead mb-5">Atinja mais seguidores, aumente seu engajamento e transforme sua presença online</p>
           <div class="d-grid d-md-flex gap-3">
-            <a href="#pricing" class="btn btn-primary btn-lg px-5 py-3">Ver Preços</a>
+        
             <a href="https://wa.me/5575997140438" target="_blank" class="btn whatsapp-btn btn-lg px-5 py-3">
               <i class="bi bi-whatsapp me-2"></i>Fale Conosco
             </a>
