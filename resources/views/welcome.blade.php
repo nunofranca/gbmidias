@@ -321,7 +321,7 @@
   </nav>
 
   <!-- Hero Carousel Section -->
-  <div id="heroCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
+  {{-- <div id="heroCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
@@ -370,7 +370,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Próximo</span>
     </button>
-  </div>
+  </div> --}}
   
   <!-- Stats Section -->
   <section id="stats" class="py-5 section-darker">
