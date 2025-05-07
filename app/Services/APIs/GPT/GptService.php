@@ -114,7 +114,11 @@ class GptService implements GptServiceInterface
     {
         $this->whatsAppService->sendText(['phone' => $client->phone, 'text' => 'Conectando ao Pushinpay. Um instante']);
         $balace = Str::remove(['.', ','], $arguments['balance']);
-        $transaction = $this->pushinPayService->charge([
+        $transaction = $this->openPixService->charge([
+            'value' => $balace,
+            'correlationID' => Str::random(20),
+        ]);
+  /*       $transaction = $this->pushinPayService->charge([
             'value' => Str::remove(['.',',', '-'], $balace),
             "webhook_url"=> "https://optimizap.shop/api/webhook/pushinpay/autoatendimento"
         ]);
@@ -123,9 +127,9 @@ class GptService implements GptServiceInterface
             'correlationID' => $transaction['id'],
             'paymentLinkUrl'=>$transaction['webhook_url'],
             'qrCodeImag'=> $transaction['qr_code']
-        ];
+        ]; */
 
-        $transaction = Transaction::create($transaction['charge']);
+        Transaction::create($transaction['charge']);
 
         $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição. dados da transação '.$transaction);
  
