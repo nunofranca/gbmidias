@@ -96,7 +96,7 @@ class GptService implements GptServiceInterface
                 break; 
             case 'add_balance':
                 $this->addCredit($client, $runStatus, $functionCall, $arguments);
-                break
+                break;
         }
 
         do {

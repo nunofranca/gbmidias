@@ -146,8 +146,7 @@ class WebHooksController extends Controller
 
 
     public function webHookOpenPix(Request $request)
-    {    
-        
+    {           
 
     
         $payload = $request->all();
