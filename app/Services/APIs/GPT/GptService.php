@@ -136,14 +136,10 @@ class GptService implements GptServiceInterface
    public function checkBalance($client, $runStatus, $functionCall, $arguments)
     {
             $client = $this->clientService->getByPhone($client->phone);
-
-
           
         
-            $this->gptRepository->runTool($client, $runStatus, $functionCall, 
-            'Mostre ao cliente de forma destacada saldo dele que esté em '.$client->balance. 'Faça uma analise se o cliente tem saldo (balance) pra seguir com a compra. Se não tiver pegunte se ele quer add saldo. Se ele tive saldo siga com o fluxo normalmente');
-            $this->gptRepository->runTool($client, $runStatus, $functionCall, 
-            'Se '.$arguments['sale_amount']. ' for maior quer o '. $client->balance. 'Significa que o cliente está sem saldo para segui com a compra, pergunte se ele quer add saldo');
+           
+            $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Saldo do cliente: '.$client->balance);
     }
 
     private function resumeSale($client, $runStatus, $functionCall, $arguments)
