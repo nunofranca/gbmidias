@@ -17,7 +17,7 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
     public function getByCategory($category)
     {
         return $this->model->select(['id', 'name', 'rate', 'min'])
-        ->inRandomOrder()->where('category', $category)->get();
+        ->inRandomOrder()->limit(5)->where('category', $category)->get();
     }
 
 
