@@ -159,7 +159,6 @@ class GptService implements GptServiceInterface
         ];
 
         
-        $this->gptRepository->runTool($client, $runStatus, $functionCall, 'Resume do pedido');
 
        $this->gptRepository->runTool($client, $runStatus, $functionCall, $resume);
        
