@@ -14,13 +14,10 @@ class WhatsAppRepository implements WhatsRepositoryInterface
         return Http::withHeaders([
            'Client-Token'=>'F9f0bb229461741138e059f32973b9250S'
         ])->post('  https://api.z-api.io/instances/3E0D7020CFD3D0904E98DABA2DE1C2A1/token/78771D12CC9AD33B890394B8/send-text', [
-            'messaging_product' => 'whatsapp',
-            'recipient_type' => 'individual',
-            'to' => $payload['phone'],
-            'type' => 'text',
-            'text' => [
-                'body' => $payload['text'] ?? 'erro',
-            ]
+        
+            'phone' => $payload['phone'],
+            'message' => $payload['text'] ?? 'erro',
+            
         ]);
 
 
@@ -36,6 +33,17 @@ class WhatsAppRepository implements WhatsRepositoryInterface
     }
     public function sendButtonAction($payload)
     {
+
+        return Http::withHeaders([
+            'Client-Token'=>'F9f0bb229461741138e059f32973b9250S'
+         ])->post('  https://api.z-api.io/instances/3E0D7020CFD3D0904E98DABA2DE1C2A1/token/78771D12CC9AD33B890394B8/send-button-pix', [
+            
+            'phone' => $payload['phone'],
+            "pixKey"=> "11765312000102",
+            "type"=> "EVP"
+             
+         ]);
+
         return Http::whatsapp()->post('/messages', [
             'messaging_product' => 'whatsapp',
             'recipient_type' => 'individual',

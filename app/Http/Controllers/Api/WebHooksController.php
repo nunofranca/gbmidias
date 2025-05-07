@@ -109,7 +109,7 @@ class WebHooksController extends Controller
             $client->refresh();
         }
 
-        match ($payload['message']['type']) {
+        match (isset($payload['text'])) {
             'text' => $this->handleText($payload['text']['message'], $payload['messageId'], $client),
            // 'audio' => $this->transcribeAudio($payload['message'], $user),
             
