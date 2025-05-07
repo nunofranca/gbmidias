@@ -41,7 +41,8 @@ class AppServiceProvider extends ServiceProvider
       });
 
       Http::macro('pushinpay', function () {
-        return Http::withHeaders([
+        return Http::withToken('27316|f8uPlc4pcD6waXfulsJm9wZ3GzIM1ScMZsTFcpOp14f3ccee')
+        ->withHeaders([
           "Authorization"=> config('pushinpay.token'),
           "Content-Type"=> "application/json"
         ])->baseUrl('https://api.pushinpay.com.br/api');
