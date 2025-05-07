@@ -65,7 +65,7 @@ class GptService implements GptServiceInterface
     
                 // Após executar a função, você precisa reiniciar o run!
                 $runAssistant = $this->gptRepository->runAssistant($client);
-                break;
+               
             }
     
         } while (in_array($runStatus['status'], ['queued', 'in_progress', 'requires_action']) && $tries < $maxTries);
