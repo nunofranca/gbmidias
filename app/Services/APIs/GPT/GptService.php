@@ -165,7 +165,6 @@ class GptService implements GptServiceInterface
     
 
     }
-''
 
     private function getServices($client, $runStatus, $functionCall, $arguments)
     {
