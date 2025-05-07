@@ -94,6 +94,9 @@ class GptService implements GptServiceInterface
              case 'check_balance':
                 $this->checkBalance($client, $runStatus, $functionCall, $arguments);
                 break; 
+            case 'add_balance':
+                $this->addCredit($client, $runStatus, $functionCall, $arguments);
+                break
         }
 
         do {
@@ -108,12 +111,13 @@ class GptService implements GptServiceInterface
 
     public function addCredit()
     {
-        /* $transaction = $this->pushinPayService->charge([
-            'value' => Str::remove(['.', '-'], $sale->totalValue),
+        $balace = Str::remove(['.', ','], $arguments['balance']);
+        $transaction = $this->pushinPayService->charge([
+            'value' => Str::remove(['.', '-'], $balace),
             "webhook_url"=> "https://gbmidias.shop/api/webhook/pushinpay/autoatendimento"
-        ]); */
+        ]);
         
-       /*  $transaction['charge'] = [
+     $transaction['charge'] = [
             'correlationID' => $transaction['id'],
             'paymentLinkUrl'=>$transaction['webhook_url'],
             'qrCodeImag'=> $transaction['qr_code']
@@ -122,7 +126,7 @@ class GptService implements GptServiceInterface
         $transaction = $sale->transaction()->create($transaction['charge']);
 
         $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
- */
+ 
                
     }
 
