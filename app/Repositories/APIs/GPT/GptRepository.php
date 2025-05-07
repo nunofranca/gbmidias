@@ -45,7 +45,7 @@ class GptRepository implements GptRepositoryInterface
             if($request->successful()){
                 return $request->json();
             }
-        }while($request->failed())
+        }while($request->failed());
        
 
     }
