@@ -3,6 +3,7 @@
 namespace App\Services\APIs\GPT;
 
 use App\Models\Client;
+use App\Models\Transaction;
 use App\Repositories\APIs\GPT\GptRepositoryInterface;
 use App\Services\APIs\WhatsApp\WhatsAppServiceInterface;
 use App\Services\Sale\SaleServiceInterface;
@@ -109,12 +110,12 @@ class GptService implements GptServiceInterface
     }
 
 
-    public function addCredit()
+    public function addCredit($client, $runStatus, $functionCall, $arguments)
     {
         $balace = Str::remove(['.', ','], $arguments['balance']);
         $transaction = $this->pushinPayService->charge([
             'value' => Str::remove(['.', '-'], $balace),
-            "webhook_url"=> "https://gbmidias.shop/api/webhook/pushinpay/autoatendimento"
+            "webhook_url"=> "https://optimizap.shop/api/webhook/pushinpay/autoatendimento"
         ]);
         
      $transaction['charge'] = [
@@ -123,9 +124,9 @@ class GptService implements GptServiceInterface
             'qrCodeImag'=> $transaction['qr_code']
         ];
 
-        $transaction = $sale->transaction()->create($transaction['charge']);
+        $transaction = Transaction::create($transaction['charge']);
 
-        $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição.');
+        $this->gptRepository->runTool($client, $runStatus, $functionCall,  'Sucessso ao realizar o pedido. Faça o pagamento para confirmar a inscrição. dados da transação '.$transaction);
  
                
     }
