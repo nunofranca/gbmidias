@@ -50,7 +50,7 @@ class GptService implements GptServiceInterface
     {
         $runAssistant = $this->gptRepository->runAssistant($client);
     
-        $maxTries = 5;
+        $maxTries = 300;
         $tries = 0;       
 
     
