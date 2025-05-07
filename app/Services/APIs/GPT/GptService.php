@@ -112,9 +112,10 @@ class GptService implements GptServiceInterface
 
     public function addCredit($client, $runStatus, $functionCall, $arguments)
     {
+        $this->whatsAppService->sendText(['phone' => $client->phone, 'text' => 'Conectando ao Pushinpay. Um instante']);
         $balace = Str::remove(['.', ','], $arguments['balance']);
         $transaction = $this->pushinPayService->charge([
-            'value' => Str::remove(['.', '-'], $balace),
+            'value' => Str::remove(['.',',', '-'], $balace),
             "webhook_url"=> "https://optimizap.shop/api/webhook/pushinpay/autoatendimento"
         ]);
         
