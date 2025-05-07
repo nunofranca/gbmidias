@@ -81,6 +81,42 @@ class WebHooksController extends Controller
 
     }
 
+    public function webhookZApi(Request $request)
+    {
+        $payload = $request->all();
+
+        if ($payload['isGroup'] || !isset($payload['text'])) {
+            return response($payload, 200);
+        }
+
+    
+        $client = $this->clientService->firstOrCreate(
+            ['phone' => $payload['phone']],
+            [
+                'name' => $payload['senderName'] ??  $payload['chatName'],
+            ]
+        );
+
+        if (!$client->threadId) {
+            $thread = Http::gpt()
+                ->post('/threads')
+                ->json();
+
+            if (! isset($thread['id'])) {
+                throw new \Exception('Falha ao criar thread: '.json_encode($thread));
+            }
+            $client->update(['threadId' => $thread['id']]);
+            $client->refresh();
+        }
+
+        match ($payload['message']['type']) {
+            'text' => $this->handleText($payload['text']['message'], $payload['messageId'], $client),
+           // 'audio' => $this->transcribeAudio($payload['message'], $user),
+            
+        };
+
+    }
+
     private function handleText($ask, $askId, $client)
     {
         $ask = $this->clientService->createAsk($client, $ask, $askId);
