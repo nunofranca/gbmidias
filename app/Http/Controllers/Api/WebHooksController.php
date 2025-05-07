@@ -108,11 +108,13 @@ class WebHooksController extends Controller
             $client->update(['threadId' => $thread['id']]);
             $client->refresh();
         }
-        if(!isset($payload['text'])); return response($payload, 200);
-        
+        if(isset($payload['text'])){
 
             $this->handleText($payload['text']['message'], $payload['messageId'], $client);
            // 'audio' => $this->transcribeAudio($payload['message'], $user),
+        }
+        
+
       
 
     }
