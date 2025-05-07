@@ -6,6 +6,6 @@ class PushinPayRepository implements PushinPayRepositoryInterface
 {
     public function charge($payload)
     {
-        return Http::upmidias()->post('pix/cashIn', $payload)->json();
+        return Http::pushinpay()->post('pix/cashIn', $payload)->json();
     }
 }
