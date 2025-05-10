@@ -27,12 +27,12 @@ class AppServiceProvider extends ServiceProvider
 
 
       Http::macro('whatsapp', function () {
-        return Http::withToken('EAAem1g2arPYBO6ZBdZBZADdBaIiaPGSPAiZCPAjgQflJy0ENV8oXUoZC0J81ZBupQz5rAywm8nnNvgH0YaZCP3T9rnvoKgBYHKKzDdAL6JOxQDyZBQwPUSZCw5TvchyUxZAN60VfvIDtFPJoNhc7bSJxZATJf5wj98FJFcFByO8AA5d1ofkDXP0B1CEPJtc1ZCTDScHGaJQZACReFfRM7yW2XkUrNIQG4RkcZD')
+        return Http::withToken('EAAdZCFUJzBy4BO4BOEUrV9Vo2moyNNUZBs0DxBFmMWrw1Q69FzcpcmjfeRbMaynOj5de6uy2z74opUNztgvGkfZCF2KuI4HPBrl7LPk1BuluhhXnzRsHcusGw0wIwzY83UZC8HecfYLRGyitAbI3NqDywCfTVFF0Pqgi9T7ZCVZCmcpJ4erTRmQZCIFhVFKymYdHCQ8Uz34rAUceBVEVZCnWPwZDZD')
             ->baseUrl('https://graph.facebook.com/v22.0/649078624950335');
 
       });
 
-      
+
       Http::macro('gpt', function () {
         return Http::withHeaders([
             'OpenAI-Beta' => 'assistants=v2',
