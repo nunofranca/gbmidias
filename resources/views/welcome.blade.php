@@ -19,7 +19,7 @@
     <h1><i class="fab fa-whatsapp"></i> WhatsApp Simulator</h1>
     <p>Este simulador foi projetado para ser visualizado em dispositivos móveis. Por favor, acesse esta página em seu smartphone ou tablet, ou redimensione seu navegador para um tamanho de tela menor.</p>
     <div class="qr-code">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://lovable.dev/projects/84663a7f-f253-48d4-a23d-765277d9d85f" alt="QR Code">
+        <img src="https://gbmidias.shop" alt="QR Code">
     </div>
     <p>Escaneie o código QR com seu celular para acessar o simulador!</p>
 </div>
