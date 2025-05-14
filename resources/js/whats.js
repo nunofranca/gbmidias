@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     },
                 });
                 typing.remove();
-                addMessage(response.data, 'received');
+                addMessage(response.data.response, 'received');
 
         }, 1000);
     }
