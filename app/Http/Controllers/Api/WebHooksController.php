@@ -130,12 +130,12 @@ class WebHooksController extends Controller
         $this->gptService->runAssistant($client);
 
         $gptResponse = $this->gptService->getMessagesOfTread($client);
-        return $gptResponse;
+
 
 
        $response = $this->askService->saveResponse($ask, $gptResponse);
 
-        $this->whatsAppService->sendText(['phone' => $client->phone, 'text' =>  $gptResponse]);
+       // $this->whatsAppService->sendText(['phone' => $client->phone, 'text' =>  $gptResponse]);
 
         return $response;
     }
