@@ -14,6 +14,7 @@ use App\Services\Client\ClientServiceInterface;
 use App\Services\Response\ResponseServiceInterface;
 use Illuminate\Support\Facades\Http;
 use App\Enum\StatusPaymentEnum;
+use Illuminate\Support\Facades\Session;
 
 class WebHooksController extends Controller
 {
@@ -26,12 +27,12 @@ class WebHooksController extends Controller
         protected WhatsAppService $whatsAppService,
         )
     {
-        
+
     }
 
     public function validateWebHook(Request $request)
     {
-    
+
         $verifyToken = 'gbmidias_token';
         $payload = $request->all();
         $mode = $payload['hub_mode'];
@@ -53,7 +54,7 @@ class WebHooksController extends Controller
             return response($payload, 200);
         }
 
-    
+
         $client = $this->clientService->firstOrCreate(
             ['phone' => $payload['message']['from']],
             [
@@ -76,7 +77,7 @@ class WebHooksController extends Controller
         match ($payload['message']['type']) {
             'text' => $this->handleText($payload['message']['text']['body'], $payload['message']['id'], $client),
            // 'audio' => $this->transcribeAudio($payload['message'], $user),
-            
+
         };
 
     }
@@ -89,7 +90,7 @@ class WebHooksController extends Controller
             return response($payload, 200);
         }
 
-    
+
         $client = $this->clientService->firstOrCreate(
             ['phone' => $payload['phone']],
             [
@@ -113,27 +114,30 @@ class WebHooksController extends Controller
             $this->handleText($payload['text']['message'], $payload['messageId'], $client);
            // 'audio' => $this->transcribeAudio($payload['message'], $user),
         }
-        
 
-      
+
+
 
     }
 
     private function handleText($ask, $askId, $client)
     {
         $ask = $this->clientService->createAsk($client, $ask, $askId);
-       
+
 
         $this->gptService->setMessageInTread($client, $ask->ask);
 
         $this->gptService->runAssistant($client);
 
         $gptResponse = $this->gptService->getMessagesOfTread($client);
+        return $gptResponse;
 
-   
-      $this->askService->saveResponse($ask, $gptResponse);
+
+       $response = $this->askService->saveResponse($ask, $gptResponse);
 
         $this->whatsAppService->sendText(['phone' => $client->phone, 'text' =>  $gptResponse]);
+
+        return $response;
     }
 
    /*  private function handleAudio($ask, $askId, $user)
@@ -146,9 +150,9 @@ class WebHooksController extends Controller
 
 
     public function webHookOpenPix(Request $request)
-    {           
+    {
 
-    
+
         $payload = $request->all();
 
         if($payload['charge']['status'] !==  'COMPLETED') return;
@@ -159,13 +163,13 @@ class WebHooksController extends Controller
 
         $this->whatsAppService->sendText(['phone' => $transaction->sale->client->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
 
-    
+
     }
 
     public function webHookPushinPay(Request $request)
-    {    
- 
-    
+    {
+
+
         $payload = $request->all();
 
         if($payload['status'] !==  'paid') return;
@@ -175,8 +179,31 @@ class WebHooksController extends Controller
         $transaction->update(['status' => StatusPaymentEnum::PAID]);
 
         $this->whatsAppService->sendText(['phone' => $transaction->sale->client->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
-        
 
-    
+    }
+
+    public function whatsAppPage(Request $request)
+    {
+        $payload = $request->all();
+        $threadId = $request->header('threadId');
+        if(!$threadId) return;
+
+        $client = $this->clientService->firstOrCreate(
+        ['phone' => $threadId],
+        [
+            'name' => $threadId,
+        ]);
+
+        if(!$client->thread){
+            $client->update(['threadId' => $threadId]);
+        }
+
+       return $this->handleText($payload['message'], $payload['messageId'], $client);
+
+    }
+
+    public function createTread()
+    {
+        return $this->gptService->createThread();
     }
 }
