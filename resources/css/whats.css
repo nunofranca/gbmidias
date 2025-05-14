@@ -11,7 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ECE5DD;
-  
+
 }
 
 .chat-header {
@@ -207,6 +207,8 @@ body {
 .messages-container {
     display: flex;
     flex-direction: column;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .message-delivered {
