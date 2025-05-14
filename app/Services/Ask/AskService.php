@@ -10,7 +10,7 @@ class AskService implements AskServiceInterface
 {
     public function __construct(protected AskRepositoryInterface $askRepository)
     {
-        
+
     }
 
     public function create(array $payload)
@@ -19,7 +19,7 @@ class AskService implements AskServiceInterface
     }
     public function saveResponse(Ask $ask, string $response)
     {
-        $ask->response()->create([
+        return $ask->response()->create([
             'response' => $response
         ]);
     }
