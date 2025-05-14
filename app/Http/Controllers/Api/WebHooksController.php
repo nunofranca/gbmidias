@@ -134,7 +134,6 @@ class WebHooksController extends Controller
 
 
        $response = $this->askService->saveResponse($ask, $gptResponse);
-        dd($response);
        // $this->whatsAppService->sendText(['phone' => $client->phone, 'text' =>  $gptResponse]);
 
         return $response;
