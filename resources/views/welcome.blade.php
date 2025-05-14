@@ -63,6 +63,6 @@
         </button>
     </div>
 </div>
-@vite('resources/js/whats')
+@vite('resources/js/whats.js')
 </body>
 </html>
