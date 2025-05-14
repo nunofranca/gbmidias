@@ -11,6 +11,8 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ECE5DD;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .chat-header {
