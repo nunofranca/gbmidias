@@ -22,7 +22,7 @@ class TransactionObserver
         if ($transaction->isDirty('status')) {
             if ($transaction->status == StatusPaymentEnum::PAID) {
 
-                $transaction->client()->increment('balance', $transaction->value);
+                $transaction->user()->increment('balance', $transaction->value);
 
             }
         }

@@ -16,11 +16,11 @@ class Sale extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['client_id', 'totalValue', 'link'];
+    protected $fillable = ['user_id', 'totalValue', 'link'];
 
-    public function client():BelongsTo
+    public function user():BelongsTo
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
 
     public function services():BelongsToMany

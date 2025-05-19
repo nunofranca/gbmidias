@@ -16,7 +16,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'client_id',
+        'user_id',
         'correlationID',
         'value',
         'comment',
@@ -25,9 +25,9 @@ class Transaction extends Model
         'status'
     ];
 
-    public function client():BelongsTo
+    public function user():BelongsTo
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
 
 

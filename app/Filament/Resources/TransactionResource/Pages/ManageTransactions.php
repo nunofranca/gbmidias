@@ -42,7 +42,7 @@ class ManageTransactions extends ManageRecords
                     ])->json();
 
                     Transaction::create([
-                        'client_id' => Auth::id(),
+                        'user_id' => Auth::id(),
                         'paymentLinkUrl' =>$response['qr_code'],
                         'correlationID' =>  $response['id'],
                         'value' => $response['value'],
