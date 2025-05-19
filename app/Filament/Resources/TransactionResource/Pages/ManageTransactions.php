@@ -23,7 +23,7 @@ class ManageTransactions extends ManageRecords
                 ->color('info')
                 ->form([
                     TextInput::make('balance')
-                        ->minValue(10)
+                        ->minValue(1)
                         ->numeric()
                         ->label('Valor')
                         ->prefix('R$')
