@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Enum\StatusPaymentEnum;
 use App\Models\Transaction;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class TransactionObserver
@@ -12,7 +13,10 @@ class TransactionObserver
     /**
      * Handle the Transaction "created" event.
      */
-
+    public function creating(Transaction $transaction)
+    {
+        $transaction->user_id = Auth::id();
+    }
 
     /**
      * Handle the Transaction "updated" event.

@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionResource extends Resource
 {
@@ -29,6 +30,14 @@ class TransactionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+//            ->modifyQueryUsing(function (Builder $builder) {
+//                return $builder->when(Auth::user()->hasRole('ADMIN'), function () use ($builder) {
+//                    return $builder;
+//
+//                }, function () use ($builder) {
+//                    return $builder->where('user_id', Auth::id());
+//                });
+//            })
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()

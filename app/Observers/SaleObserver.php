@@ -4,12 +4,18 @@ namespace App\Observers;
 
 use App\Jobs\SendServiceUpMidias;
 use App\Models\Sale;
+use Illuminate\Support\Facades\Auth;
 
 class SaleObserver
 {
     /**
      * Handle the Sale "created" event.
      */
+
+    public function creating(Sale $sale)
+    {
+        $sale->user_id = Auth::id();
+    }
     public function created(Sale $sale): void
     {
        SendServiceUpMidias::dispatch($sale)->onQueue('gbmidias-default');

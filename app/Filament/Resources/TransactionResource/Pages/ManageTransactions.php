@@ -24,6 +24,7 @@ class ManageTransactions extends ManageRecords
                 ->form([
                     TextInput::make('balance')
                         ->minValue(1)
+                        ->maxValue(150)
                         ->numeric()
                         ->label('Valor')
                         ->prefix('R$')
@@ -42,7 +43,6 @@ class ManageTransactions extends ManageRecords
                     ])->json();
 
                     Transaction::create([
-                        'user_id' => Auth::id(),
                         'paymentLinkUrl' =>$response['qr_code'],
                         'correlationID' =>  $response['id'],
                         'value' => $response['value'],
