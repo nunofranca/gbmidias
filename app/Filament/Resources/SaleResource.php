@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SaleResource\Pages;
 use App\Filament\Resources\SaleResource\RelationManagers;
 use App\Models\Sale;
+use App\Models\Service;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,15 +27,39 @@ class SaleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
+                Forms\Components\Select::make('services')
+                    ->label('Escolha o serviço')
+                    ->placeholder('Veja as opções')
+                    ->live()
+                    ->preload()
+                    ->relationship('services', 'name')
+                    ->searchable()
+                    ->maxItems(1)
                     ->required(),
                 Forms\Components\TextInput::make('totalValue')
+                    ->label('Quantidade')
+                    ->minValue(function (Get $get){
+
+                        if($get('services')) {
+                           $services = Service::find($get('services'));
+                           return $services->min;
+                        }
+
+                    })
+                    ->placeholder(function (Get $get){
+                        if($get('services')) {
+                            $services = Service::find($get('services'));
+                            return 'Quantidade mínima: '. $services->min;
+                        }
+
+                    })
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('link')
+                    ->label('Link ou @ da rede social que vai receber o serviço')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
             ]);
     }
 

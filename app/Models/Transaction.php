@@ -25,14 +25,10 @@ class Transaction extends Model
         'status'
     ];
 
-
     public function client():BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
-
-
-
 
 
 

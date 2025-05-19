@@ -19,11 +19,10 @@ class TransactionObserver
      */
     public function updated(Transaction $transaction): void
     {
-        if($transaction->isDirty('status')){
-            if($transaction->status == StatusPaymentEnum::PAID){
+        if ($transaction->isDirty('status')) {
+            if ($transaction->status == StatusPaymentEnum::PAID) {
 
-
-                    $transaction->client()->increment('balance', $transaction->value);
+                $transaction->client->increment('balance', $transaction->value);
 
             }
         }

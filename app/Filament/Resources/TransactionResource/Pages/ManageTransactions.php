@@ -52,6 +52,7 @@ class ManageTransactions extends ManageRecords
 
 
                     $qrCode = $response['qr_code_base64'] ?? null;
+                    $paymentLink = $response['qr_code'] ?? null;
 
                     // Interrompe o fechamento do modal
 
@@ -61,6 +62,7 @@ class ManageTransactions extends ManageRecords
 
                     $action->modalContent(fn () => view('qrcode', [
                         'qrCode' => $qrCode,
+                        'paymentLink' => $paymentLink,
                     ]));
                     $action->halt();
                 }),
