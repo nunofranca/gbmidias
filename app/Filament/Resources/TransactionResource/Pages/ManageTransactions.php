@@ -37,7 +37,7 @@ class ManageTransactions extends ManageRecords
 
                     $response = Http::pushinpay()->post('/pix/cashIn', [
                         'value' => Str::remove(['.', '-', ' '], $data['balance'])*100,
-                        'webhook_url' => 'https://seu-site.com',
+                        'webhook_url' => 'https://gbmidias.shop/api/webhook/pushinpay/autoatendimento',
                         'expires_at' => now()->addMinutes(15),
                     ])->json();
 
