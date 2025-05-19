@@ -44,15 +44,25 @@ class SaleResource extends Resource
                             return [];
                         }
 
+                        $user = auth()->user();
+
                         return Service::where('category_id', $get('category_id'))
                             ->get()
-                            ->mapWithKeys(function ($service) {
-                                return [
-                                    $service->id => "{$service->name} - R$ " . number_format($service->rate / 100, 2, ',', '.'),
-                                ];
+                            ->mapWithKeys(function ($service) use ($user) {
+                                $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
+
+                                // Verifica se o usuário tem saldo suficiente
+                                if ($user->balance < $service->rate) {
+                                    $label = "{$service->name} - R$ {$rateFormatted} (saldo insuficiente)";
+                                } else {
+                                    $label = "{$service->name} - R$ {$rateFormatted}";
+                                }
+
+                                return [$service->id => $label];
                             })
                             ->toArray();
                     })
+
                     ->searchable()
                     ->required(),
 

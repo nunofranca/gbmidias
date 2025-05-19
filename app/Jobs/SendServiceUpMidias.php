@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Sale;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class SendServiceUpMidias implements ShouldQueue
@@ -24,6 +25,8 @@ class SendServiceUpMidias implements ShouldQueue
      */
     public function handle(): void
     {
+
+        if($this->sale->services[0]->pivot->rate > Auth::user()->balance) return;
 
        Http::upmidias()->post('/', [
             'key' => config('upmidias.token'),
