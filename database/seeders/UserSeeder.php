@@ -20,10 +20,11 @@ class UserSeeder extends Seeder
         ]);
        $nuno->assignRole('CLIENT');
 
-        User::create([
+        $gb = User::create([
             'name' => 'GB Mídias',
             'email' => 'paulodofacebok@gmail.com',
             'password' => 'Cavalo10'
         ]);
+        $gb->assignRole('ADMIN');
     }
 }
