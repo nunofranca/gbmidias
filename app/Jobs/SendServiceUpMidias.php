@@ -33,6 +33,6 @@ class SendServiceUpMidias implements ShouldQueue
            "quantity"=> $this->sale->services[0]->pivot->quantity
         ])->json();
 
-       $this->sale->cliente->decrement('balance',  $this->sale->services[0]->pivot->rate);
+       $this->sale->client()->decrement('balance',  $this->sale->services[0]->pivot->rate);
     }
 }
