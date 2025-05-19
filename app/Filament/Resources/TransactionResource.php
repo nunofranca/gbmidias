@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SaleResource\Pages;
-use App\Filament\Resources\SaleResource\RelationManagers;
-use App\Models\Sale;
+use App\Filament\Resources\TransactionResource\Pages;
+use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,28 +13,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SaleResource extends Resource
+class TransactionResource extends Resource
 {
-    protected static ?string $model = Sale::class;
+    protected static ?string $model = Transaction::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $pluralLabel= 'Pedidos';
-    protected static ?string $label= 'Pedido';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('totalValue')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+        return $form;
     }
 
     public static function table(Table $table): Table
@@ -44,10 +31,18 @@ class SaleResource extends Resource
                 Tables\Columns\TextColumn::make('client.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('totalValue')
+                Tables\Columns\TextColumn::make('value')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('link')
+                Tables\Columns\TextColumn::make('correlationID')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('comment')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('paymentLinkUrl')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('qrCodeImage')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -79,7 +74,7 @@ class SaleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageSales::route('/'),
+            'index' => Pages\ManageTransactions::route('/'),
         ];
     }
 }

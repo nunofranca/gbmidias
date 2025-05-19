@@ -26,6 +26,7 @@ class PainelPanelProvider extends PanelProvider
             ->default()
             ->id('painel')
             ->path('painel')
+            ->registration()
             ->login()
             ->colors([
                 'primary' => Color::Amber,

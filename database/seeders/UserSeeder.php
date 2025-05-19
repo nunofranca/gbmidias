@@ -13,11 +13,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+       $nuno = User::create([
             'name' => 'Nuno França',
             'email' => 'teste@gmail.com',
             'password' => '123123123'
         ]);
+       $nuno->assignRole('CLIENT');
 
         User::create([
             'name' => 'GB Mídias',

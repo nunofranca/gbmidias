@@ -10,3 +10,4 @@ Route::post('/webhook/9237werwer', [WebHooksController::class, 'webhook']);
 Route::post('/webhook/openpix/autoatendimento', [WebHooksController::class, 'webHookOpenPix']);
 Route::post('/webhook/pushinpay/autoatendimento', [WebHooksController::class, 'webHookPushinPay']);
 Route::post('/webhook/zapi', [WebHooksController::class, 'webhookZApi']);
+

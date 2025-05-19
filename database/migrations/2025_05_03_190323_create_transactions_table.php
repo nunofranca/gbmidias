@@ -13,17 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();            
+            $table->id();
             $table->integer('client_id')->unsigned();
             $table->integer('value');
             $table->string('correlationID');
             $table->string('comment')->nullable();
             $table->string('paymentLinkUrl');
-            $table->string('qrCodeImage');
+            $table->longText('qrCodeImage');
             $table->string('status')->default(StatusPaymentEnum::PENDING);
             $table->softDeletesTz();
             $table->timestampsTz();
-    
+
         });
     }
 
