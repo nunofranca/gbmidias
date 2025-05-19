@@ -12,7 +12,7 @@ class SaleObserver
      */
     public function created(Sale $sale): void
     {
-       SendServiceUpMidias::dispatch($sale);
+       SendServiceUpMidias::dispatch($sale)->onQueue('gbmidias-default');
     }
 
     /**
