@@ -39,6 +39,8 @@ class SaleResource extends Resource
                     ->placeholder('Veja as opções')
                     ->live()
                     ->preload()
+                    ->relationship('services', 'name')
+
                     ->options(function (Get $get) {
                         if (!$get('category_id')) {
                             return [];
