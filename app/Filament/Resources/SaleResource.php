@@ -88,7 +88,7 @@ class SaleResource extends Resource
                             ->placeholder(function (Get $get) {
                                 if ($get('services')) {
                                     $services = Service::find($get('services'))->toArray();
-                                    
+
                                     return 'Quantidade mínima: ' . $services[0]['min'];
                                 }
 
@@ -96,7 +96,7 @@ class SaleResource extends Resource
                             ->required()
                             ->numeric(),
                         Forms\Components\TextInput::make('link')
-                            ->label('Link ou @ da rede social que vai receber o serviço')
+                            ->label('Link da rede social que vai receber o serviço')
                             ->required()
                             ->maxLength(255),
                     ])

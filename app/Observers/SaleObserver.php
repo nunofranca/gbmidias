@@ -14,7 +14,7 @@ class SaleObserver
 
     public function creating(Sale $sale)
     {
-        dd($sale->services);
+        dd($sale);
         $sale->user_id = Auth::id();
     }
     public function created(Sale $sale): void
