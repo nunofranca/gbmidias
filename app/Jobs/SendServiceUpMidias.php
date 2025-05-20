@@ -27,7 +27,7 @@ class SendServiceUpMidias implements ShouldQueue
     public function handle(ServiceServiceInterface $serviceService): void
     {
 
-        if($this->sale->totalValue > Auth::user()->balance) return;
+        if($this->sale->totalValue > $this->sale->user->balance) return;
 
         $service = $serviceService->getById($this->sale->service_id);
 
@@ -39,6 +39,6 @@ class SendServiceUpMidias implements ShouldQueue
            "quantity"=> $this->sale->quantity
         ])->json();
 
-       $this->sale->user()->decrement('balance',  $this->sale->totalValue);
+       $this->sale->user->decrement('balance',  $this->sale->totalValue);
     }
 }
