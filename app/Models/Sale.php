@@ -16,20 +16,18 @@ class Sale extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'totalValue', 'link'];
+    protected $fillable = ['user_id', 'link', 'quantity','totalValue', 'valueUnity', 'service_id'];
 
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function service():BelongsToMany
+    public function services():BelongsTo
     {
-        return $this->belongsToMany(Service::class)->withPivot('quantity', 'valueUnity');
+        return $this->belongsTo(Service::class);
     }
 
-    protected $casts = [
-        'services' => 'array',
-    ];
+
 
 }

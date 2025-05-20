@@ -4,6 +4,7 @@ namespace App\Filament\Resources\SaleResource\Pages;
 
 use App\Filament\Resources\SaleResource;
 use App\Models\User;
+use App\Services\Sale\SaleServiceInterface;
 use Filament\Actions;
 
 use Filament\Forms\Components\TextInput;
@@ -21,7 +22,10 @@ class ManageSales extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->using(function ($data,SaleServiceInterface $saleService){
+                return $saleService->create($data);
+            }),
+
 
         ];
 

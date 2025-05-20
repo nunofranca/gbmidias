@@ -14,11 +14,12 @@ class SaleObserver
 
     public function creating(Sale $sale)
     {
-        dd($sale->services);
         $sale->user_id = Auth::id();
+
     }
     public function created(Sale $sale): void
     {
+
        SendServiceUpMidias::dispatch($sale)->onQueue('gbmidias-default');
     }
 

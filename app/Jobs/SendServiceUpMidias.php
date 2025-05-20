@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Sale;
+use App\Services\Service\ServiceServiceInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Auth;
@@ -23,19 +24,21 @@ class SendServiceUpMidias implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(ServiceServiceInterface $serviceService): void
     {
 
-        if($this->sale->services[0]->pivot->rate > Auth::user()->balance) return;
+        if($this->sale->totalValue > Auth::user()->balance) return;
+
+        $service = $serviceService->getById($this->sale->service_id);
 
        Http::upmidias()->post('/', [
             'key' => config('upmidias.token'),
            "action"=> "add"  ,
-           "service"=> $this->sale->services[0]->service,
+           "service"=> $service->service,
            "link" => $this->sale->link,
-           "quantity"=> $this->sale->services[0]->pivot->quantity
+           "quantity"=> $this->sale->quantity
         ])->json();
 
-       $this->sale->client()->decrement('balance',  $this->sale->services[0]->pivot->rate);
+       $this->sale->user()->decrement('balance',  $this->sale->totalValue);
     }
 }

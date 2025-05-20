@@ -34,41 +34,33 @@ class SaleResource extends Resource
                     ->label('Categoria')
                     ->options(Category::get()->pluck('name', 'id'))
                     ->placeholder('Informe a categoria'),
-                Forms\Components\Section::make()
-                    ->relationship('services')
-                    ->schema([
-                        Forms\Components\Select::make('services')
-                            ->label('Escolha o serviço')
-                            ->placeholder('Veja as opções')
-                            ->live()
-                            ->preload()
-                            ->options(function (Get $get) {
-                                if (!$get('category_id')) {
-                                    return [];
+
+                Forms\Components\Select::make('service_id')
+                    ->label('Escolha o serviço')
+                    ->placeholder('Veja as opções')
+                    ->live()
+                    ->preload()
+                    ->options(function (Get $get) {
+                        if (!$get('category_id')) {
+                            return [];
+                        }
+                        return Service::where('category_id', $get('category_id'))
+                            ->get()
+                            ->mapWithKeys(function ($service) {
+                                $user = auth()->user();
+                                $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
+
+                                if ($user->balance < $service->rate) {
+                                    $label = "{$service->name} - R$ {$rateFormatted} (saldo insuficiente)";
+                                } else {
+                                    $label = "{$service->name} - R$ {$rateFormatted}";
                                 }
 
-                                $user = auth()->user();
-
-                                return Service::where('category_id', $get('category_id'))
-                                    ->get()
-                                    ->mapWithKeys(function ($service) use ($user) {
-                                        $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
-
-                                        // Verifica se o usuário tem saldo suficiente
-                                        if ($user->balance < $service->rate) {
-                                            $label = "{$service->name} - R$ {$rateFormatted} (saldo insuficiente)";
-                                        } else {
-                                            $label = "{$service->name} - R$ {$rateFormatted}";
-                                        }
-
-                                        return [$service->id => $label];
-                                    })
-                                    ->toArray();
+                                return [$service->id => $label];
                             })
-                    ])
-                    ->maxItems(1)
+                            ->toArray();
+                    })
                     ->searchable()
-                    ->multiple()
                     ->required(),
 
 
@@ -78,22 +70,22 @@ class SaleResource extends Resource
                         'md' => 2
                     ])
                     ->schema([
-                        Forms\Components\TextInput::make('totalValue')
+                        Forms\Components\TextInput::make('quantity')
                             ->label('Quantidade')
                             ->minValue(function (Get $get) {
 
-                                if ($get('services')) {
-                                    $services = Service::find($get('services'))->toArray();
+                                if ($get('service_id')) {
+                                    $service = Service::find($get('service_id'));
 
-                                    return $services[0]['min'];
+                                    return $service->min;
                                 }
 
                             })
                             ->placeholder(function (Get $get) {
-                                if ($get('services')) {
-                                    $services = Service::find($get('services'))->toArray();
+                                if ($get('service_id')) {
+                                    $services = Service::find($get('service_id'));
 
-                                    return 'Quantidade mínima: ' . $services[0]['min'];
+                                    return 'Quantidade mínima: ' . $services->min;
                                 }
 
                             })
@@ -121,22 +113,15 @@ class SaleResource extends Resource
 //            })
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Cliente')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('totalValue')
-                    ->numeric()
+                    ->label('Valor')
+                    ->money('BRL', 100)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('link')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
