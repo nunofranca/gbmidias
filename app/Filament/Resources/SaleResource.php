@@ -80,15 +80,16 @@ class SaleResource extends Resource
 
                                 if ($get('services')) {
                                     $services = Service::find($get('services'))->toArray();
-                                    dd($services[0]['min']);
+
                                     return $services[0]['min'];
                                 }
 
                             })
                             ->placeholder(function (Get $get) {
                                 if ($get('services')) {
-                                    $services = Service::find($get('services'));
-                                    return 'Quantidade mínima: ' . $services->min;
+                                    $services = Service::find($get('services'))->toArray();
+                                    
+                                    return 'Quantidade mínima: ' . $services[0]['min'];
                                 }
 
                             })
