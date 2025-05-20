@@ -64,6 +64,7 @@ class SaleResource extends Resource
                     })
 
                     ->searchable()
+                    ->multiple()
                     ->required(),
 
 

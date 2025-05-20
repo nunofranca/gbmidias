@@ -45,7 +45,7 @@ class Service extends Model
         return  $this->belongsTo(Category::class);
     }
 
-    public function sale():BelongsToMany
+    public function sales():BelongsToMany
     {
         return $this->belongsToMany(Sale::class)->withPivot('quantity', 'valueUnity');
     }
