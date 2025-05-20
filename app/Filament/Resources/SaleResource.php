@@ -34,7 +34,7 @@ class SaleResource extends Resource
                     ->label('Categoria')
                     ->options(Category::get()->pluck('name', 'id'))
                     ->placeholder('Informe a categoria'),
-                Forms\Components\Select::make('services')
+                Forms\Components\Select::make('service_id')
                     ->label('Escolha o serviço')
                     ->placeholder('Veja as opções')
                     ->live()
