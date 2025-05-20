@@ -43,27 +43,12 @@ class TransactionResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('value')
-                    ->numeric()
+                    ->money('BRL', 100)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('correlationID')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('comment')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('paymentLinkUrl')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('qrCodeImage')
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
