@@ -8,9 +8,11 @@
                 type="text"
                 value="{{ $paymentLink }}"
                 readonly
-                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-black bg-white"
                 onclick="this.select(); document.execCommand('copy')"
+                style="background-color: white; color: black; border: 1px solid #ccc; padding: 10px; font-size: 14px; width: 100%;"
             />
+
+
             <small class="text-gray-500">Clique no código para copiar</small>
         </div>
     </div>
