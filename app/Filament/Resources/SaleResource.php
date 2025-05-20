@@ -34,35 +34,38 @@ class SaleResource extends Resource
                     ->label('Categoria')
                     ->options(Category::get()->pluck('name', 'id'))
                     ->placeholder('Informe a categoria'),
-                Forms\Components\Select::make('services')
-                    ->label('Escolha o serviço')
-                    ->placeholder('Veja as opções')
-                    ->live()
-                    ->preload()
-                    ->relationship('services', 'name', function (Get $get){
-                        if (!$get('category_id')) {
-                            return [];
-                        }
-
-                        $user = auth()->user();
-
-                        return Service::where('category_id', $get('category_id'))
-                            ->get()
-                            ->mapWithKeys(function ($service) use ($user) {
-                                $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
-
-                                // Verifica se o usuário tem saldo suficiente
-                                if ($user->balance < $service->rate) {
-                                    $label = "{$service->name} - R$ {$rateFormatted} (saldo insuficiente)";
-                                } else {
-                                    $label = "{$service->name} - R$ {$rateFormatted}";
+                Forms\Components\Section::make()
+                    ->relationship('services')
+                    ->schema([
+                        Forms\Components\Select::make('services')
+                            ->label('Escolha o serviço')
+                            ->placeholder('Veja as opções')
+                            ->live()
+                            ->preload()
+                            ->options(function (Get $get) {
+                                if (!$get('category_id')) {
+                                    return [];
                                 }
 
-                                return [$service->id => $label];
-                            })
-                            ->toArray();
+                                $user = auth()->user();
 
-                    })
+                                return Service::where('category_id', $get('category_id'))
+                                    ->get()
+                                    ->mapWithKeys(function ($service) use ($user) {
+                                        $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
+
+                                        // Verifica se o usuário tem saldo suficiente
+                                        if ($user->balance < $service->rate) {
+                                            $label = "{$service->name} - R$ {$rateFormatted} (saldo insuficiente)";
+                                        } else {
+                                            $label = "{$service->name} - R$ {$rateFormatted}";
+                                        }
+
+                                        return [$service->id => $label];
+                                    })
+                                    ->toArray();
+                            })
+                    ])
                     ->maxItems(1)
                     ->searchable()
                     ->multiple()
