@@ -62,7 +62,7 @@ class SaleResource extends Resource
                             })
                             ->toArray();
                     })
-
+                    ->maxItems(1)
                     ->searchable()
                     ->multiple()
                     ->required(),
