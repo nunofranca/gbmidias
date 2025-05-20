@@ -39,9 +39,7 @@ class SaleResource extends Resource
                     ->placeholder('Veja as opções')
                     ->live()
                     ->preload()
-                    ->relationship('services', 'name')
-
-                    ->options(function (Get $get) {
+                    ->relationship('services', 'name', function (Get $get){
                         if (!$get('category_id')) {
                             return [];
                         }
@@ -63,6 +61,7 @@ class SaleResource extends Resource
                                 return [$service->id => $label];
                             })
                             ->toArray();
+
                     })
                     ->maxItems(1)
                     ->searchable()
