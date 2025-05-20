@@ -80,6 +80,7 @@ class SaleResource extends Resource
 
                                 if ($get('services')) {
                                     $services = Service::find($get('services'));
+                                    dd($services);
                                     return $services[0]->min;
                                 }
 
