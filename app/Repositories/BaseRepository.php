@@ -8,7 +8,7 @@ abstract class BaseRepository
 {
     public function __construct(protected Model $model)
     {
-        
+
     }
 
 
@@ -31,5 +31,12 @@ abstract class BaseRepository
     public function getById($id)
     {
       return $this->model->find($id);
+    }
+
+    public function update($id, $payload)
+    {
+        $model = $this->model->find($id);
+
+        $model->update($payload);
     }
 }

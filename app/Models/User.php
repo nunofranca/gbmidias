@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -57,12 +57,13 @@ class User extends Authenticatable implements FilamentUser
     {
         return true;
     }
-    public function sales():HasMany
+
+    public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);
     }
 
-    public function transactions():HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }

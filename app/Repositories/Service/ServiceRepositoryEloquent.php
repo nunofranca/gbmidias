@@ -26,5 +26,5 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
       return $this->model->where('id', $id)->orWhere('name', $id)->first();
     }
 
-   
+
 }

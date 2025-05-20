@@ -2,6 +2,9 @@
 namespace App\Services\Service;
 
 
+use App\Models\Service;
+use App\Models\User;
+
 interface ServiceServiceInterface
 {
     public function index();
@@ -9,4 +12,6 @@ interface ServiceServiceInterface
     public function getByCategory($category);
 
     public function getById($id);
+
+    public function modifyRateWithPercent(Service $service, string $percent);
 }

@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -40,6 +41,20 @@ class PainelPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make()
+                    ->label('GB Proxy')
+                    ->url('https://www.gbproxys.com.br/')
+                    ->icon('heroicon-o-book-open')
+                    ->group('Links Úteis')
+                    ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->label('Suporte')
+                    ->url('https://wa.me/808089')
+                    ->icon('heroicon-o-book-open')
+                    ->group('Links Úteis')
+                    ->openUrlInNewTab(),
             ])
             ->middleware([
                 EncryptCookies::class,

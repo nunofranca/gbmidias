@@ -16,17 +16,19 @@ class Sale extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'link', 'quantity','totalValue', 'valueUnity', 'service_id'];
+    protected $fillable = ['user_id', 'link', 'quantity','totalValue', 'valueUnity', 'service_id', 'status'];
 
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function services():BelongsTo
+    public function service():BelongsTo
     {
+
         return $this->belongsTo(Service::class);
     }
+
 
 
 

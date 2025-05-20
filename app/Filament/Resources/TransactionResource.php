@@ -30,14 +30,9 @@ class TransactionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-//            ->modifyQueryUsing(function (Builder $builder) {
-//                return $builder->when(Auth::user()->hasRole('ADMIN'), function () use ($builder) {
-//                    return $builder;
-//
-//                }, function () use ($builder) {
-//                    return $builder->where('user_id', Auth::id());
-//                });
-//            })
+            ->modifyQueryUsing(fn(Builder $query) => Auth::user()->hasRole('ADMIN') ?
+                $query :
+                $query->where('user_id', Auth::id()))
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
