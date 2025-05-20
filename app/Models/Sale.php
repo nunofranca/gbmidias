@@ -28,4 +28,8 @@ class Sale extends Model
         return $this->belongsToMany(Service::class)->withPivot('quantity', 'valueUnity');
     }
 
+    protected $casts = [
+        'services' => 'array',
+    ];
+
 }
