@@ -79,8 +79,8 @@ class SaleResource extends Resource
                             ->minValue(function (Get $get) {
 
                                 if ($get('services')) {
-                                    $services = Service::find($get('services'));
-                                    return $services->min;
+                                    $services = Service::find($get('services')[0]);
+                                    return $services[0]->min;
                                 }
 
                             })
