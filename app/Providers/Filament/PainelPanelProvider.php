@@ -55,6 +55,18 @@ class PainelPanelProvider extends PanelProvider
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->label('Instagram')
+                    ->url('https://wa.me/5589981465875?text=Opa,+preciso+de+suporte?')
+                    ->icon('heroicon-o-book-open')
+                    ->group('Links Úteis')
+                    ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->label('Como funciona')
+                    ->url('https://youtube.com/shorts/_98Vbia7MTY?si=DAZmAW0q0r5rYBr9 ')
+                    ->icon('heroicon-o-book-open')
+                    ->group('Links Úteis')
+                    ->openUrlInNewTab(),
             ])
             ->middleware([
                 EncryptCookies::class,
