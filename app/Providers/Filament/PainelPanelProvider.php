@@ -51,13 +51,14 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Suporte')
-                    ->url('https://wa.me/808089')
+                    ->url('https://wa.me/5589981465875?text=Opa,+preciso+de+suporte?')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
-                    ->url('https://wa.me/5589981465875?text=Opa,+preciso+de+suporte?')
+
+                    ->url('https://www.instagram.com/gbmidiassocias?igsh=MWxibTcyY3RvdHludg%3D%3D&utm_source=qr')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
