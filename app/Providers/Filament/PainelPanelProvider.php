@@ -52,7 +52,7 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Suporte')
-                    ->url('https://wa.me/5589981465875?text=Opa,+preciso+de+suporte?')
+                    ->url('https://wa.me/5511918204396?text=Opa,+preciso+de+suporte')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),

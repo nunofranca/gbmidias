@@ -1,7 +1,7 @@
 <x-filament-panels::page.simple>
     <div style="position: relative; width: 100%; max-width: 360px; margin: auto; height: 0; padding-bottom: 177.77%; overflow: hidden;">
         <iframe
-            src="https://www.youtube.com/embed/_98Vbia7MTY?si=qptjwJ3RZzmp4Iv4"
+            src="https://youtube.com/shorts/dNQXlfe6LEA?si=glFoY5iYFZPNHKzC"
             frameborder="0"
             allowfullscreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
