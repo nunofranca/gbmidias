@@ -2,16 +2,25 @@
 
 namespace App\Observers;
 
+use App\Models\Tenant;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Request;
 class UserObserver
 {
+
+    public function creating(User $user)
+    {
+        $url =  Request::getHost();
+        $tenant = Tenant::where('url', $url)->first();
+
+        $user->tenant_id = $tenant->id;
+    }
     /**
      * Handle the User "created" event.
      */
     public function created(User $user): void
     {
-        $user->assignRole('ADMIN');
+       $user->assignRole('CLIENT');
     }
 
     /**

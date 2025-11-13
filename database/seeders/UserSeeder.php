@@ -13,18 +13,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-       $nuno = User::create([
-            'name' => 'Nuno França',
-            'email' => 'teste@gmail.com',
-            'password' => '123123123'
-        ]);
-       $nuno->assignRole('ADMIN');
 
-        $gb = User::create([
-            'name' => 'GB Mídias',
-            'email' => 'paulodofacebok@gmail.com',
-            'password' => 'Cavalo10'
-        ]);
-        $gb->assignRole('ADMIN');
+        User::withoutEvents(function (){
+            $nuno = User::create([
+                'name' => 'Nuno França',
+                'email' => 'teste@gmail.com',
+                'password' => '123123123'
+            ]);
+            $nuno->assignRole('ADMIN');
+
+            $gb = User::create([
+                'name' => 'GB Mídias',
+                'email' => 'paulodofacebok@gmail.com',
+                'password' => 'Cavalo10'
+            ]);
+            $gb->assignRole('ADMIN');
+        });
+
     }
 }
