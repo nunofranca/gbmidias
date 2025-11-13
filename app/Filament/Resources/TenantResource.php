@@ -61,6 +61,10 @@ class TenantResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('QRCODE')
+                    ->visible(function (Tenant $tenant){
+                        return $tenant->status == StatusPaymentEnum::PENDING->value;
+                    })
+                    ->label('Ver WRcode')
                     ->modalHeading('Pagamento PIX')
                     ->modalSubmitActionLabel('Pagar')
                     ->modalCancelActionLabel('Fechar')
