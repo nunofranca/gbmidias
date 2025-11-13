@@ -46,11 +46,7 @@ class TenantResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('status'),
                 Tables\Columns\TextColumn::make('message')
-
-                    ->default(function (Tenant $tenant){
-                        if($tenant->status == StatusPaymentEnum::PAID) return 'Aguarde 24h';
-                        return '';
-                    })
+                    ->label('Mensagem')
                     ->searchable(),
 
 

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('paymentLinkUrl');
             $table->longText('qrCodeImage');
             $table->string('status')->default(StatusPaymentEnum::PENDING->value);
+            $table->string('message')->nullable();
             $table->softDeletesTz();
             $table->timestampsTz();
         });

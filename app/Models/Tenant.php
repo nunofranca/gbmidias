@@ -25,7 +25,8 @@ class Tenant extends Model
         'paymentLinkUrl',
         'correlationID',
         'value',
-        'qrCodeImage'
+        'qrCodeImage',
+        'message'
     ];
 
     public function user(): BelongsTo

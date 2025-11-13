@@ -177,6 +177,9 @@ class WebHooksController extends Controller
         $transaction = Transaction::where('correlationID', $payload['id'])->first() ?? Tenant::where('correlationID', $payload['id'])->first();
 
         $transaction->update(['status' => StatusPaymentEnum::PAID]);
+        if($transaction instanceof Tenant){
+            $transaction->update(['message' => 'Aguarde 24h']);
+        }
 
        // $this->whatsAppService->sendText(['phone' => $transaction->sale->client->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
 
