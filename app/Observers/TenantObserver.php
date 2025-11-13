@@ -11,14 +11,9 @@ class TenantObserver
     /**
      * Handle the Tenant "created" event.
      */
-    public function created(Tenant $tenant): void
+    public function creating(Tenant $tenant): void
     {
-        User::withoutEvents(function () use ($tenant){
-           $user = Auth::user();
-           $user->update([
-               'tenant_id' => $tenant->id
-           ]);
-        });
+        $tenant->user_id = $tenant->user_id ?? Auth::id();
     }
 
     /**

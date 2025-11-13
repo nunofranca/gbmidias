@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,9 +14,9 @@ class Tenant extends Model
 
     protected $fillable = ['name', 'url', 'status', 'user_id'];
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
-        return  $this->hasMany(User::class);
+        return $this->BelongsTo(User::class);
     }
 
     protected function casts(): array
