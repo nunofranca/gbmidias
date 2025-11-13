@@ -10,10 +10,7 @@ class UserObserver
 
     public function creating(User $user)
     {
-        $url =  Request::getHost();
-        $tenant = Tenant::where('url', $url)->first();
-
-        $user->tenant_id = $tenant->id;
+    
     }
     /**
      * Handle the User "created" event.
