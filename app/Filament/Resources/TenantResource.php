@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
 use App\Models\Tenant;
+use Faker\Provider\en_UG\PhoneNumber;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class TenantResource extends Resource
 {
@@ -35,6 +37,13 @@ class TenantResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query){
+                $query->when(Auth::user()->hasRole('ADMIN'), function ($query){
+                   return $query->where('id', Auth::id());
+                }, function ($query){
+                    return $query;
+                });
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
