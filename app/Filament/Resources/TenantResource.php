@@ -60,7 +60,7 @@ class TenantResource extends Resource
                 //
             ])
             ->actions([
-                Action::make('QRCODE')
+                Tables\Actions\Action::make('QRCODE')
                     ->modalHeading('Pagamento PIX')
                     ->modalSubmitActionLabel('Pagar')
                     ->modalCancelActionLabel('Fechar')
