@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\StatusPaymentEnum;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
 use App\Models\Tenant;
@@ -45,6 +46,9 @@ class TenantResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('status'),
                 Tables\Columns\TextColumn::make('message')
+                    ->visible(function (Tenant $tenant) {
+                        return $tenant->status = StatusPaymentEnum::PAID;
+                    })
                     ->default('Aguarde 24h')
                     ->searchable(),
 
