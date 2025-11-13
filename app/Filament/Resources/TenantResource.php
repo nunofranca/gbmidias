@@ -39,6 +39,7 @@ class TenantResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name')
+                            ->searchable()
                             ->visible(function () {
                                 return Auth::user()->hasRole('ADMIN');
                             })
