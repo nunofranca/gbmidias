@@ -45,6 +45,8 @@ class TenantResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('status'),
 
+
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()

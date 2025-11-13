@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\StatusPaymentEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration {
             $table->string('comment')->nullable();
             $table->string('paymentLinkUrl');
             $table->longText('qrCodeImage');
-            $table->string('status')->default('Aguardando Pagamento');
+            $table->string('status')->default(StatusPaymentEnum::PENDING->value);
             $table->softDeletesTz();
             $table->timestampsTz();
         });

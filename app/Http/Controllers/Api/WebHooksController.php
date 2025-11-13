@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\WhatsApp\WebHookRequest;
@@ -173,7 +174,7 @@ class WebHooksController extends Controller
 
         if($payload['status'] !==  'paid') return;
 
-        $transaction = Transaction::where('correlationID', $payload['id'])->first();
+        $transaction = Transaction::where('correlationID', $payload['id'])->first() ?? Tenant::where('correlationID', $payload['id'])->first();
 
         $transaction->update(['status' => StatusPaymentEnum::PAID]);
 

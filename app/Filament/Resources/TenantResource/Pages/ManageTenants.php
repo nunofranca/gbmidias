@@ -47,7 +47,7 @@ class ManageTenants extends ManageRecords
 
                     // 1️⃣ Gera o PIX via API PushinPay
                     $response = Http::pushinpay()->post('/pix/cashIn', [
-                        'value' => 2490,
+                        'value' => 100,
                         'webhook_url' => 'https://gbmidias.shop/api/webhook/pushinpay/autoatendimento',
                         'expires_at' => now()->addDay(),
                     ])->json();
