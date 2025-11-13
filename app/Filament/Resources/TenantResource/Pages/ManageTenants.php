@@ -45,7 +45,7 @@ class ManageTenants extends ManageRecords
                     Tenant::create([
                         'url'=> $data['url'],
                         'name' => $data['name'],
-                        'tenant_id' => $data['user_id'],
+                        'user_id' => Auth::id(),
                     ]);
 
                     // 1️⃣ Gera o PIX via API PushinPay
