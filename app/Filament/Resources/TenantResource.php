@@ -40,6 +40,7 @@ class TenantResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name')
                             ->searchable()
+                            ->preload()
                             ->visible(function () {
                                 return Auth::user()->hasRole('ADMIN');
                             })
