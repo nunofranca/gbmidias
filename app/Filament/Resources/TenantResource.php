@@ -54,7 +54,7 @@ class TenantResource extends Resource
                 $query->when(Auth::user()->hasRole('ADMIN'), function ($query) {
                     return $query;
                 }, function ($query) {
-                    return $query->where('id', Auth::id());
+                    return $query->where('user_id', Auth::id());
                 });
             })
             ->columns([

@@ -11,10 +11,17 @@ class Tenant extends Model
 {
     use  SoftDeletes;
 
-    protected $fillable = ['name', 'url'];
+    protected $fillable = ['name', 'url', 'status', 'user_id'];
 
     public function user():BelongsTo
     {
         return  $this->hasMany(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
     }
 }
