@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->boolean('status')->default(false);
             $table->softDeletesTz();
             $table->timestampsTz();
