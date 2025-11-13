@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('url');
+            $table->integer('value');
             $table->foreignId('user_id')->constrained();
             $table->string('correlationID');
             $table->string('comment')->nullable();

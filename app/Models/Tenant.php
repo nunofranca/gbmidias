@@ -20,6 +20,7 @@ class Tenant extends Model
         'name',
         'url',
         'status',
+        'value',
         'user_id',
         'paymentLinkUrl',
         'correlationID',
