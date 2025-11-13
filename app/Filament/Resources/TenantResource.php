@@ -71,7 +71,7 @@ class TenantResource extends Resource
                         ])
                     ])
                     ->visible(function (Tenant $tenant) {
-                        return $tenant->status == StatusPaymentEnum::PAID->value and Auth::user()->hasRole('SUPER ADMIN');
+                        return $tenant->status == StatusPaymentEnum::PAID->value and Auth::user()->hasRole('SUPER');
                     })
                     ->action(function (array $data, Tenant $tenant) {
 
