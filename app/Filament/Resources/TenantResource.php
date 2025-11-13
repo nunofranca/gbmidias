@@ -6,6 +6,7 @@ use App\Enum\StatusPaymentEnum;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
 use App\Models\Tenant;
+use App\Models\User;
 use Faker\Provider\en_UG\PhoneNumber;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -70,7 +71,7 @@ class TenantResource extends Resource
                         ])
                     ])
                     ->visible(function (Tenant $tenant) {
-                        return $tenant->status == StatusPaymentEnum::PAID->value;
+                        return $tenant->status == StatusPaymentEnum::PAID->value and Auth::user()->hasRole('SUPER ADMIN');
                     })
                     ->action(function (array $data, Tenant $tenant) {
 
