@@ -60,8 +60,24 @@ class TenantResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('status')
+                    ->label('Aprovar')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                        ->options([
+                            'recusado' => 'RECUSAR',
+                            'aprovado' => 'APROVAR',
+                        ])
+                    ])
+                    ->visible(function (Tenant $tenant) {
+                        return $tenant->status == StatusPaymentEnum::PAID->value;
+                    })
+                    ->action(function (array $data, Tenant $tenant) {
+
+                        $tenant->update(['status' => $data['status'], 'message' => $data['status']]);
+                    }),
                 Tables\Actions\Action::make('QRCODE')
-                    ->visible(function (Tenant $tenant){
+                    ->visible(function (Tenant $tenant) {
                         return $tenant->status == StatusPaymentEnum::PENDING->value;
                     })
                     ->label('Ver QRcode')
@@ -76,7 +92,7 @@ class TenantResource extends Resource
             ])
             ->bulkActions([
 
-            ]);
+    ]);
     }
 
     public static function getPages(): array
