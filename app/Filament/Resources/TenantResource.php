@@ -23,30 +23,8 @@ class TenantResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make()
-                    ->columns([
-                        'md' => 3,
-                        'sm' => 3,
-                        'lg' => 3
-                    ])->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('url')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\Select::make('user_id')
-                            ->relationship('user', 'name')
-                            ->searchable(['email', 'name'])
-                            ->preload()
-                            ->visible(function () {
-                                return Auth::user()->hasRole('ADMIN');
-                            })
-                    ])
+        return $form;
 
-            ]);
     }
 
     public static function table(Table $table): Table

@@ -3,8 +3,14 @@
 namespace App\Filament\Resources\TenantResource\Pages;
 
 use App\Filament\Resources\TenantResource;
+use App\Models\Transaction;
 use Filament\Actions;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ManageTenants extends ManageRecords
 {
@@ -13,7 +19,45 @@ class ManageTenants extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+
+            Actions\CreateAction::make()
+                ->label('Ativa loja')
+                ->form([
+                    TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('url')
+                        ->required()
+                        ->maxLength(255),
+                    Select::make('user_id')
+                        ->relationship('user', 'name')
+                        ->searchable(['email', 'name'])
+                        ->preload()
+                        ->visible(function () {
+                            return Auth::user()->hasRole('ADMIN');
+                        })
+                ])
+                ->modalHeading('Pagamento PIX')
+                ->modalSubmitActionLabel('Gerar')
+                ->modalCancelActionLabel('Fechar')
+                ->action(function (array $data, Actions\Action $action): void {
+
+                    // 1️⃣ Gera o PIX via API PushinPay
+                    $response = Http::pushinpay()->post('/pix/cashIn', [
+                        'value' => 2490,
+                        'webhook_url' => 'https://gbmidias.shop/api/webhook/pushinpay/autoatendimento',
+                        'expires_at' => now()->addDay(),
+                    ])->json();
+                    $qrCode = $response['qr_code_base64'] ?? null;
+                    $paymentLink = $response['qr_code'] ?? null;
+
+                    $action->modalHeading('Pagamento PIX - QR Code');
+                    $action->modalContent(fn() => view('qrcode', [
+                        'qrCode' => $qrCode,
+                        'paymentLink' => $paymentLink,
+                    ]));
+                    $action->halt();
+                }),
         ];
     }
 }

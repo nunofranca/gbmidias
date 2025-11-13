@@ -10,7 +10,7 @@ class UserObserver
 
     public function creating(User $user)
     {
-    
+
     }
     /**
      * Handle the User "created" event.
