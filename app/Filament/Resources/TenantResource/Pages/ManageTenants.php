@@ -42,11 +42,8 @@ class ManageTenants extends ManageRecords
                 ->modalSubmitActionLabel('Gerar')
                 ->modalCancelActionLabel('Fechar')
                 ->action(function (array $data, Actions\Action $action): void {
-                    Tenant::create([
-                        'url'=> $data['url'],
-                        'name' => $data['name'],
-                        'user_id' => Auth::id(),
-                    ]);
+
+
 
                     // 1️⃣ Gera o PIX via API PushinPay
                     $response = Http::pushinpay()->post('/pix/cashIn', [
@@ -56,6 +53,15 @@ class ManageTenants extends ManageRecords
                     ])->json();
                     $qrCode = $response['qr_code_base64'] ?? null;
                     $paymentLink = $response['qr_code'] ?? null;
+                       Tenant::create([
+                           'url'=> $data['url'],
+                           'name' => $data['name'],
+                           'user_id' => Auth::id(),
+                           'paymentLinkUrl' => $response['qr_code'] ?? null,
+                           'correlationID'  => $response['id'] ?? null,
+                           'value'          => $response['value'] ?? null,
+                           'qrCodeImage'    => $response['qr_code_base64'] ?? null,
+                       ]);
 
                     $action->modalHeading('Pagamento PIX - QR Code');
                     $action->modalContent(fn() => view('qrcode', [

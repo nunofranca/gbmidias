@@ -15,6 +15,10 @@ return new class extends Migration {
             $table->string('name');
             $table->string('url');
             $table->foreignId('user_id')->constrained();
+            $table->string('paymentLinkUrl');
+            $table->string('correlationID');
+            $table->string('value');
+            $table->string('qrCodeImage');
             $table->string('status')->default('Aguardando Pagamento');
             $table->softDeletesTz();
             $table->timestampsTz();

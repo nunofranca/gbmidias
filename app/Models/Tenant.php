@@ -16,7 +16,16 @@ class Tenant extends Model
 {
     use  SoftDeletes;
 
-    protected $fillable = ['name', 'url', 'status', 'user_id'];
+    protected $fillable = [
+        'name',
+        'url',
+        'status',
+        'user_id',
+        'paymentLinkUrl',
+        'correlationID',
+        'value',
+        'qrCodeImage'
+    ];
 
     public function user(): BelongsTo
     {
