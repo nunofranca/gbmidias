@@ -44,6 +44,9 @@ class TenantResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('status'),
+                Tables\Columns\TextColumn::make('message')
+                    ->default('Aguarde 24h')
+                    ->searchable(),
 
 
 

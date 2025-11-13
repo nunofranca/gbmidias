@@ -44,9 +44,7 @@ class TransactionResource extends Resource
 
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('message')
-                    ->default('Aguarde 24h')
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
