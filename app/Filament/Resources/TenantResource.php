@@ -7,6 +7,7 @@ use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
 use App\Models\Tenant;
 use Faker\Provider\en_UG\PhoneNumber;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -50,7 +51,6 @@ class TenantResource extends Resource
                     ->searchable(),
 
 
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
@@ -60,13 +60,18 @@ class TenantResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('QRCODE')
+                    ->modalHeading('Pagamento PIX')
+                    ->modalSubmitActionLabel('Pagar')
+                    ->modalCancelActionLabel('Fechar')
+                    ->modalHeading('Pagamento PIX - QR Code')
+                    ->modalContent(fn(Tenant $tenant) => view('qrcode', [
+                        'qrCode' => $tenant->qrCodeImage,
+                        'paymentLink' => $tenant->paymentLink,
+                    ]))
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ]);
     }
 
