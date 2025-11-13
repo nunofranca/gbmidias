@@ -55,7 +55,7 @@ class TenantResource extends Resource
                     return $query;
                 }, function ($query) {
                     return $query->where('user_id', Auth::id());
-                });
+                })->get();
             })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
