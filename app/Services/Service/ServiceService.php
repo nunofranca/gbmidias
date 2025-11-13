@@ -5,6 +5,7 @@ namespace App\Services\Service;
 
 use App\Models\Service;
 use App\Repositories\Service\ServiceRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 
@@ -35,9 +36,19 @@ class ServiceService implements ServiceServiceInterface
 
 
         $coast = (int) Str::remove(['.', ' ', ','], $service->coast);
-        $payload = [
-            'rate' =>  (int)round(($coast * $percent)/100)+$coast,
-        ];
+        $rate = (int) Str::remove(['.', ' ', ','], $service->rate);
+
+        if(Auth::user()->hasRole('SUPER')){
+            $payload = [
+                'rate' =>  (int)round(($coast * $percent)/100)+$coast,
+            ];
+        }
+        if(Auth::user()->hasRole('ADMIN')){
+            $payload = [
+                'rate' =>  (int)round(($rate * $percent)/100)+$rate,
+            ];
+        }
+
 
 
 

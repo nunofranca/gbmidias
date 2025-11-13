@@ -19,9 +19,11 @@ class TenantObserver
     /**
      * Handle the Tenant "updated" event.
      */
-    public function updated(Tenant $tenant): void
+    public function created(Tenant $tenant): void
     {
-        //
+        $tenant->user->removeRole('CLIENT');
+        $tenant->user->assignRole(['ADMIN']);
+
     }
 
     /**

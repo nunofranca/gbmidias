@@ -29,7 +29,8 @@ class Service extends Model
         'refill',
         'cancel',
         'category',
-        'status'
+        'status',
+        'user_id'
     ];
     protected function casts(): array
     {
@@ -49,6 +50,11 @@ class Service extends Model
     public function sales():HasMany
     {
         return $this->hasMany(Sale::class);
+    }
+
+    public function user():BelongsTo
+    {
+        return  $this->belongsTo(User::class);
     }
 
 }

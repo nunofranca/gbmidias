@@ -35,7 +35,7 @@ class ServiceResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('rate')
-                    ->label('Valoe')
+                    ->label('Valor')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('min')
@@ -62,7 +62,6 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-            
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
                     ->searchable(),
@@ -72,9 +71,9 @@ class ServiceResource extends Resource
                     Tables\Columns\TextColumn::make('coast')
                     ->label('Custo')
                     ->money('BRL', 100)
-                    ->searchable(),            
+                    ->searchable(),
                 Tables\Columns\TextInputColumn::make('rate')
-                     ->label('Venda')                
+                     ->label('Venda')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('min')
                     ->label('Compra mínima')
@@ -86,10 +85,10 @@ class ServiceResource extends Resource
                 //
             ])
             ->actions([
-              
+
             ])
             ->bulkActions([
-               
+
             ]);
     }
 
