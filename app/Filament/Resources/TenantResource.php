@@ -47,7 +47,7 @@ class TenantResource extends Resource
                     ->label('status'),
                 Tables\Columns\TextColumn::make('message')
                     ->visible(function (Tenant $tenant) {
-                        return $tenant->status = StatusPaymentEnum::PAID;
+                        return $tenant->status == StatusPaymentEnum::PAID;
                     })
                     ->default('Aguarde 24h')
                     ->searchable(),
