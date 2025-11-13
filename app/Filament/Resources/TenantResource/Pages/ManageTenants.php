@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TenantResource\Pages;
 
 use App\Filament\Resources\TenantResource;
+use App\Models\Tenant;
 use App\Models\Transaction;
 use Filament\Actions;
 use Filament\Forms\Components\Select;
@@ -41,6 +42,11 @@ class ManageTenants extends ManageRecords
                 ->modalSubmitActionLabel('Gerar')
                 ->modalCancelActionLabel('Fechar')
                 ->action(function (array $data, Actions\Action $action): void {
+                    Tenant::create([
+                        'url'=> $data['url'],
+                        'name' => $data['name'],
+                        'tenant_id' => $data['user_id'],
+                    ]);
 
                     // 1️⃣ Gera o PIX via API PushinPay
                     $response = Http::pushinpay()->post('/pix/cashIn', [
