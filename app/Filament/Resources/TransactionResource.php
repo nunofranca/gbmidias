@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Models\Tenant;
 use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -42,6 +43,9 @@ class TransactionResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('message')
+                    ->default('Aguarde 24h')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
