@@ -25,23 +25,35 @@ class TenantResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('url')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Grid::make()
+                    ->columns([
+                        'md' => 3,
+                        'sm' => 3,
+                        'lg' => 3
+                    ])->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('url')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('users', 'name')
+                            ->visible(function () {
+                                return Auth::user()->hasRole('ADMIN');
+                            })
+                    ])
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function (Builder $query){
-                $query->when(Auth::user()->hasRole('ADMIN'), function ($query){
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->when(Auth::user()->hasRole('ADMIN'), function ($query) {
                     return $query;
-
-                }, function ($query){
+                }, function ($query) {
                     return $query->where('id', Auth::id());
                 });
             })

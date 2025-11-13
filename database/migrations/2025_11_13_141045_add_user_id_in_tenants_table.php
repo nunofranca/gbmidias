@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('tenant_id')->unsigned()->after('id');
+        Schema::table('tenants', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->after('id');
         });
     }
 
