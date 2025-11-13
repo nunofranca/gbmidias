@@ -22,11 +22,4 @@ class Tenant extends Model
     {
         return $this->BelongsTo(User::class);
     }
-
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-        ];
-    }
 }
