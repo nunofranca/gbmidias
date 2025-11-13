@@ -64,14 +64,14 @@ class TenantResource extends Resource
                     ->visible(function (Tenant $tenant){
                         return $tenant->status == StatusPaymentEnum::PENDING->value;
                     })
-                    ->label('Ver WRcode')
+                    ->label('Ver QRcode')
                     ->modalHeading('Pagamento PIX')
                     ->modalSubmitActionLabel('Pagar')
                     ->modalCancelActionLabel('Fechar')
                     ->modalHeading('Pagamento PIX - QR Code')
                     ->modalContent(fn(Tenant $tenant) => view('qrcode', [
                         'qrCode' => $tenant->qrCodeImage,
-                        'paymentLink' => $tenant->paymentLink,
+                        'paymentLink' => $tenant->paymentLinkUrl,
                     ]))
             ])
             ->bulkActions([
