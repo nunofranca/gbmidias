@@ -13,7 +13,7 @@ class ServicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('SUPER');
+        return $user->hasRole(['SUPER', 'ADMIN']);
     }
 
     /**
@@ -29,7 +29,7 @@ class ServicePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('SUPER');
+        return $user->hasRole(['SUPER', 'ADMIN']);
     }
 
     /**
@@ -37,7 +37,7 @@ class ServicePolicy
      */
     public function update(User $user, Service $service): bool
     {
-        return $user->hasRole('SUPER');
+        return $user->hasRole(['SUPER', 'ADMIN']);
     }
 
     /**

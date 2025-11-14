@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ServiceResource extends Resource
@@ -61,6 +62,9 @@ class ServiceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->where('user_id', Auth::id());
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
