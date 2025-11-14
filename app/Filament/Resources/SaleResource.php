@@ -32,29 +32,29 @@ class SaleResource extends Resource
     {
         return $form
             ->schema([
-                 Forms\Components\Select::make('category_id')
-                ->label('Categoria')
-                ->live() // ou ->reactive() nas versões mais novas do Filament
-                ->placeholder('Informe a categoria')
-                ->options(function () {
-                    $categories = Category::query()
-                        ->withMin('services', 'rate') // cria a coluna virtual `services_min_rate`
-                        // empurra categorias SEM serviços para o final e ordena pelas mais baratas
-                        ->orderByRaw('CASE WHEN services_min_rate IS NULL THEN 1 ELSE 0 END')
-                        ->orderBy('services_min_rate')
-                        ->get(['id', 'name']);
+                Forms\Components\Select::make('category_id')
+                    ->label('Categoria')
+                    ->live() // ou ->reactive() nas versões mais novas do Filament
+                    ->placeholder('Informe a categoria')
+                    ->options(function () {
+                        $categories = Category::query()
+                            ->withMin('services', 'rate') // cria a coluna virtual `services_min_rate`
+                            // empurra categorias SEM serviços para o final e ordena pelas mais baratas
+                            ->orderByRaw('CASE WHEN services_min_rate IS NULL THEN 1 ELSE 0 END')
+                            ->orderBy('services_min_rate')
+                            ->get(['id', 'name']);
 
-                    return $categories->mapWithKeys(function ($cat) {
-                        $label = $cat->services_min_rate !== null
-                            ? sprintf('%s — a partir de R$ %s',
-                                $cat->name,
-                                number_format($cat->services_min_rate / 100, 2, ',', '.')
-                              )
-                            : sprintf('%s — sem serviços', $cat->name);
+                        return $categories->mapWithKeys(function ($cat) {
+                            $label = $cat->services_min_rate !== null
+                                ? sprintf('%s — a partir de R$ %s',
+                                    $cat->name,
+                                    number_format($cat->services_min_rate / 100, 2, ',', '.')
+                                )
+                                : sprintf('%s — sem serviços', $cat->name);
 
-                        return [$cat->id => $label];
-                    })->toArray();
-                }),
+                            return [$cat->id => $label];
+                        })->toArray();
+                    }),
 
                 Forms\Components\Select::make('service_id')
                     ->label('Escolha o serviço')
@@ -65,17 +65,21 @@ class SaleResource extends Resource
                         if (!$get('category_id')) {
                             return [];
                         }
-                   
+
                         $tenant = Tenant::where('url', request()->getHost())->first();
-                        return Service::where('category_id', $get('category_id'))
-                            ->where('user_id',  $tenant->user_id)
-                            ->get()
+                        return Service::when(!Auth::user()->hasRole('SUPER'), function (Builder $query) use ($tenant, $get) {
+                            return $query->where('category_id', $get('category_id'))
+                                ->where('user_id', $tenant->user_id);
+                        }, function ($query) use ($get) {
+                            return $query->where('category_id', $get('category_id'))
+                                ->where('user_id', 2);
+                        })->get()
                             ->mapWithKeys(function ($service) {
 
                                 $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
 
 
-                                    $label = "{$service->name} - R$ {$rateFormatted}";
+                                $label = "{$service->name} - R$ {$rateFormatted}";
 
 
                                 return [$service->id => $label];
@@ -93,11 +97,11 @@ class SaleResource extends Resource
                     ])
                     ->schema([
                         Forms\Components\TextInput::make('quantity')
-                        ->reactive()
-                            ->label(function(Get $get){
+                            ->reactive()
+                            ->label(function (Get $get) {
 
                                 $serviceId = $get('service_id');
-                                $quantity  = $get('quantity') ?? 0;
+                                $quantity = $get('quantity') ?? 0;
 
                                 if (!$serviceId) {
                                     return "Quantidade: Valor R$ 0,00";
@@ -110,7 +114,7 @@ class SaleResource extends Resource
 
                                 $total = ($service->rate / 100) * $quantity; // rate vem em centavos
 
-                                return "Quantidade: Valor R$ " . number_format($total/1000, 2, ',', '.') ?? 0;
+                                return "Quantidade: Valor R$ " . number_format($total / 1000, 2, ',', '.') ?? 0;
                             })
                             ->minValue(function (Get $get) {
 
@@ -144,8 +148,7 @@ class SaleResource extends Resource
     {
 
         return $table
-                ->defaultSort('created_at', 'desc')
-
+            ->defaultSort('created_at', 'desc')
             ->modifyQueryUsing(fn(Builder $query) => Auth::user()->hasRole('ADMIN') ?
                 $query :
                 $query->where('user_id', Auth::id()))
