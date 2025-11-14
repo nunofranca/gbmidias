@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -42,6 +43,13 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query){
+                $query->when(Auth::user()->hasRole('SUPER'), function ($query){
+                    return $query;
+                }, function ($query){
+                    return $query->where('id', Auth::id());
+                });
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
