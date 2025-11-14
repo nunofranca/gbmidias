@@ -28,7 +28,7 @@ class Service extends Model
         'dripfeed',
         'refill',
         'cancel',
-        'category',
+        'category_id',
         'status',
         'user_id'
     ];
