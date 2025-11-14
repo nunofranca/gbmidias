@@ -27,7 +27,7 @@ class SetUserInServicesTable extends Command
      */
     public function handle()
     {
-        $user = User::find(1);
+        $user = User::find(2);
 
          Service::get()->each(function (Service $service) use ($user) {
             $service->update(['user_id' => $user->id]);
