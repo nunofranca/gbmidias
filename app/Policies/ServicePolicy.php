@@ -13,8 +13,8 @@ class ServicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['SUPER', 'ADMIN'])
-            && $user->tenants()->where('status', 'aprovado')->exists();
+        return $user->hasRole('SUPER') || ($user->hasRole('ADMIN')
+            && $user->tenants()->where('status', 'aprovado')->exists());
     }
 
     /**
