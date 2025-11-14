@@ -42,7 +42,7 @@ class ServiceService implements ServiceServiceInterface
 
 
             $payload = [
-                'rate' =>  (int)round(($coast * $percent)/100)+$rate,
+                'rate' =>  (int)round(($coast * $percent)/100),
             ];
 
 
