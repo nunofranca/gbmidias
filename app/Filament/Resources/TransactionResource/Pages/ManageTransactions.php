@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TransactionResource\Pages;
 
 use App\Filament\Resources\TransactionResource;
+use App\Models\Tenant;
 use App\Models\Transaction;
 use Filament\Actions;
 use Filament\Forms\Components\TextInput;
@@ -36,7 +37,7 @@ class ManageTransactions extends ManageRecords
                 ->modalCancelActionLabel('Fechar')
                 ->action(function (array $data, Actions\Action $action): void {
                     $host = request()->getHost();
-                    dd($host);
+                    $tenant = Tenant::where('url', $host)->first();
                     // 1️⃣ Gera o PIX via API PushinPay
                     $response = Http::pushinpay()->post('/pix/cashIn', [
                         'value' => Str::remove(['.', '-', ' '], $data['balance']) * 100,
@@ -45,25 +46,26 @@ class ManageTransactions extends ManageRecords
                     ])->json();
 
                     // 2️⃣ Captura UTMs da session
-                    $utm_source   = session('utm_source');
-                    $utm_medium   = session('utm_medium');
+                    $utm_source = session('utm_source');
+                    $utm_medium = session('utm_medium');
                     $utm_campaign = session('utm_campaign');
-                    $utm_term     = session('utm_term');
-                    $utm_content  = session('utm_content');
-                    $xcod         = session('xcod');
+                    $utm_term = session('utm_term');
+                    $utm_content = session('utm_content');
+                    $xcod = session('xcod');
 
                     // 3️⃣ Salva a transação no banco
                     $transaction = Transaction::create([
                         'paymentLinkUrl' => $response['qr_code'] ?? null,
-                        'correlationID'  => $response['id'] ?? null,
-                        'value'          => $response['value'] ?? null,
-                        'qrCodeImage'    => $response['qr_code_base64'] ?? null,
-                        'utm_source'     => $utm_source,
-                        'utm_medium'     => $utm_medium,
-                        'utm_campaign'   => $utm_campaign,
-                        'utm_term'       => $utm_term,
-                        'utm_content'    => $utm_content,
-                        'xcod'           => $xcod,
+                        'correlationID' => $response['id'] ?? null,
+                        'value' => $response['value'] ?? null,
+                        'qrCodeImage' => $response['qr_code_base64'] ?? null,
+                        'tenant_id' => $tenant->id,
+                        'utm_source' => $utm_source,
+                        'utm_medium' => $utm_medium,
+                        'utm_campaign' => $utm_campaign,
+                        'utm_term' => $utm_term,
+                        'utm_content' => $utm_content,
+                        'xcod' => $xcod,
                     ]);
 
                     // 4️⃣ Monta payload para a UTMify
@@ -126,7 +128,7 @@ class ManageTransactions extends ManageRecords
                     $paymentLink = $response['qr_code'] ?? null;
 
                     $action->modalHeading('Pagamento PIX - QR Code');
-                    $action->modalContent(fn () => view('qrcode', [
+                    $action->modalContent(fn() => view('qrcode', [
                         'qrCode' => $qrCode,
                         'paymentLink' => $paymentLink,
                     ]));
