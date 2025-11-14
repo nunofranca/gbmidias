@@ -16,6 +16,7 @@ class TenantSeeder extends Seeder
         Tenant::create([
             'name' => 'GBMidias',
             'url'=> 'www.gbmidias.com',
+            'user_id'=> 1
         ]);
     }
 }

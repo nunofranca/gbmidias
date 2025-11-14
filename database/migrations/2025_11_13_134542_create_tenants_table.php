@@ -15,12 +15,12 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->integer('value');
+            $table->integer('value')->nullable();
             $table->foreignId('user_id')->constrained();
-            $table->string('correlationID');
+            $table->string('correlationID')->nullable();
             $table->string('comment')->nullable();
-            $table->string('paymentLinkUrl');
-            $table->longText('qrCodeImage');
+            $table->string('paymentLinkUrl')->nullable();
+            $table->longText('qrCodeImage')->nullable();
             $table->string('status')->default(StatusPaymentEnum::PENDING->value);
             $table->string('message')->nullable();
             $table->softDeletesTz();

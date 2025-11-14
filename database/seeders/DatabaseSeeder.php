@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             ServiceSeeder::class,
-            Tenant::class,
+            TenantSeeder::class,
         ]);
     }
 }
