@@ -28,7 +28,7 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
 
     public function modifyRateWithPercent($user, $id, $payload): void
     {
-        $model = $this->model->where('user_id', $user->d)->where('id', $id)->first();
+        $model = $this->model->where('user_id', $user->id)->where('id', $id)->first();
 
         $model->update($payload);
     }
