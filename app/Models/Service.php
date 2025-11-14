@@ -29,6 +29,7 @@ class Service extends Model
         'refill',
         'cancel',
         'category_id',
+        'category',
         'status',
         'user_id'
     ];
