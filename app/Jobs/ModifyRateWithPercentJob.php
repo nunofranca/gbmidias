@@ -15,7 +15,7 @@ class ModifyRateWithPercentJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(protected Service $service, protected string $percent)
+    public function __construct(protected User $user, protected Service $service, protected string $percent)
     {
         //
     }
@@ -26,7 +26,7 @@ class ModifyRateWithPercentJob implements ShouldQueue
     public function handle(ServiceServiceInterface $serviceService): void
     {
 
-        $serviceService->modifyRateWithPercent($this->service, $this->percent);
+        $serviceService->modifyRateWithPercent($this->user, $this->service, $this->percent);
 
     }
 }

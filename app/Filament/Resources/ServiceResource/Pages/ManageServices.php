@@ -9,6 +9,7 @@ use App\Services\Service\ServiceServiceInterface;
 use Filament\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Support\Facades\Auth;
 
 class ManageServices extends ManageRecords
 {
@@ -29,7 +30,7 @@ class ManageServices extends ManageRecords
                 ->action(function (array $data, ServiceServiceInterface $serviceService): void {
                     $services = $serviceService->index();
                     $services->each(fn($service) =>
-                    ModifyRateWithPercentJob::dispatch($service, $data['percent'])
+                    ModifyRateWithPercentJob::dispatch(Auth::user(), $service, $data['percent'])
                         ->onQueue('gbmidias-default'));
                 })
         ];

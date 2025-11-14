@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Service;
 
 
@@ -13,5 +14,5 @@ interface ServiceServiceInterface
 
     public function getById($id);
 
-    public function modifyRateWithPercent(Service $service, string $percent);
+    public function modifyRateWithPercent(User $user, Service $service, string $percent);
 }

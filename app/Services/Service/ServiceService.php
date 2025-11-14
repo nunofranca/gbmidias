@@ -4,6 +4,7 @@ namespace App\Services\Service;
 
 
 use App\Models\Service;
+use App\Models\User;
 use App\Repositories\Service\ServiceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -31,19 +32,19 @@ class ServiceService implements ServiceServiceInterface
         return $this->serviceRepository->getById($id);
     }
 
-    public function modifyRateWithPercent(Service $service, string $percent)
+    public function modifyRateWithPercent(User $user, Service $service, string $percent)
     {
 
 
         $coast = (int) Str::remove(['.', ' ', ','], $service->coast);
         $rate = (int) Str::remove(['.', ' ', ','], $service->rate);
 
-        if(Auth::user()->hasRole('SUPER')){
+        if($user->hasRole('SUPER')){
             $payload = [
                 'rate' =>  (int)round(($coast * $percent)/100)+$coast,
             ];
         }
-        if(Auth::user()->hasRole('ADMIN')){
+        if($user->hasRole('ADMIN')){
             $payload = [
                 'rate' =>  (int)round(($rate * $percent)/100)+$rate,
             ];
