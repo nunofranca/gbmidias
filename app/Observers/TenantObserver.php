@@ -25,14 +25,6 @@ class TenantObserver
         $tenant->user->removeRole('CLIENT');
         $tenant->user->assignRole(['ADMIN']);
 
-        $services = Service::where('user_id', 2)->get();
-        collect($services)->map(function ($service) use ($tenant) {
-
-            $service->user_id = $tenant->user->id;
-            $service->cost = $service->rate;
-            $service->rate  =  (int)round($service->rate * 1.5);
-            Service::create($service->toArray());
-        });
 
     }
 

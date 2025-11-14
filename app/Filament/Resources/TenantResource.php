@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enum\StatusPaymentEnum;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
+use App\Models\Service;
 use App\Models\Tenant;
 use App\Models\User;
 use Faker\Provider\en_UG\PhoneNumber;
@@ -79,6 +80,17 @@ class TenantResource extends Resource
                     ->action(function (array $data, Tenant $tenant) {
 
                         $tenant->update(['status' => $data['status'], 'message' => $data['status']]);
+                        if($data['status']== 'aprovado'){
+
+                            $services = Service::where('user_id', 2)->get();
+                            collect($services)->map(function ($service) use ($tenant) {
+
+                                $service->user_id = $tenant->user->id;
+                                $service->coast = $service->rate;
+                                $service->rate  =  (int)round($service->rate * 1.5);
+                                Service::create($service->toArray());
+                            });
+                        }
                     }),
                 Tables\Actions\Action::make('QRCODE')
                     ->visible(function (Tenant $tenant) {
