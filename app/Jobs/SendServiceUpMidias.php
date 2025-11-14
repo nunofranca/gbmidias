@@ -27,23 +27,23 @@ class SendServiceUpMidias implements ShouldQueue
     public function handle(ServiceServiceInterface $serviceService): void
     {
 
-        if($this->sale->totalValue > $this->sale->user->balance) return;
+        if ($this->sale->totalValue > $this->sale->user->balance) return;
 
         $service = $serviceService->getById($this->sale->service_id);
 
-       Http::upmidias()->post('/', [
+        Http::upmidias()->post('/', [
             'key' => config('upmidias.token'),
-           "action"=> "add"  ,
-           "service"=> $service->service,
-           "link" => $this->sale->link,
-           "quantity"=> $this->sale->quantity
+            "action" => "add",
+            "service" => $service->service,
+            "link" => $this->sale->link,
+            "quantity" => $this->sale->quantity
         ])->json();
 
-       $this->sale->user->decrement('balance',  $this->sale->totalValue);
+        $this->sale->user->decrement('balance', $this->sale->totalValue);
 
-       $userStore = $this->sale->service->user;
-       $commission = $this->sale->service->rate - $this->sale->service->coast;
-       $userStore->increment('balance', $commission);
+        $userStore = $this->sale->service->user;
+        $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - $this->sale->service->coast;
+        $userStore->increment('balance', $commission);
 
     }
 }
