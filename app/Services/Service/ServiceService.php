@@ -39,16 +39,12 @@ class ServiceService implements ServiceServiceInterface
         $coast = (int) Str::remove(['.', ' ', ','], $service->coast);
         $rate = (int) Str::remove(['.', ' ', ','], $service->rate);
 
-        if($user->hasRole('SUPER')){
+
+
             $payload = [
-                'rate' =>  (int)round(($coast * $percent)/100)+$coast,
+                'rate' =>  (int)round(($coast * $percent)/100)+$rate,
             ];
-        }
-        if($user->hasRole('ADMIN')){
-            $payload = [
-                'rate' =>  (int)round(($rate * $percent)/100)+$rate,
-            ];
-        }
+
 
 
 

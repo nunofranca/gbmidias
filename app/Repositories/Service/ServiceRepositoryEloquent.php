@@ -4,6 +4,7 @@ namespace App\Repositories\Service;
 
 use App\Models\Service;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 
 class ServiceRepositoryEloquent extends BaseRepository implements ServiceRepositoryInterface
@@ -12,7 +13,10 @@ class ServiceRepositoryEloquent extends BaseRepository implements ServiceReposit
     {
         parent::__construct($service);
     }
-
+    public function index()
+    {
+        return $this->model->where('user_id', Auth::id())->get();
+    }
 
     public function getByCategory($category)
     {
