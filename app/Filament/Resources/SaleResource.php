@@ -7,6 +7,7 @@ use App\Filament\Resources\SaleResource\RelationManagers;
 use App\Models\Category;
 use App\Models\Sale;
 use App\Models\Service;
+use App\Models\Tenant;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -42,7 +43,7 @@ class SaleResource extends Resource
                         ->orderByRaw('CASE WHEN services_min_rate IS NULL THEN 1 ELSE 0 END')
                         ->orderBy('services_min_rate')
                         ->get(['id', 'name']);
-            
+
                     return $categories->mapWithKeys(function ($cat) {
                         $label = $cat->services_min_rate !== null
                             ? sprintf('%s — a partir de R$ %s',
@@ -50,7 +51,7 @@ class SaleResource extends Resource
                                 number_format($cat->services_min_rate / 100, 2, ',', '.')
                               )
                             : sprintf('%s — sem serviços', $cat->name);
-            
+
                         return [$cat->id => $label];
                     })->toArray();
                 }),
@@ -64,15 +65,17 @@ class SaleResource extends Resource
                         if (!$get('category_id')) {
                             return [];
                         }
+                        $tenant = Tenant::where('name', request()->getHost())->first();
                         return Service::where('category_id', $get('category_id'))
+                            ->where('user_id',  $tenant->user_id)
                             ->get()
                             ->mapWithKeys(function ($service) {
-                                $user = auth()->user();
+
                                 $rateFormatted = number_format($service->rate / 100, 2, ',', '.');
 
-                              
+
                                     $label = "{$service->name} - R$ {$rateFormatted}";
-                               
+
 
                                 return [$service->id => $label];
                             })
@@ -91,21 +94,21 @@ class SaleResource extends Resource
                         Forms\Components\TextInput::make('quantity')
                         ->reactive()
                             ->label(function(Get $get){
-                            
+
                                 $serviceId = $get('service_id');
                                 $quantity  = $get('quantity') ?? 0;
-                        
+
                                 if (!$serviceId) {
                                     return "Quantidade: Valor R$ 0,00";
                                 }
-                        
+
                                 $service = Service::find($serviceId);
                                 if (!$service || !$quantity) {
                                     return "Quantidade: Valor R$ 0,00";
                                 }
-                        
+
                                 $total = ($service->rate / 100) * $quantity; // rate vem em centavos
-                        
+
                                 return "Quantidade: Valor R$ " . number_format($total/1000, 2, ',', '.') ?? 0;
                             })
                             ->minValue(function (Get $get) {
@@ -141,7 +144,7 @@ class SaleResource extends Resource
 
         return $table
                 ->defaultSort('created_at', 'desc')
-        
+
             ->modifyQueryUsing(fn(Builder $query) => Auth::user()->hasRole('ADMIN') ?
                 $query :
                 $query->where('user_id', Auth::id()))
