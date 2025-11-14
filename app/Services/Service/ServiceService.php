@@ -53,7 +53,7 @@ class ServiceService implements ServiceServiceInterface
 
 
 
-        return $this->serviceRepository->update($service->id, $payload);
+        return $this->serviceRepository->modifyRateWithPercent($user, $service->id, $payload);
     }
 
 
