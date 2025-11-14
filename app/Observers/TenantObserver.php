@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Service;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,14 @@ class TenantObserver
     {
         $tenant->user->removeRole('CLIENT');
         $tenant->user->assignRole(['ADMIN']);
+
+        $services = Service::where('user_id', 2);
+        collect($services)->map(function ($service) use ($tenant) {
+            $service->user_id = $tenant->user->id;
+            $service->cost = $service->rate;
+            $service->rate  =  (int)round($service->rate * 1.5);
+            Service::create($service);
+        });
 
     }
 

@@ -35,7 +35,7 @@ class ManageTenants extends ManageRecords
                         ->searchable(['email', 'name'])
                         ->preload()
                         ->visible(function () {
-                            return Auth::user()->hasRole('ADMIN');
+                            return Auth::user()->hasRole('SUPER');
                         })
                 ])
                 ->modalHeading('Pagamento PIX')
