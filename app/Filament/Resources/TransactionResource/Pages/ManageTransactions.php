@@ -35,7 +35,8 @@ class ManageTransactions extends ManageRecords
                 ->modalSubmitActionLabel('Gerar')
                 ->modalCancelActionLabel('Fechar')
                 ->action(function (array $data, Actions\Action $action): void {
-
+                    $host = request()->getHost();
+                    dd($host);
                     // 1️⃣ Gera o PIX via API PushinPay
                     $response = Http::pushinpay()->post('/pix/cashIn', [
                         'value' => Str::remove(['.', '-', ' '], $data['balance']) * 100,

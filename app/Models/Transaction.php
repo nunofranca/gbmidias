@@ -22,7 +22,8 @@ class Transaction extends Model
         'comment',
         'paymentLinkUrl',
         'qrCodeImage',
-        'status'
+        'status',
+        'tenant_id'
     ];
 
     public function user():BelongsTo
