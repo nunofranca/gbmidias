@@ -37,7 +37,7 @@ class TenantResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
-                $query->when(Auth::user()->hasRole('ADMIN'), function ($query) {
+                $query->when(Auth::user()->hasRole('SUPER'), function ($query) {
                     return $query;
                 }, function ($query) {
                     return $query->where('user_id', Auth::id());
