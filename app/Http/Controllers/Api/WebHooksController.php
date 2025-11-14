@@ -179,8 +179,8 @@ class WebHooksController extends Controller
         $transaction->update(['status' => StatusPaymentEnum::PAID]);
         if($transaction instanceof Tenant){
             $transaction->update(['message' => 'Aguarde 24h']);
+            return;
         }
-
        // $this->whatsAppService->sendText(['phone' => $transaction->sale->client->phone, 'text' => "Obrigado\n\nSeu pagamento foi confirmado. Fique atento ao seu whatsapp para, pois vamos te manter atualizado a respeito do evento"]);
 
     }

@@ -40,5 +40,10 @@ class SendServiceUpMidias implements ShouldQueue
         ])->json();
 
        $this->sale->user->decrement('balance',  $this->sale->totalValue);
+
+       $userStore = $this->sale->service->user;
+       $commission = $this->sale->service->rate - $this->sale->service->coast;
+       $userStore->increment('balance', $commission);
+
     }
 }
