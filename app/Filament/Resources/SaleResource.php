@@ -65,7 +65,8 @@ class SaleResource extends Resource
                         if (!$get('category_id')) {
                             return [];
                         }
-                        $tenant = Tenant::where('name', request()->getHost())->first();
+                   
+                        $tenant = Tenant::where('url', request()->getHost())->first();
                         return Service::where('category_id', $get('category_id'))
                             ->where('user_id',  $tenant->user_id)
                             ->get()
