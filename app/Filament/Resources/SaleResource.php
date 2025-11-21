@@ -67,7 +67,7 @@ class SaleResource extends Resource
                         }
 
 
-                        return Service::when(!Auth::user()->hasRole('SUPER'), function (Builder $query) use ($tenant, $get) {
+                        return Service::when(!Auth::user()->hasRole('SUPER'), function (Builder $query) use ($get) {
                             $tenant = Tenant::where('url', request()->getHost() || 'gbmidias.com.br')->first();
                             return $query->where('category_id', $get('category_id'))
                                 ->where('user_id', $tenant->user_id);
