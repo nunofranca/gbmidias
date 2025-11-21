@@ -69,7 +69,7 @@ class SaleResource extends Resource
 
                         return Service::when(!Auth::user()->hasRole('SUPER'), function (Builder $query) use ($get) {
                             $tenant = Tenant::where('url', request()->getHost() || 'gbmidias.shop')->first();
-                            dd($tenant);
+                     
                             return $query->where('category_id', $get('category_id'))
                                 ->where('user_id', $tenant->user_id);
                         }, function ($query) use ($get) {
