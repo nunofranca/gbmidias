@@ -72,7 +72,7 @@ class SaleResource extends Resource
                                 ->where('user_id', $tenant->user_id);
                         }, function ($query) use ($get) {
                             return $query->where('category_id', $get('category_id'))
-                                ->where('user_id', 2);
+                                ->where('user_id', Auth::id());
                         })->get()
                             ->mapWithKeys(function ($service) {
 
