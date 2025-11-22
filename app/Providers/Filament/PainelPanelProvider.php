@@ -36,7 +36,7 @@ class PainelPanelProvider extends PanelProvider
             ->first();
         return $panel
             ->brandLogo(function () use ($tenant) {
-               
+
                 return $tenant->user->config
                     ? asset('storage/' . $tenant->user->config->logo)
                     : null;
@@ -79,6 +79,7 @@ class PainelPanelProvider extends PanelProvider
                     ->url(fn() => SaleResource::getUrl())
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
+                    ->sort(2)
                     ->group('Pedidos'),
                 NavigationItem::make('Realizar Saque')
                     // Use forPanel() to set the context before calling getUrl()
