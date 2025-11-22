@@ -36,7 +36,6 @@ class PainelPanelProvider extends PanelProvider
                 $tenant = Tenant::with('user.config')
                     ->where('url', request()->getHost())
                     ->first();
-                dd($tenant->user);
                 return $tenant->user->config
                     ? asset('storage/' . $tenant->user->config->logo)
                     : null;
