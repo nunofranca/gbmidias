@@ -47,11 +47,7 @@ class WithdrawResource extends Resource
 
 
                             })
-                            ->default('10,00')
                             ->intFormat()
-                            ->maxValue(function () {
-                                return number_format(Auth::user()->balance / 100, 2, ',', '.');
-                            })
                             ->prefix('R$')
                             ->label(function () {
                                 return 'Informe o valor do saque: Valor mínimo R$ 10,00';
