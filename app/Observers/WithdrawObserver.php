@@ -20,7 +20,7 @@ class WithdrawObserver
 
         $withdraw->user_id = Auth::id();
         $withdraw->value = Str::remove(['.', '-', ',', ' '], $withdraw->value);
-      
+
 
     }
 
