@@ -14,10 +14,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Leandrocfe\FilamentPtbrFormFields\Currencies\BRL;
 use Leandrocfe\FilamentPtbrFormFields\Money;
 use Illuminate\Support\Facades\Auth;
+use function Ramsey\Uuid\v1;
 
 class WithdrawResource extends Resource
 {
@@ -109,8 +111,8 @@ class WithdrawResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('change')
-                    ->visible(function (){
-                        return Auth::user()->hasRole('SUPER');
+                    ->visible(function (Withdraw $withdraw) {
+                        return Auth::user()->hasRole('SUPER') and $withdraw->status == StatusWithdrawEnum::PENDING->value;
                     })
                     ->label('Gerenciar')
                     ->form([
@@ -122,17 +124,25 @@ class WithdrawResource extends Resource
                                 StatusWithdrawEnum::PAID->value => 'PAGO',
                                 StatusWithdrawEnum::RECUSED->value => 'RECUSADO',
                             ]),
-                         Forms\Components\FileUpload::make('proof')
-                             ->visible(function (Get $get){
-                                 return $get('status') === StatusWithdrawEnum::PAID->value;
-                             })
-                             ->nullable(function (Get $get){
-                                 return $get('status') === StatusWithdrawEnum::RECUSED->value;
-                             })
-                             ->label('Comprovante'),
-                    ])->action(function (array $data, Withdraw $withdraw){
-                       $withdraw->update($data);
+                        Forms\Components\FileUpload::make('proof')
+                            ->visible(function (Get $get) {
+                                return $get('status') === StatusWithdrawEnum::PAID->value;
+                            })
+                            ->nullable(function (Get $get) {
+                                return $get('status') === StatusWithdrawEnum::RECUSED->value;
+                            })
+                            ->label('Comprovante'),
+                    ])->action(function (array $data, Withdraw $withdraw) {
+                        $withdraw->update($data);
                     }),
+                Tables\Actions\Action::make('download')
+                    ->label('Baixar comprovante')
+                    ->visible(function (Withdraw $withdraw) {
+                        return Auth::user()->hasRole(['SUPER', 'ADMIN']) and $withdraw->status == StatusWithdrawEnum::PAID->value;
+                    })
+                    ->action(function (Withdraw $withdraw) {
+                        return Storage::download($withdraw->proof);
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
