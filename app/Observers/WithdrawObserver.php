@@ -20,7 +20,7 @@ class WithdrawObserver
     }
     public function created(Withdraw $withdraw): void
     {
-        $withdraw->user->decrement('value', $withdraw->value);
+        $withdraw->user->decrement('balance', $withdraw->value);
     }
 
 
