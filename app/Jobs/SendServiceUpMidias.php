@@ -27,7 +27,10 @@ class SendServiceUpMidias implements ShouldQueue
     public function handle(ServiceServiceInterface $serviceService): void
     {
 
-        if ($this->sale->totalValue > $this->sale->user->balance) return;
+        if ($this->sale->totalValue > $this->sale->user->balance) {
+            $this->sale->update(['status' => 'Cancelado - Sem crédidos']);
+            return;
+        };
 
         $service = $serviceService->getById($this->sale->service_id);
 
@@ -43,7 +46,7 @@ class SendServiceUpMidias implements ShouldQueue
 
         VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));
 
-       
+
 
     }
 }
