@@ -39,7 +39,7 @@ class SendServiceUpMidias implements ShouldQueue
             "quantity" => $this->sale->quantity
         ])->json();
 
-        $this->sale->update(['order'=> $order->order]);
+        $this->sale->update(['order'=> $order['order']]);
 
         VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));
 
