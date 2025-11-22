@@ -20,8 +20,8 @@ class TransactionResource extends Resource
     protected static ?string $model = Transaction::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $pluralLabel= 'Saldos';
-    protected static ?string $label= 'Saldo';
+    protected static ?string $pluralLabel= 'Adicionar Saldo';
+    protected static ?string $label= 'Adicionar Saldo';
     protected static ?string $navigationGroup= 'Financeiro';
     protected static ?int $navigationSort= 1;
 
