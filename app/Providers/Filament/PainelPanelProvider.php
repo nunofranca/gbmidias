@@ -33,7 +33,7 @@ class PainelPanelProvider extends PanelProvider
     {
         return $panel
             ->brandLogo(function (){
-                $tenant = Tenant::with('user')->where('url', request()->getHost());
+                $tenant = Tenant::with('user')->where('url', request()->getHost())->first();
                 dd($tenant->user->config);
                 //Vite::asset('resources/images/logo.jpg')
             })
