@@ -16,7 +16,7 @@ class Sale extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'link', 'quantity','totalValue', 'valueUnity', 'service_id', 'status'];
+    protected $fillable = ['user_id', 'link', 'quantity','totalValue', 'valueUnity', 'service_id', 'status', 'order'];
 
     public function user():BelongsTo
     {

@@ -31,7 +31,7 @@ class SendServiceUpMidias implements ShouldQueue
 
         $service = $serviceService->getById($this->sale->service_id);
 
-        Http::upmidias()->post('/', [
+        $order = Http::upmidias()->post('/', [
             'key' => config('upmidias.token'),
             "action" => "add",
             "service" => $service->service,
@@ -39,11 +39,11 @@ class SendServiceUpMidias implements ShouldQueue
             "quantity" => $this->sale->quantity
         ])->json();
 
-        $this->sale->user->decrement('balance', $this->sale->totalValue);
+        $this->sale->update(['order'=> $order->order]);
 
-        $userStore = $this->sale->service->user;
-        $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - $this->sale->service->coast;
-        $userStore->increment('balance', $commission);
+        VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));
+
+       
 
     }
 }
