@@ -30,7 +30,7 @@ class ConfigResource extends Resource
                     ->label('Instagram')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('whatsapp')
-                    ->mask('(55) 99 99999-9999')
+                    ->mask('(55) 99 9 9999-9999')
                     ->label('WhatsApp')
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('logo')
