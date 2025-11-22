@@ -42,12 +42,20 @@ class VerifyStatusSaleJob implements ShouldQueue
                 $this->sale->update(['status' => 'Cancelado']);
                 return;               
             };
+              if($order['status'] == 'Completed'){
+
+                $userStore = $this->sale->service->user;
+                $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - ($this->sale->quantity * ($this->sale->service->coast/1000)) ;
+                $userStore->increment('balance', $commission);
+
+                $this->sale->update(['status' => 'Completo']);
+                            
+            };
+            
 
 
         
 
-        $userStore = $this->sale->service->user;
-        $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - $this->sale->service->coast;
-        $userStore->increment('balance', $commission);
+        
     }
 }
