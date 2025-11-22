@@ -31,37 +31,44 @@ class WithdrawResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
 
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Grid::make()
+                    ->schema([
+                        Money::make('value')
+                            ->currency(BRL::class)
+                            ->live()
+                            ->afterStateUpdated(function (Get $get, callable $set) {
+                                if (Str::remove(['.', ','], $get('value')) > Auth::user()->balance) {
+                                    $set('value', number_format(Auth::user()->balance / 100, 2, ',', '.'));
+                                }
 
-                Money::make('value')
-                    ->currency(BRL::class)
-                    ->live()
-                    ->afterStateUpdated(function (Get $get, callable $set){
-                        if (Str::remove(['.', ','],$get('value')) > Auth::user()->balance){
-                            $set('value', number_format(Auth::user()->balance/100, 2, ',', '.'));
-                        }
 
-
-                    })
-                    ->default('10,00')
-                    ->intFormat()
-
-                    ->maxValue(function(){
-                        return number_format(Auth::user()->balance/100, 2, ',', '.');
-                    })
-                    ->prefix('R$')
-                    ->label(function(){
-                        return 'Informe o valor do saque: Valor mínimo R$ 10,00';
-                    })
-                    ->helperText(function(){
-                        return 'Saldo disponível: R$ ' .  number_format(Auth::user()->balance/100, 2, ',', '.');
-                    })
+                            })
+                            ->default('10,00')
+                            ->intFormat()
+                            ->maxValue(function () {
+                                return number_format(Auth::user()->balance / 100, 2, ',', '.');
+                            })
+                            ->prefix('R$')
+                            ->label(function () {
+                                return 'Informe o valor do saque: Valor mínimo R$ 10,00';
+                            })
+                            ->helperText(function () {
+                                return 'Saldo disponível: R$ ' . number_format(Auth::user()->balance / 100, 2, ',', '.');
+                            })
+                            ->required(),
+                        Forms\Components\TextInput::make('keyPix')
+                            ->live()
+                            ->label('Chave Pix')
+                    ]),
+                Forms\Components\TextInput::make('name')
                     ->columnSpanFull()
-                    ->required(),
+                    ->live()
+                    ->label('Nome completo do titular')
+
 
             ]);
     }
@@ -70,16 +77,16 @@ class WithdrawResource extends Resource
     {
         return $table
             ->defaultSort('created_at', 'desc')
-            ->modifyQueryUsing(function (Builder $query){
-                $query->when(Auth::user()->hasRole('SUPER'), function () use ($query){
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->when(Auth::user()->hasRole('SUPER'), function () use ($query) {
                     return $query;
                 }, function ($query) {
-                   return $query->where('user_id', Auth::id());
+                    return $query->where('user_id', Auth::id());
                 });
             })
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->visible(function (){
+                    ->visible(function () {
                         return Auth::user()->hasRole('SUPER');
                     })
                     ->sortable(),
@@ -90,8 +97,8 @@ class WithdrawResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                ->label('Data da solicitação')
-                ->dateTime('d/m/Y H:i')
+                    ->label('Data da solicitação')
+                    ->dateTime('d/m/Y H:i')
 
             ])
             ->filters([

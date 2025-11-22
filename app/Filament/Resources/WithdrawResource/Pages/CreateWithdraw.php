@@ -12,10 +12,12 @@ use Illuminate\Support\Str;
 class CreateWithdraw extends CreateRecord
 {
     protected static string $resource = WithdrawResource::class;
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function getFormActions(): array
     {
         return [
@@ -23,7 +25,8 @@ class CreateWithdraw extends CreateRecord
                 ->label('Sacar') // ✅ muda o texto
                 ->submit('create')
                 ->disabled(function () {
-                    return Str::remove(['.', ','],  $this->form->getState()['value'])< 1000;
+
+                    return Str::remove(['.', ','], $this->form->getState()['value']) < 1000 || is_null($this->form->getState()['name']) || is_null($this->form->getState()['keyPix']);
 
                 })
                 ->color('primary'),

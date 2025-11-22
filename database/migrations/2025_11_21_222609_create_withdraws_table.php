@@ -14,9 +14,11 @@ return new class extends Migration
     {
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->integer('user_id')->unsigned();
             $table->integer('value');
             $table->string('status')->default(StatusWithdrawEnum::PENDING->value);
+            $table->string('keyPix');
             $table->softDeletes();
             $table->timestampsTz();
         });
