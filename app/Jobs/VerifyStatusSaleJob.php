@@ -31,7 +31,7 @@ class VerifyStatusSaleJob implements ShouldQueue
                 "order" => $this->sale->order
             ])->json();
 
-            if($order['status'] == 'Partial'){
+            if($order['status'] == 'Pending'){
                 VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1)); 
                 return;               
             };
