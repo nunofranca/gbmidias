@@ -44,11 +44,7 @@ class WithdrawResource extends Resource
                         if (Str::remove(['.', ','],$get('value')) > Auth::user()->balance){
                             $set('value', number_format(Auth::user()->balance/100, 2, ',', '.'));
                         }
-                   
-                        if (Str::remove(['.', ','],$get('value')) < 1000){
 
-                            $set('value', number_format(10, 2, ',', '.'));
-                        }
 
                     })
                     ->default('10,00')
@@ -59,7 +55,7 @@ class WithdrawResource extends Resource
                     })
                     ->prefix('R$')
                     ->label(function(){
-                        return 'Informe o valor do saque';
+                        return 'Informe o valor do saque: Valor mínimo R$ 10,00';
                     })
                     ->helperText(function(){
                         return 'Saldo disponível: R$ ' .  number_format(Auth::user()->balance/100, 2, ',', '.');
