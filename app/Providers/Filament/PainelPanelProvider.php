@@ -41,7 +41,7 @@ class PainelPanelProvider extends PanelProvider
                     ? asset('storage/' . $tenant->user->config->logo)
                     : null;
             })
-            ->brandLogoHeight('100px') // opcional
+            ->brandLogoHeight('80px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
 
             ->navigationGroups([
