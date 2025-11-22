@@ -42,7 +42,7 @@ class ManageTenants extends ManageRecords
                             return Auth::user()->hasRole('SUPER');
                         })
                 ])
-                ->modalHeading('Pagamento PIX')
+                ->modalHeading('Pagamento PIX - Valor R$ 24,90')
                 ->modalSubmitActionLabel('Gerar')
                 ->modalCancelActionLabel('Fechar')
                 ->action(function (array $data, Actions\Action $action): void {
