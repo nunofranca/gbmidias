@@ -25,6 +25,8 @@ class SaleResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static bool $shouldRegisterNavigation = false;
 
+    protected static ?string $label = 'Comprar';
+
     public static function form(Form $form): Form
     {
         return $form
