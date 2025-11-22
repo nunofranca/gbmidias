@@ -34,10 +34,11 @@ class PainelPanelProvider extends PanelProvider
         return $panel
             ->brandLogo(function () {
                 $tenant = Tenant::with('user')->where('url', request()->getHost())->first();
-
+                dd($tenant->user->config);
                 return $tenant->user->config
                     ? asset('storage/' . $tenant->user->config->logo)
-                    : null;            })
+                    : null;
+            })
             ->brandLogoHeight('100px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
 
