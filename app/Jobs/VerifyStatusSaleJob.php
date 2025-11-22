@@ -32,7 +32,8 @@ class VerifyStatusSaleJob implements ShouldQueue
             ])->json();
 
             if($order['status'] == 'Partial'){
-                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));                
+                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1)); 
+                return               
             }
 
 
