@@ -51,7 +51,10 @@ class PainelPanelProvider extends PanelProvider
                 NavigationItem::make('Realizar Saque')
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => WithdrawResource::getUrl('create'))
-                    ->visible(Auth::user()->hasRole('ADMIN'))
+                    ->visible(function (){
+
+                        return Auth::user()->hasRole('ADMIN');
+                    })
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
                     ->group('Financeiro'),
