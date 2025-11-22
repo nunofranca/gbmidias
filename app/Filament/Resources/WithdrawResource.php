@@ -110,7 +110,7 @@ class WithdrawResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('change')
                     ->visible(function (){
-                        Auth::user()->hasRole('SUPER');
+                        return Auth::user()->hasRole('SUPER');
                     })
                     ->label('Gerenciar')
                     ->form([
