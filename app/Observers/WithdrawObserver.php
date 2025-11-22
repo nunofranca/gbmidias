@@ -16,8 +16,11 @@ class WithdrawObserver
     public function creating(Withdraw $withdraw): void
     {
 
+
+
         $withdraw->user_id = Auth::id();
         $withdraw->value = Str::remove(['.', '-', ',', ' '], $withdraw->value);
+      
 
     }
 

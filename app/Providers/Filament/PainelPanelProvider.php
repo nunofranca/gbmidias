@@ -47,11 +47,19 @@ class PainelPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->navigationItems([
-              NavigationItem::make('Realizar Saque')
-                // Use forPanel() to set the context before calling getUrl()
-                ->url(fn() => WithdrawResource::getUrl('create'))
-                ->icon('heroicon-o-presentation-chart-line')
-                ->group('Financeiro'),
+                NavigationItem::make('Realizar Saque')
+                    // Use forPanel() to set the context before calling getUrl()
+                    ->url(fn() => WithdrawResource::getUrl('create'))
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
+                    ->group('Financeiro'),
+
+                NavigationItem::make('Histótico de saques')
+                    // Use forPanel() to set the context before calling getUrl()
+                    ->url(fn() => WithdrawResource::getUrl('index'))
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.index'))
+                    ->group('Financeiro'),
 
                 NavigationItem::make()
                     ->label('GB Proxy')
@@ -67,7 +75,6 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
-
                     ->url('https://www.instagram.com/gbmidiassocias?igsh=MWxibTcyY3RvdHludg%3D%3D&utm_source=qr')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')

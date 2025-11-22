@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateWithdraw extends CreateRecord
 {
     protected static string $resource = WithdrawResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

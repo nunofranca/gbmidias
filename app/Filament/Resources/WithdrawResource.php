@@ -7,11 +7,14 @@ use App\Filament\Resources\WithdrawResource\RelationManagers;
 use App\Models\Withdraw;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+use Leandrocfe\FilamentPtbrFormFields\Currencies\BRL;
 use Leandrocfe\FilamentPtbrFormFields\Money;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,9 +28,8 @@ class WithdrawResource extends Resource
     protected static ?string $navigationGroup = 'Financeiro';
 
     protected static ?string $label = 'Histórico de Saques';
+    protected static bool $shouldRegisterNavigation = false;
 
-
-     public static ?string $getNavigationUrl  = 'create';
 
 
     public static function form(Form $form): Form
@@ -36,16 +38,24 @@ class WithdrawResource extends Resource
             ->schema([
 
                 Money::make('value')
-                    ->maxValue(function(){
-                        return 878;
+                    ->currency(BRL::class)
+                    ->live()
+                    ->afterStateUpdated(function (Get $get, callable $set){
+                        if (Str::remove(['.', ','],$get('value')) > Auth::user()->balance){
+                            $set('value', number_format(Auth::user()->balance/100, 2, ',', '.'));
+                        }
+
                     })
-                    ->dehydrateMask()
+                    ->intFormat()
+                    ->maxValue(function(){
+                        return number_format(Auth::user()->balance/100, 2, ',', '.');
+                    })
                     ->prefix('R$')
                     ->label(function(){
                         return 'Informe o valor do saque';
                     })
                     ->helperText(function(){
-                        return 'Saldo disponível: R$ 190,00';
+                        return 'Saldo disponível: R$ ' .  number_format(Auth::user()->balance/100, 2, ',', '.');
                     })
                     ->columnSpanFull()
                     ->required(),
@@ -56,6 +66,7 @@ class WithdrawResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->modifyQueryUsing(function (Builder $query){
                 $query->when(Auth::user()->hasRole('SUPER'), function () use ($query){
                     return $query;
@@ -75,6 +86,9 @@ class WithdrawResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                ->label('Data da solicitação')
+                ->dateTime('d/m/Y H:i')
 
             ])
             ->filters([
