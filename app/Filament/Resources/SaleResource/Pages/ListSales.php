@@ -9,5 +9,9 @@ use Filament\Resources\Pages\ListRecords;
 class ListSales extends ListRecords
 {
     protected static string $resource = SaleResource::class;
+    public function getTitle(): string
+    {
+        return 'Histórico de compras';
+    }
 
 }

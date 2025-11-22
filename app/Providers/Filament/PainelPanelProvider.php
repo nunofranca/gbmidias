@@ -70,13 +70,13 @@ class PainelPanelProvider extends PanelProvider
                 NavigationItem::make('Comprar')
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => SaleResource::getUrl('create'))
-                    ->label('Comprar')
+
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
                     ->sort(1)
                     ->group('Pedidos'),
                 NavigationItem::make('Histórico de Compras')
-                    ->label('Histórico de Compras')
+
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => SaleResource::getUrl())
                     ->icon('heroicon-o-presentation-chart-line')

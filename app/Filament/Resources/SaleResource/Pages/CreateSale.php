@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 class CreateSale extends CreateRecord
 {
     protected static string $resource = SaleResource::class;
+    public function getTitle(): string
+    {
+        return 'Comprar';
+    }
     protected function getFormActions(): array
     {
         return [
