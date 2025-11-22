@@ -34,7 +34,18 @@ class VerifyStatusSaleJob implements ShouldQueue
          
 
             if($order['status'] == 'Pending' || $order['status'] == 'Partial' || $order['status'] == 'Processing' || $order['status'] == 'In progress'){
+                
+
+                $status = match($order['status']){                
+                    'pending' => 'Pendente',
+                    'partial' => 'Parcial',
+                    'processing' => 'Processando',
+                    'in progress' => 'Em andamento',
+                };
+               
+                
                 VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1)); 
+                $this->sale->update(['status' => $status]);
                 return;               
             };
 
