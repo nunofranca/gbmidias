@@ -31,11 +31,11 @@ class PainelPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $tenant = Tenant::with('user.config')
+            ->where('url', request()->getHost())
+            ->first();
         return $panel
-            ->brandLogo(function () {
-                $tenant = Tenant::with('user.config')
-                    ->where('url', request()->getHost())
-                    ->first();
+            ->brandLogo(function () use ($tenant) {
 
                 return $tenant->user->config
                     ? asset('storage/' . $tenant->user->config->logo)
@@ -110,13 +110,13 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Suporte')
-                    ->url('https://wa.me/5511918204396?text=Opa,+preciso+de+suporte')
+                    ->url('https://wa.me/'. $tenant->user->config->whatsapp . '?text=Opa,+preciso+de+suporte')
                     ->icon('heroicon-o-book-open')
-                    ->group('Links Úteis')
-                    ->openUrlInNewTab(),
+        ->group('Links Úteis')
+        ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
-                    ->url('https://www.instagram.com/gbmidiassocias?igsh=MWxibTcyY3RvdHludg%3D%3D&utm_source=qr')
+                    ->url($tenant->user->config->whatsap)
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
@@ -128,18 +128,18 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
             ])
             ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+        EncryptCookies::class,
+        AddQueuedCookiesToResponse::class,
+        StartSession::class,
+        AuthenticateSession::class,
+        ShareErrorsFromSession::class,
+        VerifyCsrfToken::class,
+        SubstituteBindings::class,
+        DisableBladeIconComponents::class,
+        DispatchServingFilamentEvent::class,
+    ])
+        ->authMiddleware([
+            Authenticate::class,
+        ]);
     }
 }
