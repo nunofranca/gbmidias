@@ -25,11 +25,18 @@ class VerifyStatusSaleJob implements ShouldQueue
     {
          //$this->sale->user->decrement('balance', $this->sale->totalValue);
 
-            Http::upmidias()->post('/', [
+          $order = Http::upmidias()->post('/', [
                 'key' => config('upmidias.token'),
                 "action" => "status",
                 "order" => $this->sale->order
             ])->json();
+
+            if($order['status'] == 'Partial'){
+                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));                
+            }
+
+
+        
 
         $userStore = $this->sale->service->user;
         $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - $this->sale->service->coast;
