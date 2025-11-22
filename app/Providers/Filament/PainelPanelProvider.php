@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Login;
 use App\Filament\Pages\Register;
 use App\Filament\Resources\SaleResource;
+use App\Models\Tenant;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -21,6 +22,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Resources\WithdrawResource;
 
@@ -30,6 +32,14 @@ class PainelPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->brandLogo(function (){
+                $tenant = Tenant::with('user')->where('url', request()->getHost())->first();
+                dd($tenant);
+                //Vite::asset('resources/images/logo.jpg')
+            })
+            ->brandLogoHeight('100px') // opcional
+            ->favicon(asset('images/favicon.png')) // opcional
+
             ->navigationGroups([
                 'Financeiro',
                 'Pedidos',
