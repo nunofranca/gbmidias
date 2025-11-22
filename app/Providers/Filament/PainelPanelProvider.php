@@ -19,6 +19,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Resources\WithdrawResource;
 
@@ -50,6 +51,7 @@ class PainelPanelProvider extends PanelProvider
                 NavigationItem::make('Realizar Saque')
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => WithdrawResource::getUrl('create'))
+                    ->visible(Auth::user()->hasRole('ADMIN'))
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
                     ->group('Financeiro'),
