@@ -30,6 +30,10 @@ class PainelPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->navigationGroups([
+                'Financeiro',
+                'Pedidos',
+            ])
             ->default()
             ->id('painel')
             ->path('painel')
@@ -54,6 +58,7 @@ class PainelPanelProvider extends PanelProvider
                     ->url(fn() => SaleResource::getUrl('create'))
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
+                    ->sort(1)
                     ->group('Pedidos'),
                 NavigationItem::make('Histórico de Compras')
                     // Use forPanel() to set the context before calling getUrl()
