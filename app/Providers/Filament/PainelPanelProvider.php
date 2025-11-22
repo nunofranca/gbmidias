@@ -116,7 +116,7 @@ class PainelPanelProvider extends PanelProvider
         ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
-                    ->url($tenant->user->config->whatsap)
+                    ->url($tenant->user->config->instagram)
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
