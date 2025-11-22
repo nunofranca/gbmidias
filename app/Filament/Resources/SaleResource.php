@@ -14,19 +14,16 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
-
 
 class SaleResource extends Resource
 {
     protected static ?string $model = Sale::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $pluralLabel = 'Compras';
-    protected static ?string $label = 'Comprar';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -146,6 +143,7 @@ class SaleResource extends Resource
             ]);
     }
 
+
     public static function table(Table $table): Table
     {
 
@@ -163,7 +161,7 @@ class SaleResource extends Resource
                     ->label('Valor')
                     ->money('BRL', 100)
                     ->sortable(),
-                     Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->sortable(),
 
@@ -176,20 +174,26 @@ class SaleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageSales::route('/'),
+            'index' => Pages\ListSales::route('/'),
+            'create' => Pages\CreateSale::route('/create'),
+            'edit' => Pages\EditSale::route('/{record}/edit'),
         ];
     }
 }

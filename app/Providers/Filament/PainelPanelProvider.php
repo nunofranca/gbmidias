@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
 use App\Filament\Pages\Register;
+use App\Filament\Resources\SaleResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -48,6 +49,18 @@ class PainelPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->navigationItems([
+                NavigationItem::make('Comprar')
+                    // Use forPanel() to set the context before calling getUrl()
+                    ->url(fn() => SaleResource::getUrl('create'))
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
+                    ->group('Pedidos'),
+                NavigationItem::make('Histórico de Compras')
+                    // Use forPanel() to set the context before calling getUrl()
+                    ->url(fn() => SaleResource::getUrl())
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.create'))
+                    ->group('Pedidos'),
                 NavigationItem::make('Realizar Saque')
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => WithdrawResource::getUrl('create'))

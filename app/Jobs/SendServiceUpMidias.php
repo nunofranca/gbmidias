@@ -28,7 +28,7 @@ class SendServiceUpMidias implements ShouldQueue
     {
 
         if ($this->sale->totalValue > $this->sale->user->balance) {
-            $this->sale->update(['status' => 'Cancelado - Sem crédidos']);
+            $this->sale->update(['status' => 'Cancelado - Sem créditos']);
             return;
         };
 
