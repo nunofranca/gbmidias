@@ -163,6 +163,9 @@ class SaleResource extends Resource
                     ->label('Valor')
                     ->money('BRL', 100)
                     ->sortable(),
+                     Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
