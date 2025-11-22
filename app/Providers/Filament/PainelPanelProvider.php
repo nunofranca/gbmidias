@@ -110,7 +110,7 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Suporte')
-                    ->visible(fn() => !is_null($tenant->user->config->whastapp))
+                    ->visible(fn() => filled($tenant?->user?->config?->whatsapp))
                     ->url(
                         $tenant?->user?->config?->whatsapp
                             ? 'https://wa.me/' . $tenant->user->config->whatsapp . '?text=Opa,+preciso+de+suporte'
@@ -121,7 +121,7 @@ class PainelPanelProvider extends PanelProvider
         ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
-                    ->visible(fn() => !is_null($tenant->user->config->instagram))
+                    ->visible(fn() => filled($tenant?->user?->config?->instagram))
                     ->url(!empty($tenant?->user?->config?->instagram) ? $tenant->user->config->instagram : '')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
