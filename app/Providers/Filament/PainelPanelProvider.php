@@ -32,10 +32,10 @@ class PainelPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->brandLogo(function (){
+            ->brandLogo(function () {
                 $tenant = Tenant::with('user')->where('url', request()->getHost())->first();
-                dd($tenant->user->config);
-                //Vite::asset('resources/images/logo.jpg')
+
+                return Vite::asset('resources/images/' . $tenant->user->config) || '';
             })
             ->brandLogoHeight('100px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
@@ -79,7 +79,7 @@ class PainelPanelProvider extends PanelProvider
                 NavigationItem::make('Realizar Saque')
                     // Use forPanel() to set the context before calling getUrl()
                     ->url(fn() => WithdrawResource::getUrl('create'))
-                    ->visible(function (){
+                    ->visible(function () {
 
                         return Auth::user()->hasRole('ADMIN');
                     })
@@ -92,7 +92,7 @@ class PainelPanelProvider extends PanelProvider
                     ->url(fn() => WithdrawResource::getUrl('index'))
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.index'))
-                    ->visible(function (){
+                    ->visible(function () {
 
                         return Auth::user()->hasRole(['ADMIN', 'SUPER']);
                     })
