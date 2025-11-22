@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Actions\Action;
 
 class BalanceOverview extends BaseWidget
 {
@@ -13,7 +14,9 @@ class BalanceOverview extends BaseWidget
         return [
             Stat::make('Seu Saldo R$ ', number_format(Auth::user()->balance/100, 2, '.', ','))
                 ->chart([7, 2, 10, 3, 15, 4, 17])
-                ->color('success'),
+                ->color('success') 
+                
         ];
     }
+ 
 }

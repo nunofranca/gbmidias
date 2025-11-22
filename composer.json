@@ -13,6 +13,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.7",
         "laravel/tinker": "^2.10.1",
+        "leandrocfe/filament-ptbr-form-fields": "^3.0",
         "spatie/laravel-permission": "^6.18"
     },
     "require-dev": {

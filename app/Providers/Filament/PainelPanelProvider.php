@@ -20,6 +20,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Resources\WithdrawResource;
+
 
 class PainelPanelProvider extends PanelProvider
 {
@@ -45,6 +47,12 @@ class PainelPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->navigationItems([
+              NavigationItem::make('Realizar Saque')
+                // Use forPanel() to set the context before calling getUrl()
+                ->url(fn() => WithdrawResource::getUrl('create'))
+                ->icon('heroicon-o-presentation-chart-line')
+                ->group('Financeiro'),
+
                 NavigationItem::make()
                     ->label('GB Proxy')
                     ->url('https://www.gbproxys.com.br/')
