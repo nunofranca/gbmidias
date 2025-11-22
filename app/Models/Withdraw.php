@@ -16,7 +16,7 @@ class Withdraw extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'value', 'status', 'keyPix', 'name'];
+    protected $fillable = ['user_id', 'value', 'status', 'keyPix', 'name', 'proof'];
 
     public function user():BelongsTo
     {

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('value');
             $table->string('status')->default(StatusWithdrawEnum::PENDING->value);
             $table->string('keyPix');
+            $table->string('proof')->nullable();
             $table->softDeletes();
             $table->timestampsTz();
         });

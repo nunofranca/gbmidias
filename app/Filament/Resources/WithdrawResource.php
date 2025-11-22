@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\StatusWithdrawEnum;
 use App\Filament\Resources\WithdrawResource\Pages;
 use App\Filament\Resources\WithdrawResource\RelationManagers;
 use App\Models\Withdraw;
@@ -90,6 +91,11 @@ class WithdrawResource extends Resource
                     ->label('Valor')
                     ->money('BRL', 100)
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('keyPix')
+                    ->label('Chave Pix'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nome'),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -102,6 +108,31 @@ class WithdrawResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('change')
+                    ->visible(function (){
+                        Auth::user()->hasRole('SUPER');
+                    })
+                    ->label('Gerenciar')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->live()
+                            ->label('Status')
+                            ->placeholder('Selecione um opção')
+                            ->options([
+                                StatusWithdrawEnum::PAID->value => 'PAGO',
+                                StatusWithdrawEnum::RECUSED->value => 'RECUSADO',
+                            ]),
+                         Forms\Components\FileUpload::make('proof')
+                             ->visible(function (Get $get){
+                                 return $get('status') === StatusWithdrawEnum::PAID->value;
+                             })
+                             ->nullable(function (Get $get){
+                                 return $get('status') === StatusWithdrawEnum::RECUSED->value;
+                             })
+                             ->label('Comprovante'),
+                    ])->action(function (array $data, Withdraw $withdraw){
+                       $withdraw->update($data);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
