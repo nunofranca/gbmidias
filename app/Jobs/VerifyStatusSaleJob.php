@@ -33,11 +33,11 @@ class VerifyStatusSaleJob implements ShouldQueue
 
          
 
-            if($order['status'] == 'Pending' || $order['status'] == 'Partial' || $order['status'] == 'Processing'){
+            if($order['status'] == 'Pending' || $order['status'] == 'Partial' || $order['status'] == 'Processing' || $order['status'] == 'In progress'){
                 VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1)); 
                 return;               
             };
-            
+
             if($order['status'] == 'Canceled'){
                 $this->sale->update(['status' => 'Cancelado']);
                 return;               
