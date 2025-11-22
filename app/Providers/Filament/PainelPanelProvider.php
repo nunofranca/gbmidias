@@ -36,7 +36,7 @@ class PainelPanelProvider extends PanelProvider
             ->first();
         return $panel
             ->brandLogo(function () use ($tenant) {
-                dd($tenant->user);
+                dd($tenant->user->config);
                 return $tenant->user->config
                     ? asset('storage/' . $tenant->user->config->logo)
                     : null;
