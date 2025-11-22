@@ -66,7 +66,7 @@ class PainelPanelProvider extends PanelProvider
                     ->isActiveWhen(fn() => request()->routeIs('filament.painel.resources.withdraws.index'))
                     ->visible(function (){
 
-                        return Auth::user()->hasRole('ADMIN', 'SUPER');
+                        return Auth::user()->hasRole(['ADMIN', 'SUPER']);
                     })
                     ->group('Financeiro'),
 
