@@ -17,6 +17,15 @@ class ConfigObserver
         $config->user_id = Auth::id();
         $config->whatsapp = Str::remove(['(', ')', ' ', '-'], $config->whatsapp);
 
+
+    }
+    public function updating(Config $config): void
+    {
+
+        $config->user_id = Auth::id();
+        $config->whatsapp = Str::remove(['(', ')', ' ', '-'], $config->whatsapp);
+
+
     }
 
 }
