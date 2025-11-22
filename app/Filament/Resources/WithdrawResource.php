@@ -44,7 +44,7 @@ class WithdrawResource extends Resource
                         if (Str::remove(['.', ','],$get('value')) > Auth::user()->balance){
                             $set('value', number_format(Auth::user()->balance/100, 2, ',', '.'));
                         }
-                        sleep(5);
+                   
                         if (Str::remove(['.', ','],$get('value')) < 1000){
 
                             $set('value', number_format(10, 2, ',', '.'));
