@@ -20,7 +20,11 @@ class ManageTenants extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-
+            Actions\Action::make('Ver Tutorial')
+                ->color('success')
+                ->label('Tutorial')
+                ->url('https://meu-site.com/tutorial')
+                ->openUrlInNewTab(),
             Actions\CreateAction::make()
                 ->label('Ativa loja')
                 ->form([

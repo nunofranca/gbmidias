@@ -22,9 +22,15 @@ class ManageSales extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('Ver Tutorial')
+                ->color('success')
+                ->label('Tutorial')
+                ->url('https://meu-site.com/tutorial')
+                ->openUrlInNewTab(),
             Actions\CreateAction::make()->using(function ($data,SaleServiceInterface $saleService){
                 return $saleService->create($data);
             }),
+
 
 
         ];

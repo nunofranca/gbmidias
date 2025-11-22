@@ -25,8 +25,8 @@ class SaleResource extends Resource
     protected static ?string $model = Sale::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $pluralLabel = 'Pedidos';
-    protected static ?string $label = 'Pedido';
+    protected static ?string $pluralLabel = 'Compras';
+    protected static ?string $label = 'Comprar';
 
     public static function form(Form $form): Form
     {
@@ -69,7 +69,7 @@ class SaleResource extends Resource
 
                         return Service::when(!Auth::user()->hasRole('SUPER'), function (Builder $query) use ($get) {
                             $tenant = Tenant::where('url', request()->getHost())->first();
-                        
+
                             return $query->where('category_id', $get('category_id'))
                                 ->where('user_id', $tenant->user_id);
                         }, function ($query) use ($get) {
