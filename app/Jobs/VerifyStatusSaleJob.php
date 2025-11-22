@@ -4,8 +4,8 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use App\Models\Sale
-
+use App\Models\Sale;
+use Illuminate\Support\Facades\Http;
 class VerifyStatusSaleJob implements ShouldQueue
 {
     use Queueable;
