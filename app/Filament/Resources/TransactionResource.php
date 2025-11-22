@@ -23,6 +23,7 @@ class TransactionResource extends Resource
     protected static ?string $pluralLabel= 'Saldos';
     protected static ?string $label= 'Saldo';
     protected static ?string $navigationGroup= 'Financeiro';
+    protected static ?int $navigationSort= 1;
 
     public static function form(Form $form): Form
     {
