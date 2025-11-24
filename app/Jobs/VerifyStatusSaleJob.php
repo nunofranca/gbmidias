@@ -87,6 +87,7 @@ class VerifyStatusSaleJob implements ShouldQueue
                 - ($this->sale->quantity * ($this->sale->service->coast / 1000));
 
             $userStore->increment('balance', $commission);
+            $this->sale->user->decrement('balance', $this->sale->totalValue);
 
             $this->sale->update(['status' => 'Completo']);
             return;
