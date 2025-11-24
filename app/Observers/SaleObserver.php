@@ -16,6 +16,7 @@ class SaleObserver
     {
         $sale->user_id = Auth::id();
         $sale->totalValue = ($sale->service->rate / 1000) *$sale->quantity ;
+        dd($sale);
 
 
     }
