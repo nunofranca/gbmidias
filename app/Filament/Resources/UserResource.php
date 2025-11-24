@@ -45,15 +45,16 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function (Builder $query){
-                $query->when(Auth::user()->hasRole('SUPER'), function ($query){
-                    return $query;
-                }, function ($query){
-                    return $query->whereHas('tenants', function ($query){
-                        return $query->where('user_id', Auth::id());
-                    });
-                });
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->when(
+                    Auth::user()->hasRole('SUPER'),
+                    fn ($q) => $q,
+                    fn ($q) => $q->whereHas('tenants', function ($q) {
+                        $q->where('tenant_user.user_id', Auth::id());
+                    })
+                );
             })
+
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
