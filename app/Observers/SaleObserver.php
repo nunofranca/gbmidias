@@ -18,6 +18,7 @@ class SaleObserver
 
         $sale->totalValue = (int) ceil(($sale->service->rate * $sale->quantity) / 1000);
         $sale->valueUnity = (int) ceil($sale->service->rate / 1000);
+        $sale->status = 'Em andamento';
 
 
     }
