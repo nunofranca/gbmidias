@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Tenant;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -46,11 +47,12 @@ class UserResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
+                $tenant = Tenant::where('url', request()->getHost())->firstOrFail();
                 $query->when(
                     Auth::user()->hasRole('SUPER'),
                     fn ($q) => $q,
                     fn ($q) => $q->whereHas('tenants', function ($q) {
-                        $q->where('tenant_user.user_id', Auth::id());
+                        $q->where('tenant_user.tenant_id', $tenant->id);
                     })
                 );
             })
