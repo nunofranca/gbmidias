@@ -18,6 +18,8 @@ class UserObserver
     public function created(User $user): void
     {
        $user->assignRole('CLIENT');
+       $tenant = Tenant::where('url', request()->getHost())->first();
+       $user->tenants()->attach($tenant);
     }
 
     /**

@@ -75,9 +75,9 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Transaction::class);
     }
 
-    public function tenants(): HasMany
+    public function tenants(): BelongsToMany
     {
-        return $this->hasMany(Tenant::class);
+        return $this->belongsToMany(Tenant::class);
     }
 
     public function services(): HasMany
@@ -89,4 +89,5 @@ class User extends Authenticatable implements FilamentUser
     {
         return  $this->hasOne(Config::class);
     }
+
 }
