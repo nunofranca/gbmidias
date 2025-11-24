@@ -15,11 +15,14 @@ class SaleObserver
     public function creating(Sale $sale)
     {
         $sale->user_id = Auth::id();
+        $sale->totalValue = ($sale->service->rate / 1000) *$sale->quantity ;
+
 
     }
+
     public function created(Sale $sale): void
     {
-       SendServiceUpMidias::dispatch($sale)->onQueue('gbmidias-default');
+        SendServiceUpMidias::dispatch($sale)->onQueue('gbmidias-default');
 
     }
 
