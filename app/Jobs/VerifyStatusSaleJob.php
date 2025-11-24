@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Sale;
 use Illuminate\Support\Facades\Http;
+
 class VerifyStatusSaleJob implements ShouldQueue
 {
     use Queueable;
@@ -23,50 +24,76 @@ class VerifyStatusSaleJob implements ShouldQueue
      */
     public function handle(): void
     {
-         //$this->sale->user->decrement('balance', $this->sale->totalValue);
+        $response = Http::upmidias()->post('/', [
+            'key' => config('upmidias.token'),
+            "action" => "status",
+            "order" => $this->sale->order
+        ]);
 
-          $order = Http::upmidias()->post('/', [
-                'key' => config('upmidias.token'),
-                "action" => "status",
-                "order" => $this->sale->order
-            ])->json();
+        // valida se a requisição teve sucesso
+        if (!$response->ok()) {
+            // opcional: registrar erro
+            return;
+        }
 
+        $order = $response->json();
 
+        // garante que status existe
+        if (!isset($order['status']) || empty($order['status'])) {
+            $this->sale->update(['status' => 'Indefinido']);
+            return;
+        }
 
-            if($order['status'] == 'Pending' || $order['status'] == 'Partial' || $order['status'] == 'Processing' || $order['status'] == 'In progress'){
+        // normaliza o status recebido
+        $normalizedStatus = trim(strtolower($order['status']));
 
+        // status que significam que ainda não completou
+        $pendingStatuses = [
+            'pending',
+            'partial',
+            'processing',
+            'in progress',
+        ];
 
-                $status = match($order['status']){
-                    'Pending' => 'Pendente',
-                    'Partial' => 'Parcial',
-                    'Processing' => 'Processando',
-                    'In progress' => 'Em andamento',
-                };
+        if (in_array($normalizedStatus, $pendingStatuses)) {
 
-
-                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));
-                $this->sale->update(['status' => $status]);
-                return;
+            $status = match ($normalizedStatus) {
+                'pending' => 'Pendente',
+                'partial' => 'Parcial',
+                'processing' => 'Processando',
+                'in progress' => 'Em andamento',
+                default => 'Desconhecido',
             };
 
-            if($order['status'] == 'Canceled'){
-                $this->sale->update(['status' => 'Cancelado']);
-                return;
-            };
-              if($order['status'] == 'Completed'){
+            // reagendar verificação
+            self::dispatch($this->sale)->delay(now()->addMinutes(1));
 
-                $userStore = $this->sale->service->user;
-                    $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - ($this->sale->quantity * ($this->sale->service->coast/1000)) ;
-                $userStore->increment('balance', $commission);
+            $this->sale->update(['status' => $status]);
+            return;
+        }
 
-                $this->sale->update(['status' => 'Completo']);
+        // Cancelado
+        if ($normalizedStatus === 'canceled') {
+            $this->sale->update(['status' => 'Cancelado']);
+            return;
+        }
 
-            };
+        // Completo
+        if ($normalizedStatus === 'completed') {
 
+            $userStore = $this->sale->service->user;
 
+            $commission = ($this->sale->quantity * ($this->sale->service->rate / 1000))
+                - ($this->sale->quantity * ($this->sale->service->coast / 1000));
 
+            $userStore->increment('balance', $commission);
 
+            $this->sale->update(['status' => 'Completo']);
+            return;
+        }
 
-
+        // fallback para qualquer outro status improvável
+        $this->sale->update(['status' => ucfirst($normalizedStatus)]);
     }
+
 }
