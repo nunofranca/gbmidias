@@ -15,10 +15,8 @@ class SaleObserver
     public function creating(Sale $sale)
     {
         $sale->user_id = Auth::id();
-        $value = ($sale->service->rate / 1000) * $sale->quantity;
-
-        $sale->totalValue = (int) str_replace(['.', ','], '', (string) $value/1000);
-        $sale->valueUnity = (int) str_replace(['.', ','], '', (string) $sale->service->rate / 1000);
+        $sale->totalValue = (int) ceil(($sale->rate * $sale->quantity) / 1000);
+        $sale->valueUnity = (int) ceil($sale->rate / 1000);
 
     }
 
