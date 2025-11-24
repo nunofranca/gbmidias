@@ -31,42 +31,42 @@ class VerifyStatusSaleJob implements ShouldQueue
                 "order" => $this->sale->order
             ])->json();
 
-         
+
 
             if($order['status'] == 'Pending' || $order['status'] == 'Partial' || $order['status'] == 'Processing' || $order['status'] == 'In progress'){
-                
 
-                $status = match($order['status']){                
-                    'pending' => 'Pendente',
-                    'partial' => 'Parcial',
-                    'processing' => 'Processando',
-                    'in progress' => 'Em andamento',
+
+                $status = match($order['status']){
+                    'Pending' => 'Pendente',
+                    'Partial' => 'Parcial',
+                    'Processing' => 'Processando',
+                    'In progress' => 'Em andamento',
                 };
-               
-                
-                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1)); 
+
+
+                VerifyStatusSaleJob::dispatch($this->sale)->delay(now()->addMinutes(1));
                 $this->sale->update(['status' => $status]);
-                return;               
+                return;
             };
 
             if($order['status'] == 'Canceled'){
                 $this->sale->update(['status' => 'Cancelado']);
-                return;               
+                return;
             };
               if($order['status'] == 'Completed'){
 
                 $userStore = $this->sale->service->user;
-                $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - ($this->sale->quantity * ($this->sale->service->coast/1000)) ;
+                    $commission = ($this->sale->quantity * ($this->sale->service->rate/1000)) - ($this->sale->quantity * ($this->sale->service->coast/1000)) ;
                 $userStore->increment('balance', $commission);
 
                 $this->sale->update(['status' => 'Completo']);
-                            
+
             };
-            
 
 
-        
 
-        
+
+
+
     }
 }

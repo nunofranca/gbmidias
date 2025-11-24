@@ -15,7 +15,7 @@ class SaleObserver
     public function creating(Sale $sale)
     {
         $sale->user_id = Auth::id();
-   
+
         $sale->totalValue = (int) ceil(($sale->service->rate * $sale->quantity) / 1000);
         $sale->valueUnity = (int) ceil($sale->service->rate / 1000);
 
