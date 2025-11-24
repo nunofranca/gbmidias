@@ -150,6 +150,7 @@ class SaleResource extends Resource
     {
 
         return $table
+            ->poll(5)
             ->defaultSort('created_at', 'desc')
             ->modifyQueryUsing(fn(Builder $query) => Auth::user()->hasRole('ADMIN') ?
                 $query :
