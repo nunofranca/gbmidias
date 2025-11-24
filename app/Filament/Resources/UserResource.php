@@ -51,7 +51,7 @@ class UserResource extends Resource
                 $query->when(
                     Auth::user()->hasRole('SUPER'),
                     fn ($q) => $q,
-                    fn ($q) => $q->whereHas('tenants', function ($q) {
+                    fn ($q) => $q->whereHas('tenants', function ($q) use ($tenant) {
                         $q->where('tenant_user.tenant_id', $tenant->id);
                     })
                 );
