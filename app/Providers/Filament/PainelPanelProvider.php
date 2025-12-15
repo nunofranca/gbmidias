@@ -33,7 +33,7 @@ class PainelPanelProvider extends PanelProvider
     {
      
         return $panel
-            ->
+        
             ->brandLogoHeight('80px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
 
