@@ -31,9 +31,9 @@ class PainelPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-    
+     
         return $panel
-          
+            ->
             ->brandLogoHeight('80px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
 
@@ -104,7 +104,9 @@ class PainelPanelProvider extends PanelProvider
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
-           
+                NavigationItem::make()
+                    ->label('Suporte')
+                   
         ->group('Links Úteis')
         ->openUrlInNewTab(),
                 NavigationItem::make()
