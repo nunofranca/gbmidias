@@ -31,9 +31,7 @@ class PainelPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        $tenant = Tenant::with('user.config')
-            ->where('url', request()->getHost())
-            ->first();
+     
         return $panel
             ->brandLogo(function () use ($tenant) {
 
