@@ -31,9 +31,16 @@ class PainelPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-     
+        $tenant = Tenant::with('user.config')
+            ->where('url', request()->getHost())
+            ->first();
         return $panel
-        
+            ->brandLogo(function () use ($tenant) {
+
+                return $tenant->user->config
+                    ? asset('storage/' . $tenant->user->config->logo)
+                    : null;
+            })
             ->brandLogoHeight('80px') // opcional
             ->favicon(asset('images/favicon.png')) // opcional
 
@@ -106,11 +113,19 @@ class PainelPanelProvider extends PanelProvider
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Suporte')
-                   
+                    ->visible(fn() => filled($tenant?->user?->config?->whatsapp))
+                    ->url(
+                        $tenant?->user?->config?->whatsapp
+                            ? 'https://wa.me/' . $tenant->user->config->whatsapp . '?text=Opa,+preciso+de+suporte'
+                            : ''
+                    )
+                    ->icon('heroicon-o-book-open')
         ->group('Links Úteis')
         ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->label('Instagram')
+                    ->visible(fn() => filled($tenant?->user?->config?->instagram))
+                    ->url(!empty($tenant?->user?->config?->instagram) ? $tenant->user->config->instagram : '')
                     ->icon('heroicon-o-book-open')
                     ->group('Links Úteis')
                     ->openUrlInNewTab(),
